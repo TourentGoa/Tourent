@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tourent — Premium Self-Drive Car &amp; Bike Rentals in Goa</title>
+<meta name="description" content="Explore Goa with total freedom. Premium self-drive cars, SUVs, and luxury vehicles with Mopa &amp; Dabolim Airport delivery, 100% refundable security deposit, unlimited km, and 24/7 roadside assist.">
+
+<!-- Favicon & App Icons -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png?v=4">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=4">
+<link rel="shortcut icon" href="favicon.ico?v=4">
+<meta name="theme-color" content="#0e3552">
+
+<!-- OpenGraph / Facebook / WhatsApp Preview -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tourent.in/">
+<meta property="og:site_name" content="Tourent Goa">
+<meta property="og:title" content="Tourent — Premium Self-Drive Car &amp; Bike Rentals in Goa">
+<meta property="og:description" content="Explore Goa with total freedom. Premium self-drive cars &amp; bikes with 100% refundable security deposit, unlimited kilometers, and instant airport delivery at Mopa &amp; Dabolim.">
+<meta property="og:image" content="https://tourent.in/og-image.png">
+<meta property="og:image:secure_url" content="https://tourent.in/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tourent — Premium Self-Drive Car &amp; Bike Rentals in Goa">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tourent — Premium Self-Drive Car &amp; Bike Rentals in Goa">
+<meta name="twitter:description" content="Explore Goa with total freedom. Premium self-drive cars &amp; bikes with 100% refundable security deposit, unlimited kilometers, and instant airport delivery.">
+<meta name="twitter:image" content="https://tourent.in/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20260831_04">
+<!-- Leaflet Map CSS & JS for interactive Goa Tourist Map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<!-- Razorpay Standard Checkout SDK for instant live Card, UPI, Netbanking & Wallet processing -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+<header id="siteHeader">
+  <nav class="nav">
+    <a href="#top" class="logo">
+      <span class="logo-mark">T</span>
+      <span class="logo-text">Tourent</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#fleet" data-i18n="nav.fleet">Fleet</a></li>
+      <li><a href="taxis.html" data-i18n="nav.taxis">Airport Taxis</a></li>
+      <li><a href="#estimator" data-i18n="nav.estimator">Budget Estimator</a></li>
+      <li><a href="attractions.html" data-i18n="nav.attractions">Attractions</a></li>
+      <li><a href="help.html" data-i18n="nav.help">Help &amp; FAQ</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+      <li><a href="#" id="myBookingsLink"><span data-i18n="nav.myBookings">My Bookings</span> <span id="bookingCount" class="badge-count" hidden>0</span></a></li>
+    </ul>
+    <select id="langSwitch" class="lang-switch" aria-label="Choose language">
+      <option value="en">EN</option>
+      <option value="ru">RU</option>
+      <option value="de">DE</option>
+      <option value="pt">PT</option>
+    </select>
+    <button class="nav-cta" id="bookNowBtn" data-i18n="nav.bookNow">Book Now</button>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+  </nav>
+</header>
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero" style="padding-top:60px;">
+
+  <!-- GOLD DUST PARTICLES -->
+  <div class="gold-particles"></div>
+
+  <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow" data-i18n="hero.eyebrow">Goa's self-drive car, SUV &amp; bike fleet</div>
+        <h1><span data-i18n="hero.titleLine1">Rent any vehicle,</span><br><em data-i18n="hero.titleLine2">anytime.</em></h1>
+        <p class="hero-sub" data-i18n="hero.sub">From a Fascino for the beach shacks to a Fortuner for the Ghats — Tourent puts Goa's full range of hatchbacks, SUVs, scooters and luxury drives on one doorstep.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="document.getElementById('fleet').scrollIntoView({behavior:'smooth'})" data-i18n="hero.browseFleet">Browse the fleet</button>
+          <button class="btn-ghost" onclick="document.getElementById('estimator').scrollIntoView({behavior:'smooth'})" data-i18n="hero.estimateCost">Estimate my trip cost</button>
+        </div>
+        <div class="hero-stats">
+          <div><strong>19+</strong><span data-i18n="hero.stat1">Vehicles on the ramp</span></div>
+          <div><strong>6</strong><span data-i18n="hero.stat2">Pickup points across Goa</span></div>
+          <div><strong>4.8/5</strong><span data-i18n="hero.stat3">Average rider rating</span></div>
+        </div>
+      </div>
+
+      <div class="ticket" id="heroTicket">
+        <span class="ticket-badge">Live estimate</span>
+        <div class="ticket-top">
+          <div>
+            <div class="tt-label">Fuel &amp; Trip Ledger</div>
+            <h3>Panaji → Palolem</h3>
+          </div>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fffdf8" stroke-width="1.6"><path d="M3 12h18M3 12l5-5M3 12l5 5"/></svg>
+        </div>
+        <div class="ticket-perf"></div>
+        <div class="ticket-body">
+          <div class="ticket-row"><span>Vehicle</span><span>Maruti Swift</span></div>
+          <div class="ticket-row"><span>Distance (round trip)</span><span>152 km</span></div>
+          <div class="ticket-row"><span>Mileage</span><span>20 km/l</span></div>
+          <div class="ticket-row"><span>Fuel needed</span><span>~7.6 L</span></div>
+          <div class="ticket-total">
+            <span>Estimated fuel + rental / day</span>
+            <strong>₹2,590</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <svg class="coastline" viewBox="0 0 1440 90" preserveAspectRatio="none">
+      <path fill="#f3ede0" d="M0,40 C180,90 320,0 500,30 C680,60 800,10 980,35 C1160,60 1300,20 1440,45 L1440,90 L0,90 Z"></path>
+    </svg>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="strip">
+    <div class="strip-track">
+      <span>SWIFT</span><span>BALENO</span><span>ERTIGA</span><span>i20</span><span>GLANZA</span><span>KIA CARENS</span><span>INNOVA CRYSTA</span><span>HYCROSS</span><span>FORTUNER</span><span>THAR</span><span>HYRYDER</span><span>BREZZA</span><span>FASCINO</span><span>ACTIVA</span><span>HUNTER 350</span><span>HIMALAYAN</span><span>DEFENDER</span><span>MINI COOPER</span><span>BMW</span><span>AUDI</span>
+      <span>SWIFT</span><span>BALENO</span><span>ERTIGA</span><span>i20</span><span>GLANZA</span><span>KIA CARENS</span><span>INNOVA CRYSTA</span><span>HYCROSS</span><span>FORTUNER</span><span>THAR</span><span>HYRYDER</span><span>BREZZA</span><span>FASCINO</span><span>ACTIVA</span><span>HUNTER 350</span><span>HIMALAYAN</span><span>DEFENDER</span><span>MINI COOPER</span><span>BMW</span><span>AUDI</span>
+    </div>
+  </div>
+
+  <!-- ============ FLEET ============ -->
+  <section class="fleet" id="fleet">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow" data-i18n="fleet.eyebrow">The Fleet</div>
+        <h2 data-i18n="fleet.title">A vehicle for every stretch of coast</h2>
+        <p data-i18n="fleet.desc">Self-drive hatchbacks for the highway, rugged SUVs for the Ghats, scooters for the lanes, and a luxury line for the occasion that calls for one.</p>
+      </div>
+
+      <div class="matcher-cta reveal">
+        <div>
+          <strong data-i18n="fleet.matcherTitle">Not sure which one fits your trip?</strong>
+          <span data-i18n="fleet.matcherDesc">Answer three quick questions and we'll rank the fleet for you.</span>
+        </div>
+        <button class="btn-primary" id="openMatcherBtn" data-i18n="fleet.matcherBtn">Match me a vehicle</button>
+      </div>
+
+      <!-- Real-Time Date & Fleet Availability Selector -->
+      <div class="fleet-date-filter-bar reveal" id="fleetDateFilterBar">
+        <div class="fdf-item">
+          <label for="fleetPickupDate"><span class="fdf-icon">📅</span> Pickup Date</label>
+          <input type="date" id="fleetPickupDate">
+        </div>
+        <div class="fdf-item">
+          <label for="fleetReturnDate"><span class="fdf-icon">📅</span> Return Date</label>
+          <input type="date" id="fleetReturnDate">
+        </div>
+        <div class="fdf-action">
+          <button type="button" class="btn-check-avail" id="btnCheckFleetAvail">
+            <span>⚡ Check Live Availability</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="tabs" id="tabBar">
+        <button class="tab active" data-cat="all" data-i18n="tabs.all">All Vehicles</button>
+        <button class="tab" data-cat="hatch" data-i18n="tabs.hatch">Hatchbacks &amp; Sedans</button>
+        <button class="tab" data-cat="suv" data-i18n="tabs.suv">SUVs &amp; MUVs</button>
+        <button class="tab" data-cat="two" data-i18n="tabs.two">Two-Wheelers</button>
+        <button class="tab" data-cat="lux" data-i18n="tabs.lux">Luxury Fleet</button>
+      </div>
+
+      <div class="fleet-grid" id="fleetGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ ESTIMATOR ============ -->
+  <section class="estimator" id="estimator">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow" data-i18n="est.eyebrow">Smart Budget Estimator</div>
+        <h2 data-i18n="est.title">Know your fuel cost before you leave the counter</h2>
+        <p data-i18n="est.desc">Pick a vehicle and a destination — Tourent works out the round-trip distance, fuel required and a full day's budget, so there are no surprises on the road.</p>
+      </div>
+
+      <div class="matcher-cta reveal" style="background:rgba(255,253,248,0.06);border-color:rgba(255,253,248,0.14);">
+        <div>
+          <strong style="color:var(--foam);" data-i18n="est.itineraryTitle">Don't have a plan yet?</strong>
+          <span style="color:rgba(255,253,248,0.65);" data-i18n="est.itineraryDesc">Tell us your days and interests — we'll build a day-by-day Goa itinerary and load the budget here automatically.</span>
+        </div>
+        <button class="btn-primary" id="openItineraryBtn" data-i18n="est.itineraryBtn">Plan my Goa trip</button>
+      </div>
+
+      <div class="est-wrap">
+        <div class="est-form reveal">
+          <div class="field-row">
+            <div class="field">
+              <label for="vehicleSelect" data-i18n="est.vehicleLabel">Vehicle</label>
+              <select id="vehicleSelect"></select>
+            </div>
+            <div class="field">
+              <label for="daysInput" data-i18n="est.daysLabel">Rental duration (days)</label>
+              <input type="number" id="daysInput" min="1" max="30" value="3">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="travelStyleSelect">Travel Style / Driving Pace</label>
+              <select id="travelStyleSelect">
+                <option value="explorer" selected>Standard Goa Explorer (~85 km/day)</option>
+                <option value="relaxed">Relaxed Beach Stay (~50 km/day)</option>
+                <option value="roadtripper">Active Road Tripper (~140 km/day)</option>
+                <option value="specific">Specific Route Only (Point-to-Point)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="pickupSelect" data-i18n="est.pickupLabel">Pickup location</label>
+              <select id="pickupSelect"></select>
+            </div>
+          </div>
+
+          <!-- Dynamic Doorstep Delivery Address Box in Estimator -->
+          <div id="estPickupDetailsWrap" style="display:none; margin-bottom: 16px;">
+            <div class="field" id="estPickupAddressField" style="margin-bottom: 0;">
+              <label for="estPickupAddress">Delivery Hotel / Resort / Villa Name &amp; Area</label>
+              <input type="text" id="estPickupAddress" placeholder="e.g. Taj Holiday Village, Candolim / W Goa, Vagator / Assagao Villa" autocomplete="off">
+            </div>
+          </div>
+
+          <!-- Full-Width Live Travel Style Explanation Card -->
+          <div class="travel-style-info-card" id="travelStyleInfoCard">
+            <!-- Rendered live by JavaScript -->
+          </div>
+
+          <div class="field-row" id="specificRouteRow" style="display:none;">
+            <div class="field">
+              <label for="destSelect" data-i18n="est.destLabel">Destination</label>
+              <select id="destSelect"></select>
+            </div>
+            <div class="field">
+              <label for="tripType" data-i18n="est.tripTypeLabel">Trip type</label>
+              <select id="tripType">
+                <option value="round" data-i18n="est.roundTrip">Round trip (there &amp; back)</option>
+                <option value="one" data-i18n="est.oneWay">One way</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="calc-btn" id="calcBtn" data-i18n="est.calcBtn">Calculate my budget</button>
+          <p class="est-note" data-i18n="est.note">Estimates reflect realistic Goa driving patterns (beach hopping, cafes, forts & nightlife) with Goa's current fuel rates. Actual mileage may vary with AC use and traffic.</p>
+        </div>
+
+        <div class="ticket dark" id="resultCard">
+          <span class="ticket-badge">Your estimate</span>
+          <div class="ticket-top">
+            <div>
+              <div class="tt-label">Fuel &amp; Trip Ledger</div>
+              <h3 id="resRoute">Pick a vehicle &amp; place</h3>
+            </div>
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fffdf8" stroke-width="1.6"><path d="M3 12h18M3 12l5-5M3 12l5 5"/></svg>
+          </div>
+          <div class="ticket-perf"></div>
+          <div class="ticket-body">
+            <div class="gauge-wrap">
+              <svg class="gauge" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,253,248,0.15)" stroke-width="10"/>
+                <circle id="gaugeArc" cx="50" cy="50" r="42" fill="none" stroke="#e3a23d" stroke-width="10" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" transform="rotate(-90 50 50)"/>
+                <text x="50" y="56" text-anchor="middle" font-family="JetBrains Mono" font-size="18" fill="#fffdf8" id="gaugeText">--</text>
+              </svg>
+              <div class="gauge-copy">
+                <strong id="resFuelLine">Awaiting input</strong>
+                <span id="resSubLine">Choose options and calculate</span>
+              </div>
+            </div>
+            <div class="ticket-row"><span>Distance</span><span id="resDistance">—</span></div>
+            <div class="ticket-row"><span>Mileage</span><span id="resMileage">—</span></div>
+            <div class="ticket-row"><span>Fuel needed</span><span id="resFuel">—</span></div>
+            <div class="ticket-row"><span>Rental cost (<span id="resDaysLabel">1</span> day)</span><span id="resRental">—</span></div>
+            <div class="ticket-total">
+              <span>Total estimated budget</span>
+              <strong id="resTotal">₹ —</strong>
+            </div>
+            <button class="calc-btn" id="bookFromEstimatorBtn" style="margin-top:16px;">Book this trip</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ATTRACTIONS (EXPLORE GOA'S BEST ATTRACTIONS) ============ -->
+  <section class="attractions-section" id="attractions">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow" data-i18n="attractions.eyebrow">Goa Travel Guide</div>
+        <h2 data-i18n="attractions.title">Explore Goa's Best Attractions</h2>
+        <p data-i18n="attractions.desc">Discover the best beaches, forts, waterfalls, temples, heritage sites, wildlife destinations and other must-visit places across Goa.</p>
+      </div>
+
+      <!-- Top Featured Attractions Showcase -->
+      <div class="featured-attractions-wrap reveal">
+        <div class="featured-head">
+          <div>
+            <div class="featured-badge" data-i18n="attractions.featuredBadge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px;margin-right:4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Goa's Top Attractions
+            </div>
+            <h3 data-i18n="attractions.featuredTitle">Iconic &amp; Recommended Destinations</h3>
+          </div>
+          <span class="featured-sub" data-i18n="attractions.featuredSub">
+            Click any destination to view its full details
+          </span>
+        </div>
+        <div class="featured-grid" id="featuredAttractionsList"></div>
+
+        <!-- Banner / Link to 12 Talukas Dedicated Page -->
+        <div class="featured-talukas-cta" style="margin-top:32px;padding:24px 28px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+          <div>
+            <div style="color:var(--gold);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">12 Talukas of Goa</div>
+            <h4 style="color:#fff;font-size:18px;margin-bottom:4px;font-family:var(--font-display);">Explore Goa by Talukas &amp; Interactive Map</h4>
+            <p style="color:rgba(255,253,248,0.75);font-size:14px;margin:0;">Discover all 100+ destinations across Bardez, Salcete, Canacona, Tiswadi, Sattari &amp; more in our dedicated Talukas guide.</p>
+          </div>
+          <a href="attractions.html" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;padding:12px 26px;text-decoration:none;font-weight:700;font-size:14px;border-radius:999px;white-space:nowrap;">
+            <span>Explore 12 Talukas Guide</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS BAND ============ -->
+  <div class="band">
+    <div class="container band-grid">
+      <div class="reveal"><strong>12,400+</strong><span>Trips completed</span></div>
+      <div class="reveal"><strong>21</strong><span>Vehicle models</span></div>
+      <div class="reveal"><strong>7</strong><span>Cities &amp; airports served</span></div>
+      <div class="reveal"><strong>4.8★</strong><span>Average rating</span></div>
+    </div>
+  </div>
+
+  <!-- ============ HOW IT WORKS & HELP FAQ ============ -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-head-center reveal">
+        <span class="eyebrow-pill">How It Works &amp; FAQ</span>
+        <h2>Renting Made Simple in Goa</h2>
+        <p>Everything you need to know about airport delivery, 20% advance token, documents, and rental policies.</p>
+      </div>
+
+      <!-- 3-Step How It Works -->
+      <div class="hiw-grid reveal">
+        <div class="hiw-card">
+          <span class="hiw-step-badge">Step 1</span>
+          <div class="hiw-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <h4>Select Your Vehicle</h4>
+          <p>Choose your preferred car, SUV, luxury convertible, or scooter. Add multiple vehicles in one single reservation if traveling with friends.</p>
+        </div>
+
+        <div class="hiw-card">
+          <span class="hiw-step-badge">Step 2</span>
+          <div class="hiw-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h4>Lock with 20% Advance</h4>
+          <p>Pay a transparent 20% token online via UPI or Cards to lock your vehicle. Instant official confirmation voucher sent via Email &amp; WhatsApp.</p>
+        </div>
+
+        <div class="hiw-card">
+          <span class="hiw-step-badge">Step 3</span>
+          <div class="hiw-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h4>Airport / Counter Pickup</h4>
+          <p>Meet our coordinator at Mopa (GOX), Dabolim (GOI), or city kiosk. Complete a 2-min digital check and drive away with zero airport wait time.</p>
+        </div>
+      </div>
+
+      <!-- FAQ Accordion -->
+      <div class="faq-grid reveal">
+        <div class="faq-item">
+          <button type="button" class="faq-question">
+            <span>📱 How do I track, view, or manage my booking?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>Click <strong>"My Bookings"</strong> in the top menu at any time and enter your phone number (e.g. <code>93706 55832</code>) or Reference ID (<code>TRT-XXXXX</code>).</p>
+            <p>You can instantly view your live booking status (Pending/Confirmed), pickup location, payment balance breakdown, and resend your WhatsApp voucher copy with 1 click.</p>
+            <div class="faq-track-box">
+              <div class="faq-track-box-header">
+                <span>🎫</span>
+                <span>Track an Existing Reservation</span>
+              </div>
+              <p style="font-size:12.5px;color:#64748b;margin-bottom:8px;">Instant live lookup for voucher receipt, pickup bay, and rental confirmation.</p>
+              <button type="button" class="faq-track-btn" onclick="document.getElementById('myBookingsOverlay')?.classList.add('open'); document.getElementById('myBkPhoneInput')?.focus();">
+                🔍 Track My Booking Now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-question">
+            <span>🪪 What documents are required for vehicle pickup?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>Indian tourists need a <strong>Valid Original Driving Licence</strong> + <strong>Government ID</strong> (Aadhaar Card or Passport).</p>
+            <p>International tourists need a <strong>Home Country Driving Licence</strong> + <strong>International Driving Permit (IDP)</strong> + Passport copy.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-question">
+            <span>✈️ How does Airport Delivery work at Mopa &amp; Dabolim?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>When your flight lands at <strong>Mopa (GOX)</strong> or <strong>Dabolim (GOI)</strong>, our executive will meet you right at the designated arrival parking bay with your vehicle clean and fueled.</p>
+            <p>On your departure day, simply return the vehicle at the airport departure parking bay — seamless handover with zero taxi queue delays.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-question">
+            <span>💳 How does the 20% advance &amp; security deposit work?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>The <strong>20% advance token</strong> reserves and guarantees your vehicle. The remaining rental balance (80%) + refundable security deposit is paid at pickup via UPI, Card, or Cash.</p>
+            <p>Your <strong>100% security deposit is refunded immediately on the spot</strong> upon vehicle return via instant UPI transfer or Cash.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-question">
+            <span>⏰ What is the standard Goa 09:00 AM rental cycle?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>In accordance with the Goa Tourist Vehicle Association, all self-drive rentals operate on a <strong>09:00 AM to 09:00 AM (next morning)</strong> standard cycle.</p>
+            <p>Vehicles collected in the afternoon or evening are returnable by 09:00 AM the following day. Need late return? Contact our desk anytime for affordable hourly extension rates.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-question">
+            <span>🛣️ Can I drive the rental vehicle outside Goa?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>All Tourent vehicles carry yellow-on-black Goa commercial self-drive registration permits for unrestricted travel across North &amp; South Goa.</p>
+            <p>Interstate travel (e.g. Maharashtra or Karnataka border excursions) requires prior authorization and state tax permits. Please notify our desk at booking.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:36px;" class="reveal">
+        <a href="help.html" class="btn-ghost" style="display:inline-flex;align-items:center;gap:8px;padding:12px 26px;border-radius:12px;font-weight:600;text-decoration:none;border:1.5px solid var(--tile-blue);color:var(--tile-blue);">
+          <span>Browse All 20+ Questions &amp; Full Help Center Page →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section style="padding-top:0;">
+    <div class="cta-band reveal">
+      <h2 data-i18n="cta.title">Your Goa road trip starts with one booking</h2>
+      <p data-i18n="cta.desc">Lock your vehicle, your price and your perks — today.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" id="ctaReserveBtn" data-i18n="cta.reserve">Reserve a vehicle</button>
+        <a href="tel:+919322730029" class="btn-ghost" style="display:inline-flex;align-items:center;" data-i18n="cta.call1">Call +91 93227 30029</a>
+        <a href="tel:+919322469973" class="btn-ghost" style="display:inline-flex;align-items:center;" data-i18n="cta.call2">Alt: +91 93224 69973</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="container foot-grid">
+    <div class="foot-brand">
+      <div class="logo"><span class="logo-mark">T</span><span class="logo-text" style="color:#fffdf8;">Tourent</span></div>
+      <p data-i18n="footer.brand">Rent any vehicle, anytime. Goa's independent self-drive, scooter and luxury rental counter — from Mopa to Mormugao.</p>
+    </div>
+    <div class="foot-col">
+      <h5 data-i18n="footer.fleetHead">Fleet</h5>
+      <ul>
+        <li><a href="#fleet">Hatchbacks &amp; Sedans</a></li>
+        <li><a href="#fleet">SUVs &amp; MUVs</a></li>
+        <li><a href="#fleet">Two-Wheelers</a></li>
+        <li><a href="#fleet">Luxury Fleet</a></li>
+        <li><a href="taxis.html">Airport Taxis</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5 data-i18n="footer.companyHead">Explore &amp; Company</h5>
+      <ul>
+        <li><a href="attractions.html">Goa Attractions Guide</a></li>
+        <li><a href="#estimator">Budget Estimator</a></li>
+        <li><a href="help.html">Help &amp; FAQs</a></li>
+        <li><a href="#" id="footTerms">Terms &amp; Policies</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5 data-i18n="footer.reachHead">Reach Us</h5>
+      <ul>
+        <li><a href="tel:+919322730029">+91 93227 30029 (Primary Desk)</a></li>
+        <li><a href="tel:+919322469973">+91 93224 69973 (Support / Alt)</a></li>
+        <li><a href="mailto:tourentgoarentals@gmail.com">tourentgoarentals@gmail.com</a></li>
+        <li><a href="https://www.instagram.com/tourentgoa?utm_source=qr" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;color:#f39c12;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> <span>Instagram: <strong>@tourentgoa</strong></span></a></li>
+        <li><a href="#top">Panaji · Margao · Vasco</a></li>
+        <li><a href="#top">Dabolim &amp; Mopa Airports</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container foot-bottom">
+    <span>© 2026 Tourent Vehicle Rentals, Goa. All rights reserved.</span>
+    <span>Prices are indicative; final quote confirmed at booking. · <a href="admin.html" style="color:inherit;text-decoration:underline;">Staff login</a></span>
+  </div>
+</footer>
+
+<!-- ============ BOOKING MODAL ============ -->
+<div class="modal-overlay" id="bookingOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+    <button class="modal-close" id="bookingClose" aria-label="Close booking form">✕</button>
+
+    <div id="bookingFormView">
+      <div class="modal-head">
+        <div class="eyebrow" style="margin-bottom:8px;">Reserve a Vehicle</div>
+        <h3 id="bookingTitle">Complete your booking</h3>
+      </div>
+      <form id="bookingForm" novalidate autocomplete="off">
+        <!-- Vehicle Selection -->
+        <div class="bk-vehicles-section">
+          <div class="bk-vehicles-head">
+            <span>Vehicle Selection</span>
+            <button type="button" class="bk-add-vehicle-btn" id="addVehicleToBookingBtn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              + Add another car/bike
+            </button>
+          </div>
+          
+          <div id="bookingVehiclesList">
+            <!-- Dynamically populated clean vehicle rows -->
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="bkPickupDate">Trip Pickup Date</label>
+            <input type="date" id="bkPickupDate" required>
+          </div>
+          <div class="field">
+            <label for="bkLocation">Pickup Point</label>
+            <select id="bkLocation" required>
+              <optgroup label="✈️ Goa Airports">
+                <option value="Manohar International Airport, Mopa (GOX)" selected>Manohar International Airport, Mopa (GOX)</option>
+                <option value="Dabolim International Airport (GOI)">Dabolim International Airport (GOI)</option>
+              </optgroup>
+              <optgroup label="🚆 Railway Stations">
+                <option value="Madgaon Railway Station (MAO)">Madgaon Railway Station (MAO)</option>
+                <option value="Thivim Railway Station (THVM - North Goa)">Thivim Railway Station (THVM - North Goa)</option>
+                <option value="Karmali Railway Station (KRMI - Central Goa)">Karmali Railway Station (KRMI - Central Goa)</option>
+                <option value="Vasco da Gama Railway Station (VSG)">Vasco da Gama Railway Station (VSG)</option>
+              </optgroup>
+              <optgroup label="🏨 Doorstep Delivery (Anywhere in Goa)">
+                <option value="Hotel / Resort Delivery">Hotel / Resort Delivery (Enter Name Below)</option>
+                <option value="Airbnb / Private Villa Delivery">Airbnb / Private Villa Delivery (Enter Name Below)</option>
+                <option value="Custom Landmark / Location">Custom Landmark / Location</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dynamic Doorstep Delivery Address Box -->
+        <div id="bkPickupDetailsWrap" style="display:none; margin-bottom: 16px;">
+          <div class="field" id="bkPickupAddressField" style="margin-bottom: 0;">
+            <label for="bkPickupAddress">Delivery Hotel / Resort / Villa Name &amp; Area</label>
+            <input type="text" id="bkPickupAddress" placeholder="e.g. Taj Holiday Village, Candolim / W Goa, Vagator / Assagao Villa" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Different Drop-off Toggle -->
+        <div class="bk-drop-toggle-wrap">
+          <label class="bk-drop-toggle-label" for="bkDifferentDropCheck">
+            <input type="checkbox" id="bkDifferentDropCheck">
+            <span>Drop-off at a different location in Goa</span>
+          </label>
+        </div>
+
+        <!-- Dynamic Drop-off Location Box -->
+        <div id="bkDropLocationWrap" style="display:none; margin-bottom: 16px;">
+          <div class="field" style="margin-bottom:0;">
+            <label for="bkDropLocation">Return / Drop-off Point</label>
+            <select id="bkDropLocation">
+              <optgroup label="✈️ Goa Airports">
+                <option value="Manohar International Airport, Mopa (GOX)">Manohar International Airport, Mopa (GOX)</option>
+                <option value="Dabolim International Airport (GOI)">Dabolim International Airport (GOI)</option>
+              </optgroup>
+              <optgroup label="🚆 Railway Stations">
+                <option value="Madgaon Railway Station (MAO)">Madgaon Railway Station (MAO)</option>
+                <option value="Thivim Railway Station (THVM - North Goa)">Thivim Railway Station (THVM - North Goa)</option>
+                <option value="Karmali Railway Station (KRMI - Central Goa)">Karmali Railway Station (KRMI - Central Goa)</option>
+                <option value="Vasco da Gama Railway Station (VSG)">Vasco da Gama Railway Station (VSG)</option>
+              </optgroup>
+              <optgroup label="🏨 Doorstep Collection (Anywhere in Goa)">
+                <option value="Hotel / Resort Collection">Hotel / Resort Collection (Enter Name Below)</option>
+                <option value="Airbnb / Private Villa Collection">Airbnb / Private Villa Collection</option>
+                <option value="Custom Landmark / Location">Custom Landmark / Location</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="field" id="bkDropAddressField" style="display:none; margin-top: 12px; margin-bottom: 0;">
+            <label for="bkDropAddress">Return Hotel / Villa Address</label>
+            <input type="text" id="bkDropAddress" placeholder="e.g. Grand Hyatt Bambolim / Hotel in Baga" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Goa Standard Rental Cycle Timing Notice (09:00 AM - 09:00 AM) -->
+        <div class="bk-timing-banner">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div>
+            <strong>Standard Goa Rental Cycle (09:00 AM – 09:00 AM):</strong>
+            <span>All rentals operate on the standard 09:00 AM to 09:00 AM (next morning) cycle. Vehicles taken in the evening (e.g. 06:00 PM) must compulsorily be returned by 09:00 AM the next morning.</span>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="bkName">Full name</label>
+            <input type="text" id="bkName" placeholder="As on your ID" required autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="bkPhone">Phone number</label>
+            <div class="phone-input-wrap">
+              <span class="phone-country-tag">+91</span>
+              <input type="tel" id="bkPhone" class="phone-input-field" placeholder="93706 55832" required maxlength="12" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="bkEmail">Email</label>
+          <input type="email" id="bkEmail" placeholder="you@example.com" required autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="bkNotes">Notes (optional)</label>
+          <input type="text" id="bkNotes" placeholder="Child seat, hotel address, flight number..." autocomplete="off">
+        </div>
+
+        <!-- Mandatory 20% Advance Token Guarantee Banner -->
+        <div class="bk-advance-lock-banner">
+          <div class="bk-advance-lock-head">
+            <span class="bk-advance-lock-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+            <div>
+              <strong>20% Advance Token Required to Guarantee Vehicle</strong>
+              <p>Pay <span id="bkPayAdvanceNowAmount" class="bk-pay-highlight">₹ 0</span> online now via UPI / Cards to lock your vehicle. Remaining balance (80% + Refundable Deposit) is paid at pickup.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sleek Bottom Order Summary Card -->
+        <div class="bk-bottom-summary">
+          <div class="bk-summary-top-row">
+            <div class="bk-summary-title" id="bkSummaryTitle">
+              Advance Payable Now (20%)
+            </div>
+            <div class="bk-summary-amount" id="bkSummaryGrandTotal">₹ 0</div>
+          </div>
+          <div class="bk-summary-breakdown" id="bkSummaryItemsList">
+            <!-- Inline itemized breakdown -->
+          </div>
+          <div class="bk-summary-balance-row" id="bkSummaryBalanceRow">
+            <span>Balance Payable at Pickup (80% + Deposit):</span>
+            <strong id="bkSummaryBalanceAmount">₹ 0</strong>
+          </div>
+          <div class="bk-summary-perks">
+            <span class="bk-summary-perk" style="display:inline-flex;align-items:center;gap:4px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              100% Refundable Security Deposit
+            </span>
+            <span class="bk-summary-perk" style="display:inline-flex;align-items:center;gap:4px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              100% Refund within 24h
+            </span>
+            <span class="bk-summary-perk" style="display:inline-flex;align-items:center;gap:4px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              24/7 Roadside Assist
+            </span>
+          </div>
+        </div>
+
+        <!-- Goa Rental Terms & Policies Agreement -->
+        <div class="bk-terms-agreement">
+          <input type="checkbox" id="bkTermsCheck" class="bk-terms-checkbox" required>
+          <div class="bk-terms-text">
+            I agree to the <a href="#" id="openBookingTermsLink">Goa Vehicle Rental Terms &amp; Policies</a>
+          </div>
+        </div>
+
+        <p class="form-error" id="bookingError" hidden></p>
+        <button type="submit" class="calc-btn" id="bkSubmitBtn">Proceed to Pay Advance (₹ 0)</button>
+        <p class="est-note" id="bkSubmitNote">Guaranteed instant vehicle lock · Official booking voucher issued immediately.</p>
+      </form>
+    </div>
+
+    <div id="bookingSuccessView" hidden>
+      <div class="ticket" style="transform:none;animation:none;">
+        <span class="ticket-badge" id="successBadge" style="background:#e6f4ea;color:#1e7a3e;border:1px solid rgba(30,122,62,0.4);display:inline-flex;align-items:center;gap:4px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          Instant Booking Confirmed
+        </span>
+        <div class="ticket-top">
+          <div>
+            <div class="tt-label">Booking Reference ID</div>
+            <h3 id="successId">TRT-000000</h3>
+          </div>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fffdf8" stroke-width="1.6"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <div class="ticket-perf"></div>
+        <div class="ticket-body">
+          <div class="ticket-row"><span>Vehicle(s)</span><span id="successVehicle">—</span></div>
+          <div class="ticket-row"><span>Pickup</span><span id="successPickup">—</span></div>
+          <div class="ticket-row"><span>Return</span><span id="successReturn">—</span></div>
+          <div class="ticket-row"><span>Pickup point</span><span id="successLocation">—</span></div>
+          <div class="ticket-row"><span>Total Rental</span><span id="successRentalFee">₹ —</span></div>
+          <div class="ticket-row" style="color:#059669;font-weight:600;"><span>Refundable deposit</span><span id="successDeposit">₹ — (100% Refundable)</span></div>
+          <div class="ticket-row" style="color:#0284c7;font-weight:700;"><span>Advance Paid Online (20%)</span><span id="successAdvancePaid">₹ 0</span></div>
+          <div class="ticket-row" style="font-size:12px;color:#cbd5e1;"><span>Payment / Booked Time</span><span id="successTimestamp">—</span></div>
+          <div class="ticket-total">
+            <span>Balance Payable at Pickup</span>
+            <strong id="successTotal">₹ —</strong>
+          </div>
+        </div>
+      </div>
+      <div style="background:#f4f9fc;border:1.5px solid #d0e4f0;border-radius:12px;padding:14px 16px;margin:16px 0;font-size:13px;line-height:1.5;color:var(--ink-blue);">
+        <strong>📌 What happens next?</strong><br>
+        <span id="successNextSteps">Your reservation is confirmed! Our operations team has locked your vehicle and will contact you via <strong>WhatsApp &amp; Call</strong> prior to pickup handover.</span>
+      </div>
+      <p class="email-status" id="emailStatus" hidden></p>
+      <p class="email-status" id="whatsappStatus" hidden></p>
+      <button type="button" class="whatsapp-btn" id="whatsappSendBtn">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        Send booking voucher to Tourent WhatsApp
+      </button>
+      <div style="display:flex;gap:10px;margin-top:10px;">
+        <button type="button" class="calc-btn" id="viewMyBookingsBtn" style="flex:1;background:var(--sand);color:var(--ink-blue);border:1.5px solid var(--line);">View My Bookings</button>
+        <button type="button" class="calc-btn" id="bookingDoneBtn" style="flex:1;">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PAYMENT CHECKOUT MODAL (20% ADVANCE TOKEN) ============ -->
+<div class="modal-overlay" id="paymentModalOverlay">
+  <div class="modal payment-checkout-modal" role="dialog" aria-modal="true" aria-labelledby="payModalTitle">
+    <button class="modal-close" id="payModalClose" aria-label="Close payment modal" type="button">✕</button>
+    
+    <div class="pay-modal-header">
+      <div class="pay-merchant-badge">
+        <span class="pay-secure-icon">🔒</span> Tourent Verified Goa Rental Checkout
+      </div>
+      <h3 id="payModalTitle">Complete 20% Advance Payment</h3>
+      <div class="pay-amount-display">
+        <span class="pay-curr">₹</span><span id="payModalAmount" class="pay-val">0</span>
+        <span class="pay-tag">20% Booking Lock Token</span>
+      </div>
+      <p class="pay-sub">Pay 20% now to guarantee vehicle lock · Balance + deposit paid at pickup.</p>
+    </div>
+
+    <div class="pay-tabs" id="payTabsBar">
+      <button type="button" class="pay-tab-btn active" data-paytab="upi">📱 Instant UPI QR</button>
+      <button type="button" class="pay-tab-btn" data-paytab="gateway">💳 Razorpay Sandbox</button>
+    </div>
+
+    <!-- Tab 1: Instant UPI QR -->
+    <div class="pay-tab-pane active" id="payPaneUpi">
+      <div class="pay-qr-card">
+        <div class="pay-qr-box">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9322730029@okaxis&pn=Tourent%20Goa%20Rentals&cu=INR" alt="UPI QR Code" class="pay-qr-img" id="payQrImage">
+        </div>
+        <div class="pay-upi-apps">
+          <span>Supported Apps:</span>
+          <strong>Google Pay · PhonePe · Paytm · BHIM</strong>
+        </div>
+        <div class="pay-upi-id-badge">
+          UPI ID: <code>9322730029@okaxis</code>
+        </div>
+      </div>
+      <button type="button" class="calc-btn pay-confirm-btn" id="payUpiConfirmBtn">
+        ✓ I Have Paid ₹<span id="payUpiBtnAmount">0</span> via UPI (Lock Booking)
+      </button>
+    </div>
+
+    <!-- Tab 2: Razorpay Test Simulator -->
+    <div class="pay-tab-pane" id="payPaneGateway">
+      <div class="pay-gateway-box">
+        <div class="pay-gw-head">
+          <span style="font-weight:800;font-size:16px;color:#0c2340;display:inline-flex;align-items:center;gap:6px;">⚡ Razorpay <span style="font-size:11px;background:#e0f2fe;color:#0369a1;padding:2px 6px;border-radius:4px;">Secure Gateway</span></span>
+          <span class="pay-test-mode-badge">🧪 Test Mode</span>
+        </div>
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 12px;margin-top:10px;font-size:12px;color:#1e40af;line-height:1.4;display:flex;align-items:center;gap:8px;">
+          <span>🧪</span>
+          <span><strong>Test Gateway Active:</strong> Razorpay Test Mode is enabled. Use test card/UPI — no real money will be charged.</span>
+        </div>
+        <div class="field" style="margin-top:12px;">
+          <label>Cardholder Name</label>
+          <input type="text" id="payCardName" value="Tourent Tourist" placeholder="Name on card">
+        </div>
+        <div class="field">
+          <label>Card Number (Test Simulation)</label>
+          <input type="text" id="payCardNumber" value="4111 2222 3333 4444" placeholder="16-digit card number" readonly>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Expiry</label>
+            <input type="text" value="12/28" readonly>
+          </div>
+          <div class="field">
+            <label>CVV</label>
+            <input type="text" value="888" readonly>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="calc-btn pay-confirm-btn" id="payGatewayConfirmBtn">
+        💳 Pay ₹<span id="payGwBtnAmount">0</span> via Razorpay Gateway
+      </button>
+    </div>
+
+    <div class="pay-trust-footer">
+      <span>🛡️ 256-Bit SSL Encrypted</span> · <span>100% Refundable Deposit Protected</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MY BOOKINGS MODAL (CLOUD PHONE LOOKUP) ============ -->
+<div class="modal-overlay" id="myBookingsOverlay">
+  <div class="modal my-bookings-modal" role="dialog" aria-modal="true" aria-labelledby="myBookingsTitle">
+    <button class="modal-close" id="myBookingsClose" aria-label="Close my bookings" type="button">✕</button>
+    <div class="modal-head">
+      <div class="eyebrow" style="margin-bottom:6px;">Live Cloud Lookup</div>
+      <h3 id="myBookingsTitle">Track &amp; View My Bookings</h3>
+      <p style="font-size:13px;color:#64748b;margin-top:4px;">Enter your phone number or reference ID to fetch your reservations from the cloud.</p>
+    </div>
+
+    <!-- Phone / Reference Lookup Bar -->
+    <div class="my-bk-lookup-bar">
+      <div class="my-bk-input-wrap">
+        <span class="my-bk-input-icon">📱</span>
+        <input type="tel" id="myBkPhoneInput" placeholder="Enter phone number (e.g. 93706 55832) or TRT-XXXXX" maxlength="25">
+      </div>
+      <button type="button" id="myBkSearchBtn" class="my-bk-search-btn">Track</button>
+    </div>
+
+    <div id="myBkStatusBanner" class="my-bk-status-banner" hidden></div>
+    <div id="myBookingsList" class="my-bk-list"></div>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast"></div>
+
+<!-- ============ FLOATING WHATSAPP INQUIRY BUTTON ============ -->
+<a href="#" class="whatsapp-fab" id="whatsappFab" aria-label="Chat with Tourent on WhatsApp" title="Chat with us on WhatsApp">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+</a>
+
+<!-- ============ VEHICLE MATCHER MODAL ============ -->
+<div class="modal-overlay" id="matcherOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="matcherTitle">
+    <button class="modal-close" id="matcherClose" aria-label="Close vehicle matcher">✕</button>
+    <div class="modal-head">
+      <div class="eyebrow" style="margin-bottom:8px;" data-i18n="matcher.eyebrow">Smart Vehicle Matcher</div>
+      <h3 id="matcherTitle" data-i18n="matcher.title">Tell us about your trip</h3>
+    </div>
+
+    <div id="matcherFormView">
+      <div class="field">
+        <label for="mPeople" data-i18n="matcher.people">How many people, including you?</label>
+        <input type="number" id="mPeople" min="1" max="10" value="2">
+      </div>
+      <div class="field">
+        <label for="mBudget" data-i18n="matcher.budget">Daily budget</label>
+        <select id="mBudget">
+          <option value="2000" data-i18n="matcher.budgetLow">Under ₹2,000/day</option>
+          <option value="5000" selected data-i18n="matcher.budgetMid">₹2,000 – ₹5,000/day</option>
+          <option value="99999" data-i18n="matcher.budgetHigh">₹5,000+/day</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="mTerrain" data-i18n="matcher.terrain">Where are you mostly headed?</label>
+        <select id="mTerrain">
+          <option value="city" data-i18n="matcher.terrainCity">In-town / beach hopping</option>
+          <option value="highway" selected data-i18n="matcher.terrainHighway">Highway trips to other towns</option>
+          <option value="offroad" data-i18n="matcher.terrainOffroad">Ghats, forts, off-road</option>
+          <option value="mixed" data-i18n="matcher.terrainMixed">A bit of everything</option>
+        </select>
+      </div>
+      <div class="field">
+        <label data-i18n="matcher.driveType">Drive type</label>
+        <div class="chip-row">
+          <button type="button" class="chip active" data-drive="self" data-i18n="matcher.selfDrive">Self-drive</button>
+          <button type="button" class="chip" data-drive="chauffeur" data-i18n="matcher.chauffeur">Chauffeured</button>
+        </div>
+      </div>
+      <button class="calc-btn" id="matcherRunBtn" data-i18n="matcher.runBtn">Show my matches</button>
+    </div>
+
+    <div id="matcherResultsView" hidden>
+      <div id="matcherResultsList"></div>
+      <button class="calc-btn" id="matcherAgainBtn" style="background:transparent;color:var(--ink-blue);border:1.5px solid var(--line);" data-i18n="matcher.tryAgain">Try different answers</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ITINERARY MODAL ============ -->
+<div class="modal-overlay" id="itineraryOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="itineraryTitle">
+    <button class="modal-close" id="itineraryClose" aria-label="Close itinerary planner">✕</button>
+    <div class="modal-head">
+      <div class="eyebrow" style="margin-bottom:8px;" data-i18n="itinerary.eyebrow">Trip Planner</div>
+      <h3 id="itineraryTitle" data-i18n="itinerary.title">Plan your Goa days</h3>
+    </div>
+
+    <div id="itineraryFormView">
+      <div class="field">
+        <label for="iDays" data-i18n="itinerary.days">How many days?</label>
+        <input type="number" id="iDays" min="1" max="7" value="3">
+      </div>
+      <div class="field">
+        <label data-i18n="itinerary.interests">What do you want to see? (pick a few)</label>
+        <div class="chip-row" id="interestChips">
+          <button type="button" class="chip active" data-interest="beaches" data-i18n="itinerary.beaches">Beaches</button>
+          <button type="button" class="chip" data-interest="waterfalls" data-i18n="itinerary.waterfalls">Waterfalls</button>
+          <button type="button" class="chip" data-interest="heritage" data-i18n="itinerary.heritage">Forts &amp; Heritage</button>
+          <button type="button" class="chip" data-interest="nightlife" data-i18n="itinerary.nightlife">Nightlife</button>
+          <button type="button" class="chip" data-interest="nature" data-i18n="itinerary.nature">Nature &amp; Wildlife</button>
+          <button type="button" class="chip" data-interest="markets" data-i18n="itinerary.markets">Markets &amp; Food</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="iStyle" data-i18n="itinerary.style">Travel style</label>
+        <select id="iStyle">
+          <option value="budget" data-i18n="itinerary.styleBudget">Budget</option>
+          <option value="comfort" selected data-i18n="itinerary.styleComfort">Comfort</option>
+          <option value="luxury" data-i18n="itinerary.styleLuxury">Luxury</option>
+        </select>
+      </div>
+      <button class="calc-btn" id="itineraryRunBtn" data-i18n="itinerary.runBtn">Build my itinerary</button>
+    </div>
+
+    <div id="itineraryResultsView" hidden>
+      <div id="itineraryDaysList"></div>
+      <div class="itinerary-vehicle" id="itineraryVehicleCard"></div>
+      <div style="display:flex;gap:10px;margin-top:14px;">
+        <button class="calc-btn" id="itineraryLoadEstimatorBtn" data-i18n="itinerary.loadEstimator">Load into estimator</button>
+        <button class="calc-btn" id="itineraryReserveBtn" data-i18n="itinerary.reserveBtn">Reserve this vehicle</button>
+      </div>
+      <button class="calc-btn" id="itineraryAgainBtn" style="background:transparent;color:var(--ink-blue);border:1.5px solid var(--line);margin-top:10px;" data-i18n="matcher.tryAgain">Try different answers</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CONCIERGE CHAT ============ -->
+<button class="chat-fab" id="chatFab" aria-label="Open Tourent concierge chat" title="Chat with Tourent Concierge">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8-1.5 0-2.9-.32-4.13-.88L3 20l1.05-3.68A7.93 7.93 0 0 1 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+  <span class="chat-fab-badge" id="chatFabBadge" hidden>1</span>
+</button>
+
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-head">
+    <div>
+      <strong data-i18n="chat.title">Tourent Concierge</strong>
+      <span data-i18n="chat.subtitle">Usually replies instantly</span>
+    </div>
+    <button class="modal-close" id="chatClose" aria-label="Close chat" style="position:static;background:rgba(255,253,248,0.15);color:var(--foam);">✕</button>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-input-row">
+    <input type="text" id="chatInput" data-i18n-placeholder="chat.placeholder" placeholder="Ask about rentals, deposits, licences...">
+    <button id="chatSendBtn" aria-label="Send">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+
+<!-- ============ ATTRACTION DETAILS MODAL (PURELY INFORMATIVE - ZERO BOOKING) ============ -->
+<div class="modal-overlay" id="attractionModalOverlay">
+  <div class="modal attraction-modal" role="dialog" aria-modal="true" aria-labelledby="attrModalTitle">
+    <button class="modal-close" id="attractionModalClose" aria-label="Close attraction details" type="button">✕</button>
+
+    <div class="attr-modal-hero">
+      <img id="attrModalImg" src="" alt="" class="attr-hero-img">
+      <div class="attr-hero-gradient"></div>
+      <div class="attr-hero-info">
+        <div class="attr-hero-badges">
+          <span class="attr-tag category" id="attrModalCategoryTag"></span>
+          <span class="attr-tag taluka" id="attrModalTalukaTag"></span>
+          <span class="attr-tag region" id="attrModalRegionTag"></span>
+        </div>
+        <h2 id="attrModalTitle" class="attr-hero-title"></h2>
+        <div class="attr-hero-location">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span id="attrModalLocation"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="attr-modal-body">
+      <!-- Quick Facts Cards -->
+      <div class="attr-facts-grid">
+        <div class="attr-fact-card">
+          <div class="attr-fact-icon">🕒</div>
+          <div class="attr-fact-content">
+            <span class="attr-fact-label">Timings</span>
+            <strong id="attrModalTimings">—</strong>
+          </div>
+        </div>
+        <div class="attr-fact-card">
+          <div class="attr-fact-icon">🎟️</div>
+          <div class="attr-fact-content">
+            <span class="attr-fact-label">Entry Fee</span>
+            <strong id="attrModalEntryFee">—</strong>
+          </div>
+        </div>
+        <div class="attr-fact-card">
+          <div class="attr-fact-icon">⏳</div>
+          <div class="attr-fact-content">
+            <span class="attr-fact-label">Visit Duration</span>
+            <strong id="attrModalDuration">—</strong>
+          </div>
+        </div>
+        <div class="attr-fact-card">
+          <div class="attr-fact-icon">🌤️</div>
+          <div class="attr-fact-content">
+            <span class="attr-fact-label">Best Time to Visit</span>
+            <strong id="attrModalBestTime">—</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Description -->
+      <div class="attr-section">
+        <h4 class="attr-section-title">About this Destination</h4>
+        <p id="attrModalDescription" class="attr-desc-text"></p>
+      </div>
+
+      <!-- Things To Do -->
+      <div class="attr-section">
+        <h4 class="attr-section-title">Highlights &amp; Things to Do</h4>
+        <ul id="attrModalThingsToDo" class="attr-things-list"></ul>
+      </div>
+
+      <!-- Visitor Tips & Guidelines -->
+      <div class="attr-section">
+        <h4 class="attr-section-title">Visitor Information &amp; Tips</h4>
+        <div class="attr-info-box">
+          <div class="attr-info-row" id="attrModalParkingRow">
+            <strong>🚗 Parking &amp; Access:</strong>
+            <span id="attrModalParking"></span>
+          </div>
+          <div class="attr-info-row" id="attrModalTipsRow">
+            <strong>💡 Helpful Visitor Tips:</strong>
+            <span id="attrModalTips"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nearby Attractions -->
+      <div class="attr-section" id="attrModalNearbySection">
+        <h4 class="attr-section-title">Nearby Places to Explore</h4>
+        <div id="attrModalNearbyList" class="attr-nearby-pills"></div>
+      </div>
+
+      <!-- Back / Close Navigation -->
+      <div class="attr-modal-foot">
+        <button type="button" class="btn-back-places" id="attractionModalBackBtn">← Back to Places List</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TERMS & POLICIES MODAL (GOA RTO GUIDELINES) ============ -->
+<div class="modal-overlay" id="termsModalOverlay">
+  <div class="modal terms-modal" role="dialog" aria-modal="true" aria-labelledby="termsModalTitle">
+    <button class="modal-close" id="termsModalClose" aria-label="Close terms modal" type="button">✕</button>
+
+    <div class="modal-head">
+      <div class="eyebrow" style="margin-bottom:6px;">Goa Transport &amp; RTO Regulations</div>
+      <h3 id="termsModalTitle">Rental Terms &amp; Policies</h3>
+      <p style="font-size:13px;color:#64748b;margin-top:4px;">Official self-drive rental rules, refundable deposits, safety guidelines &amp; traffic laws in Goa.</p>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="terms-nav-tabs" id="termsNavTabs">
+      <button type="button" class="terms-tab-btn active" data-tab="fourWheeler">🚗 Cars (4-Wheelers)</button>
+      <button type="button" class="terms-tab-btn" data-tab="twoWheeler">🛵 Bikes &amp; Scooters</button>
+      <button type="button" class="terms-tab-btn" data-tab="depositRules">🛡️ Security Deposits</button>
+      <button type="button" class="terms-tab-btn" data-tab="trafficSafety">🚦 Goa Traffic Laws</button>
+    </div>
+
+    <!-- Tab 1: Four Wheelers -->
+    <div class="terms-tab-pane active" id="paneFourWheeler">
+      <div class="terms-card">
+        <div class="terms-card-head">
+          <span class="terms-card-icon">🪪</span>
+          <div>
+            <h4>Driver Eligibility &amp; Documentation (Cars)</h4>
+            <p>Documents required at vehicle handover</p>
+          </div>
+        </div>
+        <ul class="terms-points">
+          <li><strong>Age Requirement:</strong> Minimum driver age is <strong>18 years</strong>.</li>
+          <li><strong>Driving Licence:</strong> Valid original Indian Driving Licence (LMV - Light Motor Vehicle) or International Driving Permit (IDP) required. DigiLocker/mParivahan verified digital copies are accepted.</li>
+          <li><strong>Identity Proof:</strong> Original Aadhaar Card, Passport, or Voter ID must be presented for verification.</li>
+        </ul>
+      </div>
+
+      <div class="terms-card">
+        <div class="terms-card-head">
+          <span class="terms-card-icon">🚗</span>
+          <div>
+            <h4>Car Rental Guidelines &amp; Off-Roading Restrictions</h4>
+            <p>Permitted usage and boundary limits</p>
+          </div>
+        </div>
+        <ul class="terms-points">
+          <li><strong>Goa State Boundary:</strong> Vehicles are licensed for operation across North and South Goa. Interstate travel (Maharashtra/Karnataka) requires prior RTO permit approval from Tourent.</li>
+          <li><strong>Strict Beach Driving Prohibition:</strong> Driving on beaches, coastlines, sand dunes, or sea water is <strong>strictly prohibited by Goa Law</strong> (Section 188 IPC) with heavy police penalties and vehicle impoundment.</li>
+          <li><strong>Fuel Policy:</strong> Vehicles are delivered with a documented fuel level and must be returned with the same fuel level (Level-to-Level).</li>
+          <li><strong>Unlimited Kilometers:</strong> All Tourent self-drive cars include 100% unlimited km across Goa with zero distance surcharges.</li>
+        </ul>
+      </div>
+
+      <div class="terms-card" style="border-left:4px solid var(--tile-blue);">
+        <div class="terms-card-head">
+          <span class="terms-card-icon">⏰</span>
+          <div>
+            <h4>Standard 24-Hour Rental Timing Cycle (09:00 AM – 09:00 AM)</h4>
+            <p>Mandatory Goa rental duration &amp; return policy</p>
+          </div>
+        </div>
+        <ul class="terms-points">
+          <li><strong>Fixed 09:00 AM to 09:00 AM Rental Cycle:</strong> In Goa, all vehicle rentals operate on a standard daily cycle from <strong>09:00 AM to 09:00 AM next morning</strong>.</li>
+          <li><strong>Afternoon / Evening Pickups (e.g. 06:00 PM):</strong> If a customer collects a vehicle in the afternoon or evening (e.g. at 06:00 PM), the vehicle must <strong>compulsorily be returned by 09:00 AM the next morning</strong>.</li>
+          <li><strong>Late Returns &amp; Extensions:</strong> Returning after 09:00 AM will incur an additional day charge unless prior extension approval is obtained from Tourent Admin via WhatsApp.</li>
+        </ul>
+      </div>
+
+      <div class="terms-card" style="border-left:4px solid var(--laterite);">
+        <div class="terms-card-head">
+          <span class="terms-card-icon">🛠️</span>
+          <div>
+            <h4>Vehicle Damage &amp; Repair Responsibility (Cars)</h4>
+            <p>Customer liability in case of physical damage or accidents</p>
+          </div>
+        </div>
+        <ul class="terms-points">
+          <li><strong>Customer Liability:</strong> If any accidental damage, dent, deep scratch, bumper crack, broken part, or body damage is found upon return inspection, the <strong>customer is 100% responsible for getting it repaired or making the payment for the damage</strong>.</li>
+          <li><strong>Pre-Handover Check:</strong> A 360° photo/video check is done at pickup so customers are never billed for pre-existing scratches.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Tab 2: Two Wheelers -->
+    <div class="terms-tab-pane" id="paneTwoWheeler">
+      <div class="terms-card">
+        <div class="terms-card-head">
+          <span class="terms-card-icon">🛵</span>
+          <div>
+            <h4>Rider Eligibility &amp; Documentation (Bikes &amp; Scooters)</h4>
+            <p>Requirements for Activa, Fascino, Hunter 350 &amp; Himalayan</p>
+          </div>
+        </div>
+        <ul class="terms-points">
+          <li><strong>Age Requirement:</strong> Minimum rider age is <strong>18 years</strong>.</li>
+          <li><strong>Driving Licence:</strong> Valid Two-Wheeler Driving Licence (MCWG / MCWOG) required. Learner licenses (LL) are not permitted.</li>
+          <li><strong>Identity Proof:</strong> Aadhaar Card or Passport copy required at handover.</li>
+          <li><strong>Zero Security Deposit:</strong> <strong>₹0 Security Deposit</strong> required for all two-wheelers and scooters.</li>
+        </ul>
+      </div>
+
+      <div class="terms-card">
+        <div class="terms-card-head">
+          <span class="terms-card-icon">⛑️</span>
+          <div>
+            <h4>Mandatory Helmet &amp; Pillion Rules in Goa</h4>
+            <p>Strictly enforced across Goa by Traffic Police</p>
+          </div>
+        </div>
+        <ul class="terms-points">
+          <li><strong>Double Helmet Law:</strong> Helmets are <strong>100% mandatory for BOTH the Rider and Pillion Passenger</strong> across all Goa highways, bridges, and city roads (Section 129 Motor Vehicles Act).</li>
+          <li><strong>ISI Helmets Provided:</strong> Tourent provides clean, sanitized ISI-certified helmets at vehicle handover.</li>
+          <li><strong>Triple Riding Prohibition:</strong> Triple riding on two-wheelers is strictly prohibited and results in immediate automated e-challans.</li>
+        </ul>
+      </div>
+
+      <div class="terms-card" style="border-left:4px solid var(--tile-blue);">
+        <div class="terms-card-head">
+          <span class="terms-card-icon">⏰</span>
+          <div>
+            <h4>Standard Bike/Scooter Rental Timing Cycle (09:00 AM – 09:00 AM)</h4>
+            <p>Mandatory return timing policy for two-wheelers in Goa</p>
+          </div>
+        </div>
+        <ul class="terms-points">
+          <li><strong>09:00 AM to 09:00 AM Daily Slot:</strong> All scooter and motorcycle rentals operate on the standard Goa <strong>09:00 AM to 09:00 AM next morning</strong> cycle.</li>
+          <li><strong>Evening Handover (e.g. 06:00 PM):</strong> If you pick up a scooter at 06:00 PM in the evening, the vehicle must <strong>compulsorily be returned by 09:00 AM the next morning</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="terms-card" style="border-left:4px solid var(--laterite);">
+        <div class="terms-card-head">
+          <span class="terms-card-icon">🛠️</span>
+          <div>
+            <h4>Two-Wheeler Damage Responsibility</h4>
+            <p>Customer liability in case of fall, collision or damage</p>
+          </div>
+        </div>
+        <ul class="terms-points">
+          <li><strong>Customer Liability:</strong> If any damage, broken mirror, lever bend, panel crack, or scratch is found upon return inspection, the <strong>customer is 100% responsible for repairing it or paying the damage charges</strong>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Tab 3: Security Deposit -->
+    <div class="terms-tab-pane" id="paneDepositRules">
+      <div class="terms-card">
+        <div class="terms-card-head">
+          <span class="terms-card-icon">🛡️</span>
+          <div>
+            <h4>Security Deposit &amp; Damage Policy</h4>
+            <p>Transparent Goa rental deposit schedule</p>
+          </div>
+        </div>
+        <div class="terms-deposit-table">
+          <div class="td-row td-head">
+            <span>Vehicle Category</span>
+            <span>Security Deposit</span>
+            <span>Refund Timeline</span>
+          </div>
+          <div class="td-row" style="background:#f0fdf4;">
+            <span>Two-Wheelers (All Scooters &amp; Bikes)</span>
+            <strong style="color:#059669;">₹0 (ZERO Deposit)</strong>
+            <span>No Deposit Required</span>
+          </div>
+          <div class="td-row">
+            <span>Hatchbacks &amp; Compact (Swift, Baleno, i20, Glanza)</span>
+            <strong>₹3,000</strong>
+            <span>100% Instant at return</span>
+          </div>
+          <div class="td-row">
+            <span>SUVs &amp; 7-Seaters (Ertiga, Thar, Crysta, Hyryder)</span>
+            <strong>₹5,000</strong>
+            <span>100% Instant at return</span>
+          </div>
+          <div class="td-row">
+            <span>Luxury &amp; Premium (Hycross, Fortuner, BMW, Defender)</span>
+            <strong>₹10,000</strong>
+            <span>100% Instant at return</span>
+          </div>
+        </div>
+        <ul class="terms-points" style="margin-top:12px;">
+          <li><strong>Instant Handover Refund:</strong> 100% of car security deposit is refunded on the spot via UPI / Cash / Bank Transfer after a 2-minute physical inspection.</li>
+          <li><strong>Inspection Checklist:</strong> Body condition (checking for new scratches/dents), fuel level match, and active Goa police e-challans.</li>
+        </ul>
+      </div>
+
+      <div class="terms-card" style="border-left:4px solid var(--laterite);">
+        <div class="terms-card-head">
+          <span class="terms-card-icon">🛠️</span>
+          <div>
+            <h4>Vehicle Damage &amp; Repair Responsibility Policy</h4>
+            <p>Mandatory policy for all vehicle rentals</p>
+          </div>
+        </div>
+        <ul class="terms-points">
+          <li><strong>Damage Settlement:</strong> If any accidental damage, body dent, deep scratch, or broken part is found upon vehicle return, the <strong>customer is 100% responsible for getting it repaired or paying the full repair/replacement payment</strong> before checkout.</li>
+          <li><strong>Pre-existing Verification:</strong> Pre-handover inspection photos ensure you are only responsible for new damage incurred during your trip.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Tab 4: Traffic Laws -->
+    <div class="terms-tab-pane" id="paneTrafficSafety">
+      <div class="terms-card">
+        <div class="terms-card-head">
+          <span class="terms-card-icon">🚦</span>
+          <div>
+            <h4>Goa Speed Limits &amp; Traffic Safety Regulations</h4>
+            <p>Avoid automated AI traffic camera challans</p>
+          </div>
+        </div>
+        <ul class="terms-points">
+          <li><strong>Speed Limits:</strong>
+            <ul style="margin-top:4px;">
+              <li>National Highways (NH66, NH566): <strong>70–80 km/h</strong></li>
+              <li>City Roads, Beach Towns &amp; Coastal Belts: <strong>40 km/h</strong></li>
+              <li>Signature Bridges (Atal Setu, Zuari Bridge): <strong>40–50 km/h</strong></li>
+            </ul>
+          </li>
+          <li><strong>Zero Tolerance for Drink &amp; Drive:</strong> Strict breathalyzer checks are conducted nightly across Calangute, Baga, Candolim, and Panaji. Driving under the influence is an offense leading to arrest and vehicle seizure.</li>
+          <li><strong>Seat Belts &amp; Helmets:</strong> Mandatory for all passengers (Double helmets for 2-wheelers, seat belts for cars).</li>
+          <li><strong>Traffic Challans:</strong> Any AI camera or police e-challan generated during your trip will be settled from the deposit or billed to the customer reference.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="terms-modal-foot">
+      <button type="button" class="calc-btn" id="termsModalGotItBtn">I Understand &amp; Agree</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js?v=20260831_07"></script>
+<script src="attractions.js?v=20261103_05"></script>
+</body>
+</html>

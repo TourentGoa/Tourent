@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12 Talukas of Goa — Attractions &amp; Travel Guide | Tourent</title>
+<meta name="description" content="Explore Goa by its 12 talukas. Discover beaches, waterfalls, historic forts, temples, and places to visit across North &amp; South Goa with interactive maps.">
+
+<!-- Favicon & App Icons -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png?v=4">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=4">
+<link rel="shortcut icon" href="favicon.ico?v=4">
+<meta name="theme-color" content="#0e3552">
+
+<!-- OpenGraph / Facebook / WhatsApp Preview -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tourent.in/attractions.html">
+<meta property="og:site_name" content="Tourent Goa">
+<meta property="og:title" content="12 Talukas of Goa — Attractions Guide | Tourent">
+<meta property="og:description" content="Discover tourist destinations across all 12 talukas of North &amp; South Goa with interactive maps and visitor facts.">
+<meta property="og:image" content="https://tourent.in/og-image.png">
+<meta property="og:image:secure_url" content="https://tourent.in/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="12 Talukas of Goa — Attractions Guide | Tourent">
+<meta name="twitter:description" content="Discover tourist destinations across all 12 talukas of North &amp; South Goa.">
+<meta name="twitter:image" content="https://tourent.in/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<!-- Leaflet Map CSS & JS for interactive Goa Tourist Map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<style>
+  /* Dedicated Page Hero Banner */
+  .attr-hero-banner {
+    position: relative;
+    background: radial-gradient(1100px 600px at 15% -10%, #164a6b 0%, var(--ink-blue) 55%, #0a2540 100%);
+    padding: 72px 0 46px;
+    color: var(--foam);
+    overflow: hidden;
+  }
+  .attr-hero-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .attr-hero-inner .eyebrow {
+    color: var(--gold);
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .attr-hero-inner h1 {
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    line-height: 1.25;
+    color: #fff;
+  }
+  .attr-hero-inner p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 253, 248, 0.85);
+    max-width: 720px;
+    margin: 0 auto 16px;
+  }
+  .attr-breadcrumbs {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255, 253, 248, 0.65);
+    margin-bottom: 16px;
+  }
+  .attr-breadcrumbs a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .attr-breadcrumbs a:hover {
+    text-decoration: underline;
+  }
+
+  /* Back to home iconic link pill */
+  .attr-hero-home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fffdf8;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .attr-hero-home-link:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* Fleet Cross Promotion CTA Banner */
+  .attr-fleet-cta {
+    background: linear-gradient(135deg, #0e3552 0%, #164a6b 100%);
+    color: #fffdf8;
+    padding: 56px 0;
+    margin-top: 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .attr-fleet-cta-inner {
+    max-width: 920px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 20px;
+  }
+  .attr-fleet-cta h3 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+  .attr-fleet-cta p {
+    font-size: 15px;
+    color: rgba(255,253,248,0.85);
+    margin-bottom: 24px;
+    line-height: 1.6;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .attr-fleet-cta-btns {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .attr-fleet-btn-primary {
+    background: var(--gold);
+    color: #0c2340;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .attr-fleet-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(227, 162, 61, 0.35);
+  }
+  .attr-fleet-btn-secondary {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .attr-fleet-btn-secondary:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* Attractions Section Spacing */
+  .attractions-section {
+    padding-top: 40px !important;
+    padding-bottom: 56px !important;
+  }
+
+  @media (max-width: 768px) {
+    .attractions-section {
+      padding-top: 24px !important;
+      padding-bottom: 40px !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .attr-hero-inner h1 { font-size: 24px; }
+    .attr-fleet-cta h3 { font-size: 20px; }
+    .attr-fleet-cta-btns { flex-direction: column; gap: 10px; width: 100%; }
+    .attr-fleet-btn-primary, .attr-fleet-btn-secondary { width: 100%; text-align: center; justify-content: center; }
+  }
+
+  /* Ensure Talukas grid is immediately visible and eliminate redundant bottom margin */
+  .talukas-container {
+    opacity: 1 !important;
+    transform: none !important;
+    margin-bottom: 0 !important;
+  }
+  .taluka-card {
+    opacity: 1 !important;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SITE HEADER ============ -->
+<header id="siteHeader">
+  <nav class="nav">
+    <a href="index.html#top" class="logo">
+      <span class="logo-mark">T</span>
+      <span class="logo-text">Tourent</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#fleet">Fleet</a></li>
+      <li><a href="taxis.html">Airport Taxis</a></li>
+      <li><a href="index.html#estimator">Budget Estimator</a></li>
+      <li><a href="attractions.html" style="color:var(--gold);font-weight:700;">Attractions</a></li>
+      <li><a href="help.html">Help &amp; FAQ</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="#" id="myBookingsLink"><span>My Bookings</span> <span id="bookingCount" class="badge-count" hidden>0</span></a></li>
+    </ul>
+    <select id="langSwitch" class="lang-switch" aria-label="Choose language">
+      <option value="en">EN</option>
+      <option value="ru">RU</option>
+      <option value="de">DE</option>
+      <option value="pt">PT</option>
+    </select>
+    <a href="index.html#fleet" class="nav-cta" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Book a Vehicle</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ HERO BANNER ============ -->
+  <section class="attr-hero-banner">
+    <div class="attr-hero-inner">
+      <div class="attr-breadcrumbs">
+        <a href="index.html">Home</a> &nbsp;/&nbsp; <span>Attractions Guide</span>
+      </div>
+      <div class="eyebrow">STEP 1 · CHOOSE A TALUKA</div>
+      <h1>12 Talukas of Goa</h1>
+      <p>Explore all tourist destinations across North &amp; South Goa by taluka. Click on any region below to discover scenic beaches, waterfalls, historic forts, temples, and interactive places map.</p>
+      <a href="index.html#attractions" class="attr-hero-home-link">
+        <span>← View Iconic &amp; Recommended Highlights on Home Page</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ 12 TALUKAS & PLACES EXPLORER ============ -->
+  <section class="attractions-section" id="attractions">
+    <div class="container">
+      
+      <!-- ==============================================
+           STEP 1: TALUKAS SELECTION VIEW
+           ============================================== -->
+      <div id="attractionsTalukasView" class="attr-step-view">
+        <!-- 12 Talukas Grid Explorer -->
+        <div class="talukas-container" style="margin-top:0; margin-bottom:0;">
+          <div class="talukas-header">
+            <div class="talukas-title-group">
+              <div class="step-indicator-badge">Step 1 · Choose a Taluka</div>
+              <h4>12 Talukas of Goa</h4>
+              <p>Click on any taluka below to explore all places to visit in that region</p>
+            </div>
+            <div class="region-tabs" id="regionTabBar">
+              <button class="region-tab active" data-region="all" type="button">All Talukas (12)</button>
+              <button class="region-tab" data-region="North Goa" type="button">North Goa (6)</button>
+              <button class="region-tab" data-region="South Goa" type="button">South Goa (6)</button>
+            </div>
+          </div>
+
+          <div class="talukas-grid" id="talukasGrid"></div>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           STEP 2: SELECTED TALUKA PLACES VIEW
+           ============================================== -->
+      <div id="attractionsPlacesView" class="attr-step-view" hidden>
+        <!-- Nav / Breadcrumb Back Bar -->
+        <div class="taluka-view-nav">
+          <button type="button" class="btn-back-talukas" id="backToTalukasBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span>Back to All Talukas</span>
+          </button>
+          <div class="taluka-breadcrumbs">
+            <span>Attractions</span>
+            <span class="bc-sep">/</span>
+            <span id="breadcrumbRegion">North Goa</span>
+            <span class="bc-sep">/</span>
+            <strong id="breadcrumbTaluka">Bardez</strong>
+          </div>
+        </div>
+
+        <!-- Active Taluka Hero Header -->
+        <div class="active-taluka-hero" id="activeTalukaHero">
+          <div class="active-taluka-info">
+            <div class="active-taluka-badges">
+              <span class="taluka-pill-region" id="activeTalukaRegionBadge">North Goa</span>
+              <span class="taluka-pill-count" id="activeTalukaPlacesCount">11 Places to Visit</span>
+            </div>
+            <h2 id="activeTalukaTitle" class="active-taluka-title">Bardez Taluka</h2>
+            <p id="activeTalukaDesc" class="active-taluka-desc">Baga, Calangute, Anjuna &amp; Fort Aguada</p>
+          </div>
+          <div class="taluka-quick-switcher">
+            <label for="talukaDropdownSelect">Switch Taluka:</label>
+            <select id="talukaDropdownSelect" class="taluka-dropdown"></select>
+          </div>
+        </div>
+
+        <!-- Interactive Map for this Taluka -->
+        <div class="attractions-map-card">
+          <div class="map-card-header">
+            <div>
+              <div class="eyebrow" style="margin-bottom:6px;">Visual Map</div>
+              <h4 id="mapSectionTitle">Places Map</h4>
+              <p>Click map pins to preview locations and explore details</p>
+            </div>
+            <button type="button" class="map-recenter-btn" id="mapRecenterBtn" style="display:inline-flex;align-items:center;gap:6px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Recenter Map
+            </button>
+          </div>
+          <div id="attractionsMap" class="attractions-map"></div>
+        </div>
+
+        <!-- Places Grid -->
+        <div class="attractions-grid" id="attractionsGrid"></div>
+        
+        <div id="attractionsEmptyState" class="attractions-empty" hidden>
+          <div class="empty-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h4>No attractions found</h4>
+          <p>Explore another taluka to see more places.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ FLEET CROSS-PROMOTION BANNER ============ -->
+  <section class="attr-fleet-cta">
+    <div class="attr-fleet-cta-inner">
+      <h3>Ready to Explore These Destinations?</h3>
+      <p>Rent a self-drive car or scooter with Tourent for unlimited kilometers, transparent pricing, and instant doorstep or airport delivery anywhere in Goa.</p>
+      <div class="attr-fleet-cta-btns">
+        <a href="index.html#fleet" class="attr-fleet-btn-primary">Browse Rental Fleet</a>
+        <a href="taxis.html" class="attr-fleet-btn-secondary">Airport Taxi Pickup</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ SITE FOOTER ============ -->
+<footer id="contact">
+  <div class="container foot-grid">
+    <div class="foot-brand">
+      <div class="logo"><span class="logo-mark">T</span><span class="logo-text" style="color:#fffdf8;">Tourent</span></div>
+      <p>Rent any vehicle, anytime. Goa's independent self-drive, scooter and luxury rental counter — from Mopa to Mormugao.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Fleet</h5>
+      <ul>
+        <li><a href="index.html#fleet">Hatchbacks &amp; Sedans</a></li>
+        <li><a href="index.html#fleet">SUVs &amp; MUVs</a></li>
+        <li><a href="index.html#fleet">Two-Wheelers</a></li>
+        <li><a href="index.html#fleet">Luxury Fleet</a></li>
+        <li><a href="taxis.html">Airport Taxis</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Explore &amp; Company</h5>
+      <ul>
+        <li><a href="attractions.html" style="color:var(--gold);font-weight:600;">Goa Attractions Guide</a></li>
+        <li><a href="index.html#estimator">Budget Estimator</a></li>
+        <li><a href="help.html">Help &amp; FAQs</a></li>
+        <li><a href="index.html#top">Terms &amp; Policies</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Reach Us</h5>
+      <ul>
+        <li><a href="tel:+919322730029">+91 93227 30029 (Primary Desk)</a></li>
+        <li><a href="tel:+919322469973">+91 93224 69973 (Support / Alt)</a></li>
+        <li><a href="mailto:tourentgoarentals@gmail.com">tourentgoarentals@gmail.com</a></li>
+        <li><a href="https://www.instagram.com/tourentgoa?utm_source=qr" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;color:#f39c12;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> <span>Instagram: <strong>@tourentgoa</strong></span></a></li>
+        <li><a href="index.html#top">Panaji · Margao · Vasco</a></li>
+        <li><a href="index.html#top">Dabolim &amp; Mopa Airports</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container foot-bottom">
+    <span>© 2026 Tourent Vehicle Rentals, Goa. All rights reserved.</span>
+    <span>Prices are indicative; final quote confirmed at booking. · <a href="admin.html" style="color:inherit;text-decoration:underline;">Staff login</a></span>
+  </div>
+</footer>
+
+<!-- ============ ATTRACTION DETAILS MODAL (PURELY INFORMATIVE - ZERO BOOKING) ============ -->
+<div class="modal-overlay" id="attractionModalOverlay" role="dialog" aria-modal="true" aria-labelledby="attrModalTitle">
+  <div class="modal attraction-modal">
+    <button class="modal-close" id="attractionModalClose" aria-label="Close attraction details" type="button">✕</button>
+
+    <div class="attr-modal-hero">
+      <img id="attrModalImg" src="" alt="" class="attr-hero-img">
+      <div class="attr-hero-gradient"></div>
+      <div class="attr-hero-info">
+        <div class="attr-hero-badges">
+          <span class="attr-tag category" id="attrModalCategoryTag"></span>
+          <span class="attr-tag taluka" id="attrModalTalukaTag"></span>
+          <span class="attr-tag region" id="attrModalRegionTag"></span>
+        </div>
+        <h2 id="attrModalTitle" class="attr-hero-title"></h2>
+        <div class="attr-hero-location">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span id="attrModalLocation"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="attr-modal-body">
+      <!-- Quick Facts Cards -->
+      <div class="attr-facts-grid">
+        <div class="attr-fact-card">
+          <div class="attr-fact-icon">🕒</div>
+          <div class="attr-fact-content">
+            <span class="attr-fact-label">Timings</span>
+            <strong id="attrModalTimings">—</strong>
+          </div>
+        </div>
+        <div class="attr-fact-card">
+          <div class="attr-fact-icon">🎟️</div>
+          <div class="attr-fact-content">
+            <span class="attr-fact-label">Entry Fee</span>
+            <strong id="attrModalEntryFee">—</strong>
+          </div>
+        </div>
+        <div class="attr-fact-card">
+          <div class="attr-fact-icon">⏳</div>
+          <div class="attr-fact-content">
+            <span class="attr-fact-label">Visit Duration</span>
+            <strong id="attrModalDuration">—</strong>
+          </div>
+        </div>
+        <div class="attr-fact-card">
+          <div class="attr-fact-icon">🌤️</div>
+          <div class="attr-fact-content">
+            <span class="attr-fact-label">Best Time to Visit</span>
+            <strong id="attrModalBestTime">—</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Description -->
+      <div class="attr-section">
+        <h4 class="attr-section-title">About this Destination</h4>
+        <p id="attrModalDescription" class="attr-desc-text"></p>
+      </div>
+
+      <!-- Things To Do -->
+      <div class="attr-section">
+        <h4 class="attr-section-title">Highlights &amp; Things to Do</h4>
+        <ul id="attrModalThingsToDo" class="attr-things-list"></ul>
+      </div>
+
+      <!-- Visitor Tips & Guidelines -->
+      <div class="attr-section">
+        <h4 class="attr-section-title">Visitor Information &amp; Tips</h4>
+        <div class="attr-info-box">
+          <div class="attr-info-row" id="attrModalParkingRow">
+            <strong>🚗 Parking &amp; Access:</strong>
+            <span id="attrModalParking"></span>
+          </div>
+          <div class="attr-info-row" id="attrModalTipsRow">
+            <strong>💡 Helpful Visitor Tips:</strong>
+            <span id="attrModalTips"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nearby Attractions -->
+      <div class="attr-section" id="attrModalNearbySection" hidden>
+        <h4 class="attr-section-title">Nearby Places to Explore</h4>
+        <div id="attrModalNearbyList" class="attr-nearby-pills"></div>
+      </div>
+
+      <!-- Back / Close Navigation -->
+      <div class="attr-modal-foot">
+        <button type="button" class="btn-back-places" id="attractionModalBackBtn">← Back to Places List</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: MY BOOKINGS ============ -->
+<div class="modal-overlay" id="myBookingsModal" role="dialog" aria-modal="true" aria-labelledby="mbTitle">
+  <div class="modal my-bookings-modal">
+    <button class="modal-close" id="mbCloseBtn" aria-label="Close modal">✕</button>
+    <div class="modal-head">
+      <div class="eyebrow" style="margin-bottom:6px;">Live Cloud Lookup</div>
+      <h3 id="mbTitle">Track &amp; View My Bookings</h3>
+      <p style="font-size:13px;color:#64748b;margin-top:4px;">Enter your phone number or reference ID to fetch your reservations from the cloud.</p>
+    </div>
+
+    <!-- Phone / Reference Lookup Bar -->
+    <div class="my-bk-lookup-bar">
+      <div class="my-bk-input-wrap">
+        <span class="my-bk-input-icon">📱</span>
+        <input type="tel" id="mbPhoneInput" placeholder="Enter phone number (e.g. 93706 55832) or TRT-XXXXX" maxlength="25">
+      </div>
+      <button type="button" id="mbSearchBtn" class="my-bk-search-btn">Track</button>
+    </div>
+
+    <div id="mbResultsList" class="my-bk-list">
+      <div class="empty-state">
+        <div style="margin-bottom:12px;color:var(--text-muted);">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <strong>No reservations loaded yet</strong>
+        <p>Enter your 10-digit phone number or Reference ID above to track your booking from any device.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="attractions.js?v=20261103_05"></script>
+<script>
+  // Sticky header shrink on scroll
+  const siteHeader = document.getElementById('siteHeader');
+  if (siteHeader) {
+    const updateHeaderShrink = () => {
+      siteHeader.classList.toggle('shrink', window.scrollY > 30);
+    };
+    window.addEventListener('scroll', updateHeaderShrink, { passive: true });
+    updateHeaderShrink();
+  }
+
+  // Mobile navigation menu toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      navToggle.textContent = isOpen ? '✕' : '☰';
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        if (a.id === 'myBookingsLink') return;
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
+        navToggle.textContent = '☰';
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // Reveal animations observer (supports both is-visible and visible)
+  function observeReveals() {
+    const els = document.querySelectorAll('.reveal:not(.is-visible)');
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible', 'visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+    els.forEach(el => observer.observe(el));
+  }
+  document.addEventListener('DOMContentLoaded', observeReveals);
+
+  // Direct render fallback to guarantee 12 Talukas render immediately
+  if (typeof renderTalukasGrid === 'function') {
+    renderTalukasGrid();
+  }
+  if (typeof setupAttractionsEvents === 'function') {
+    setupAttractionsEvents();
+  }
+  window.addEventListener('load', () => {
+    if (typeof renderTalukasGrid === 'function') renderTalukasGrid();
+    if (typeof setupAttractionsEvents === 'function') setupAttractionsEvents();
+    observeReveals();
+  });
+
+  /* =========================================================
+     MY BOOKINGS LOOKUP
+     ========================================================= */
+  const BOOKINGS_KEY = "tourent_bookings";
+  const myBookingsModal = document.getElementById('myBookingsModal');
+  const myBookingsLink = document.getElementById('myBookingsLink');
+  const mbCloseBtn = document.getElementById('mbCloseBtn');
+  const mbPhoneInput = document.getElementById('mbPhoneInput');
+  const mbSearchBtn = document.getElementById('mbSearchBtn');
+  const mbResultsList = document.getElementById('mbResultsList');
+
+  function getStoredBookings() {
+    try {
+      const data = localStorage.getItem(BOOKINGS_KEY);
+      if (!data) return [];
+      const parsed = JSON.parse(data);
+      if (!Array.isArray(parsed)) return [];
+      const clean = parsed.filter(b => b && (b.referenceId || b.id) && !(b.referenceId || b.id).startsWith('TRT-SEC-') && !(b.referenceId || b.id).startsWith('TEST-'));
+      if (clean.length !== parsed.length) {
+        localStorage.setItem(BOOKINGS_KEY, JSON.stringify(clean));
+      }
+      return clean;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function formatBookedOnDate(val) {
+    if (!val) return 'Recent';
+    const d = new Date(val);
+    if (isNaN(d.getTime())) return 'Recent';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const day = d.getDate();
+    const month = months[d.getMonth()];
+    const year = d.getFullYear();
+    let hours = d.getHours();
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    return `${day} ${month} ${year}, ${hours}:${minutes} ${ampm}`;
+  }
+
+  function refreshBookingCount() {
+    const list = getStoredBookings();
+    const countBadge = document.getElementById('bookingCount');
+    if (countBadge) {
+      if (list.length > 0) {
+        countBadge.textContent = list.length;
+        countBadge.hidden = false;
+      } else {
+        countBadge.hidden = true;
+      }
+    }
+  }
+
+  function openMbModal() {
+    if (myBookingsModal) {
+      myBookingsModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      renderMyBookings();
+    }
+  }
+
+  function closeMbModal() {
+    if (myBookingsModal) {
+      myBookingsModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  myBookingsLink?.addEventListener('click', (e) => { e.preventDefault(); openMbModal(); });
+  mbCloseBtn?.addEventListener('click', closeMbModal);
+  myBookingsModal?.addEventListener('click', (e) => { if (e.target === myBookingsModal) closeMbModal(); });
+
+  function renderMyBookings(items = null) {
+    if (!mbResultsList) return;
+    const list = items || getStoredBookings();
+    if (!list || list.length === 0) {
+      mbResultsList.innerHTML = `
+        <div class="empty-state">
+          <div style="margin-bottom:12px;color:var(--text-muted);">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <strong>No reservations found</strong>
+          <p>Enter your 10-digit phone number or Reference ID above to track your booking.</p>
+        </div>
+      `;
+      return;
+    }
+
+    mbResultsList.innerHTML = list.map(b => {
+      const isConfirmed = b.status && b.status.toLowerCase() === "confirmed";
+      const isCancelled = b.status && (b.status.toLowerCase() === "cancelled" || b.status.toLowerCase() === "declined");
+      const isCompleted = b.status && b.status.toLowerCase() === "completed";
+      const statusClass = isConfirmed ? "status-confirmed" : (isCancelled ? "status-cancelled" : (isCompleted ? "status-completed" : "status-pending"));
+      const statusIcon = isConfirmed ? "✓" : (isCancelled ? "✕" : (isCompleted ? "★" : ""));
+
+      return `
+      <div class="booking-entry" style="margin-bottom:12px;">
+        <div class="booking-entry-head" style="margin-bottom:8px;">
+          <div>
+            <strong class="booking-ref" style="font-size:15px;color:var(--ink-blue);">#${(b.id || b.referenceId || 'TRT-REF').replace(/^#/, '')}</strong>
+            <div class="booking-entry-date">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span class="booked-label">Booked on:</span> <strong class="booked-val">${formatBookedOnDate(b.createdAt || b.bookedAt || b.date)}</strong>
+            </div>
+          </div>
+          <span class="booking-entry-status ${statusClass}">${statusIcon} ${b.status || 'Confirmed'}</span>
+        </div>
+        <div style="font-weight:700;font-size:14px;color:var(--ink-blue);margin-bottom:4px;">🚗 ${b.vehicle || (b.vehicles && b.vehicles.map(v => v.name).join(', ')) || 'Vehicle Rental'}</div>
+        <div style="font-size:12.5px;color:#475569;">
+          <span>📅 ${b.pickupDate || b.startDate || '—'} to ${b.returnDate || b.endDate || '—'}</span>
+        </div>
+      </div>
+    `;
+    }).join('');
+  }
+
+  async function performMbSearch() {
+    if (!mbPhoneInput || !mbResultsList) return;
+    const q = mbPhoneInput.value.trim();
+    if (!q) {
+      renderMyBookings();
+      return;
+    }
+    mbResultsList.innerHTML = `<div style="text-align:center;padding:24px;color:#64748b;">Searching reservations...</div>`;
+    try {
+      const res = await fetch(`/api/bookings?phone=${encodeURIComponent(q)}`);
+      const data = await res.json();
+      if (data && data.success && data.data) {
+        renderMyBookings(Array.isArray(data.data) ? data.data : [data.data]);
+      } else {
+        renderMyBookings([]);
+      }
+    } catch (e) {
+      renderMyBookings(getStoredBookings().filter(b => (b.phone && b.phone.includes(q)) || (b.id && b.id.includes(q))));
+    }
+  }
+
+  mbSearchBtn?.addEventListener('click', performMbSearch);
+  mbPhoneInput?.addEventListener('keydown', (e) => { if (e.key === 'Enter') performMbSearch(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMbModal();
+  });
+
+  refreshBookingCount();
+</script>
+</body>
+</html>

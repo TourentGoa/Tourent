@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airport Taxis &amp; Transfers — Tourent Goa</title>
+<meta name="description" content="Guaranteed airport taxi pickups from Dabolim (GOI) and Mopa (GOX) airports across Goa. Fixed transparent rates, flight tracking, and instant WhatsApp booking.">
+
+<!-- Favicon & App Icons -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png?v=4">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=4">
+<link rel="shortcut icon" href="favicon.ico?v=4">
+<meta name="theme-color" content="#0e3552">
+
+<!-- OpenGraph / Facebook / WhatsApp Preview -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tourent.in/taxis.html">
+<meta property="og:site_name" content="Tourent Goa">
+<meta property="og:title" content="Airport Taxis &amp; Chauffeur Transfers — Tourent Goa">
+<meta property="og:description" content="Fixed transparent rates from Mopa (GOX) &amp; Dabolim (GOI) airports to any destination in North &amp; South Goa. On-time flight tracking &amp; instant booking.">
+<meta property="og:image" content="https://tourent.in/og-image.png">
+<meta property="og:image:secure_url" content="https://tourent.in/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Airport Taxis &amp; Chauffeur Transfers — Tourent Goa">
+<meta name="twitter:description" content="Fixed transparent rates from Mopa &amp; Dabolim airports. Flight tracking &amp; instant booking.">
+<meta name="twitter:image" content="https://tourent.in/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Page specific styles for Airport Taxi section */
+  .taxi-hero-banner {
+    position: relative;
+    background: radial-gradient(1100px 600px at 15% -10%, #164a6b 0%, var(--ink-blue) 55%, #0a2540 100%);
+    padding: 72px 0 54px;
+    color: var(--foam);
+    overflow: hidden;
+  }
+  .taxi-hero-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .taxi-hero-inner .eyebrow {
+    color: var(--gold);
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .taxi-hero-inner .eyebrow::before {
+    background: var(--gold);
+  }
+  .taxi-hero-inner h1 {
+    font-family: var(--display);
+    font-size: clamp(30px, 4.5vw, 46px);
+    font-weight: 800;
+    color: var(--foam);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .taxi-breadcrumbs {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,253,248,0.65);
+    margin-bottom: 20px;
+  }
+  .taxi-breadcrumbs a {
+    color: var(--foam);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .taxi-breadcrumbs a:hover { color: var(--gold); }
+  .taxi-breadcrumbs span { color: var(--gold); }
+
+  .taxi-intro-desc {
+    font-size: 15px;
+    line-height: 1.65;
+    color: rgba(255,253,248,0.85);
+    max-width: 820px;
+    margin: 0 auto 28px;
+  }
+
+  .airport-highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .airport-highlight-item {
+    background: rgba(255,253,248,0.06);
+    border: 1px solid rgba(255,253,248,0.12);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .airport-highlight-item strong {
+    display: block;
+    font-size: 13.5px;
+    color: var(--foam);
+    margin-bottom: 2px;
+  }
+  .airport-highlight-item span {
+    font-size: 12px;
+    color: rgba(255,253,248,0.65);
+    line-height: 1.4;
+    display: block;
+  }
+
+  /* Fast booking action bar */
+  .fast-desk-bar {
+    background: var(--foam);
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    max-width: 1060px;
+    margin: -24px auto 44px;
+    padding: 18px 24px;
+    box-shadow: 0 12px 30px rgba(14,53,82,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    position: relative;
+    z-index: 10;
+  }
+  .fast-desk-bar h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink-blue);
+  }
+  .fast-desk-bar p {
+    font-size: 13px;
+    color: #5a6c78;
+    margin-top: 2px;
+  }
+  .fast-desk-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn-desk-wa {
+    background: #1f9d55;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+  .btn-desk-wa:hover {
+    background: #167a42;
+    transform: translateY(-1px);
+  }
+  .btn-desk-phone {
+    background: var(--ink-blue);
+    color: var(--foam);
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease;
+  }
+  .btn-desk-phone:hover {
+    background: #164a6b;
+  }
+
+  /* Airport Rates Section */
+  .taxi-section-container {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+  .taxi-section-head {
+    margin-bottom: 32px;
+  }
+  .taxi-section-head h2 {
+    font-family: var(--display);
+    font-size: 26px;
+    color: var(--ink-blue);
+    margin-bottom: 6px;
+  }
+  .taxi-section-head p {
+    font-size: 14px;
+    color: #5a6c78;
+  }
+
+  /* Detailed Taxi Cards */
+  .taxi-tariff-card {
+    background: #ffffff;
+    border: 1.5px solid var(--line);
+    border-radius: 18px;
+    padding: 22px 24px;
+    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+    align-items: center;
+    box-shadow: 0 4px 16px rgba(14,53,82,0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .taxi-tariff-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(14,53,82,0.06);
+    border-color: var(--tile-blue);
+  }
+  .taxi-media-wrap {
+    text-align: center;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .taxi-media-wrap img {
+    max-width: 100%;
+    height: 110px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.10));
+    transform: none;
+    transition: transform 0.3s ease;
+  }
+  .taxi-tariff-card:hover .taxi-media-wrap img {
+    transform: scale(1.05);
+  }
+  .taxi-cap-tag {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--tile-blue);
+    background: #eaf3f8;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-family: var(--mono);
+  }
+
+  .taxi-details-wrap h3 {
+    font-family: var(--display);
+    font-size: 18px;
+    color: var(--ink-blue);
+    margin-bottom: 10px;
+  }
+
+  /* Table styling */
+  .tariff-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #d4dfe7;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+  .tariff-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    text-align: center;
+    background: #ffffff;
+  }
+  .tariff-table th, .tariff-table td {
+    border: 1px solid #d4dfe7;
+    padding: 7px 10px;
+  }
+  .tariff-table thead th {
+    background: #f8fafc;
+    color: #334155;
+    font-weight: 600;
+    font-size: 11.5px;
+  }
+  .tariff-table tbody td {
+    font-weight: 700;
+    color: var(--ink-blue);
+    font-size: 13px;
+  }
+  .tariff-table .tour-strip td {
+    background: #f8fafc;
+    font-weight: 700;
+    color: var(--ink-blue);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .taxi-card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .taxi-rating {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 500;
+  }
+  .taxi-rating .stars {
+    color: var(--gold);
+    margin-right: 4px;
+  }
+  .taxi-btns {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-enquire-cab {
+    background: var(--ink-blue);
+    color: var(--foam);
+    border: none;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  .btn-enquire-cab:hover { background: #164a6b; }
+  .btn-wa-cab {
+    background: #1f9d55;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.2s ease;
+  }
+  .btn-wa-cab:hover { background: #167a42; }
+
+  /* Modal */
+  .modal-overlay-cab {
+    position: fixed;
+    inset: 0;
+    background: rgba(14,53,82,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay-cab.open { display: flex; }
+  .modal-box-cab {
+    background: #ffffff;
+    border-radius: 20px;
+    max-width: 460px;
+    width: 100%;
+    padding: 28px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    position: relative;
+  }
+  .modal-box-cab h3 {
+    font-family: var(--display);
+    font-size: 19px;
+    color: var(--ink-blue);
+    margin-bottom: 4px;
+  }
+  .modal-box-cab p {
+    font-size: 13px;
+    color: #5a6c78;
+    margin-bottom: 18px;
+  }
+  .modal-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 480px) {
+    .modal-grid-2 {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+  }
+  .modal-field {
+    margin-bottom: 14px;
+    text-align: left;
+  }
+  .modal-grid-2 .modal-field {
+    margin-bottom: 0;
+  }
+  .modal-field label {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #5a6c78;
+    margin-bottom: 6px;
+  }
+  .modal-field select, .modal-field input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-family: inherit;
+    outline: none;
+    background: #ffffff;
+    box-sizing: border-box;
+  }
+  .modal-field select:focus, .modal-field input:focus {
+    border-color: var(--tile-blue);
+  }
+  .modal-actions-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .btn-modal-submit-wa {
+    background: #1f9d55;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .btn-modal-submit-wa:hover { background: #167a42; }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 992px) {
+    .taxi-hero-banner { padding: 56px 0 42px; }
+    .fast-desk-bar { margin: -20px 20px 36px; }
+  }
+
+  @media (max-width: 768px) {
+    .taxi-hero-banner { padding: 44px 0 32px; }
+    .taxi-hero-inner h1 { font-size: clamp(24px, 5.5vw, 34px); }
+    .taxi-intro-desc { font-size: 14px; line-height: 1.55; margin-bottom: 20px; }
+    .airport-highlights-grid { grid-template-columns: 1fr; gap: 8px; }
+    .fast-desk-bar {
+      margin: -16px 14px 28px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+      gap: 12px;
+    }
+    .fast-desk-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+    .btn-desk-wa, .btn-desk-phone {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .taxi-section-container { padding: 0 14px 60px; }
+    .taxi-tariff-card {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 18px 16px;
+      border-radius: 16px;
+    }
+    .taxi-media-wrap {
+      padding: 6px;
+    }
+    .taxi-media-wrap img {
+      height: 95px;
+      transform: none;
+    }
+    .tariff-table-wrap {
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .tariff-table {
+      min-width: 310px;
+      font-size: 11px;
+    }
+    .tariff-table th, .tariff-table td {
+      padding: 6px 7px;
+    }
+    .tariff-table thead th {
+      font-size: 10.5px;
+    }
+    .tariff-table tbody td {
+      font-size: 11.5px;
+    }
+    .taxi-card-foot {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+    .taxi-rating {
+      text-align: center;
+    }
+    .taxi-btns {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+    .btn-enquire-cab, .btn-wa-cab {
+      flex: 1;
+      justify-content: center;
+      text-align: center;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      box-sizing: border-box;
+    }
+    .modal-box-cab {
+      padding: 22px 16px;
+      border-radius: 16px;
+      width: 94vw;
+      max-width: 440px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .taxi-hero-inner h1 { font-size: 23px; }
+    .taxi-btns {
+      flex-direction: column;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SITE HEADER ============ -->
+<header id="siteHeader">
+  <nav class="nav">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">T</span>
+      <span class="logo-text">Tourent</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#fleet">Fleet</a></li>
+      <li><a href="taxis.html" style="color:var(--gold);font-weight:600;">Airport Taxis</a></li>
+      <li><a href="index.html#estimator">Budget Estimator</a></li>
+      <li><a href="attractions.html">Attractions</a></li>
+      <li><a href="help.html">Help &amp; FAQ</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="#" id="myBookingsLink"><span>My Bookings</span> <span id="bookingCount" class="badge-count" hidden>0</span></a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="tel:+919322730029" class="nav-cta" style="text-decoration:none;display:inline-block;padding:9px 18px;font-size:13px;">Call Desk</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" style="cursor:pointer;">☰</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ HERO BANNER ============ -->
+  <section class="taxi-hero-banner">
+    <div class="taxi-hero-inner">
+      <div class="eyebrow">Airport Transfer Desk · Dabolim &amp; Mopa</div>
+      <h1>Airport Taxis in Goa</h1>
+      <div class="taxi-breadcrumbs">
+        <a href="index.html">Home</a> / <span>Airport Taxis</span>
+      </div>
+
+      <p class="taxi-intro-desc">
+        Pre-book a reliable airport pickup from Dabolim Airport (GOI) or Manohar International Airport, Mopa (GOX) direct to your hotel or villa. Clean air-conditioned vehicles, professional local chauffeurs, and transparent fixed pricing with zero surge.
+      </p>
+
+      <div class="airport-highlights-grid">
+        <div class="airport-highlight-item">
+          <strong>Arrivals Name-Board</strong>
+          <span>Chauffeur meets you at the airport exit</span>
+        </div>
+        <div class="airport-highlight-item">
+          <strong>Flight Delay Tracking</strong>
+          <span>Zero waiting fees on delayed flights</span>
+        </div>
+        <div class="airport-highlight-item">
+          <strong>Transparent Fixed Tariff</strong>
+          <span>No surge pricing or hidden toll charges</span>
+        </div>
+        <div class="airport-highlight-item">
+          <strong>Direct WhatsApp Confirmation</strong>
+          <span>Instant booking without form friction</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fast Action Desk Bar -->
+  <div class="fast-desk-bar">
+    <div>
+      <h3>Direct Airport Desk Booking</h3>
+      <p>Share your flight number and destination with our coordinator for instant driver allocation.</p>
+    </div>
+    <div class="fast-desk-actions">
+      <a href="tel:+919322730029" class="btn-desk-phone">Call +91 93227 30029</a>
+      <a href="https://api.whatsapp.com/send/?phone=919322730029&text=Hi%20Tourent%2C%20I%20need%20an%20Airport%20Taxi%20Pickup%20in%20Goa.&type=phone_number&app_absent=0" target="_blank" rel="noopener" class="btn-desk-wa">WhatsApp Booking</a>
+    </div>
+  </div>
+
+  <div class="taxi-section-container">
+
+    <!-- ============ VEHICLE TARIFF CARDS ============ -->
+    <div class="taxi-section-head">
+      <h2>Airport Fleet &amp; Disposal Tariff</h2>
+      <p>Hourly rates and day packages for airport disposal and sightseeing</p>
+    </div>
+
+    <!-- Swift Dzire -->
+    <div class="taxi-tariff-card">
+      <div class="taxi-media-wrap">
+        <img src="images/swift.png" alt="Swift Dzire">
+        <div class="taxi-cap-tag">4 Passengers + 1 Driver</div>
+      </div>
+      <div class="taxi-details-wrap">
+        <h3>Swift Dzire</h3>
+        <div class="tariff-table-wrap">
+          <table class="tariff-table">
+            <thead>
+              <tr>
+                <th>8 Hrs / 80 kms</th>
+                <th>Extra Km above 80 km</th>
+                <th>Extra hr. above 8 hr</th>
+                <th colspan="2">Driver Night Charges</th>
+              </tr>
+              <tr>
+                <th colspan="3" style="display:none;"></th>
+                <th style="background:#f1f5f9;font-size:11px;">6 PM to 11 PM</th>
+                <th style="background:#f1f5f9;font-size:11px;">After 12:00 Night</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>₹ 2,500</td>
+                <td>₹ 18</td>
+                <td>₹ 200</td>
+                <td>₹ 300</td>
+                <td>₹ 500</td>
+              </tr>
+              <tr class="tour-strip">
+                <td colspan="3">North Goa Tour: ₹ 2,000</td>
+                <td colspan="2">South Goa Tour: ₹ 2,500</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="taxi-card-foot">
+          <div class="taxi-rating"><span class="stars">★★★★★</span> 4.9 (50+ Airport Pickups)</div>
+          <div class="taxi-btns">
+            <a href="tel:+919322730029" class="btn-enquire-cab">Call Desk</a>
+            <button type="button" class="btn-wa-cab" onclick="openCabModal('Swift Dzire')">Book via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toyota Etios -->
+    <div class="taxi-tariff-card">
+      <div class="taxi-media-wrap">
+        <img src="images/toyota etios.png" alt="Toyota Etios">
+        <div class="taxi-cap-tag">4 Passengers + 1 Driver</div>
+      </div>
+      <div class="taxi-details-wrap">
+        <h3>Toyota Etios</h3>
+        <div class="tariff-table-wrap">
+          <table class="tariff-table">
+            <thead>
+              <tr>
+                <th>8 Hrs / 80 kms</th>
+                <th>Extra Km above 80 km</th>
+                <th>Extra hr. above 8 hr</th>
+                <th colspan="2">Driver Night Charges</th>
+              </tr>
+              <tr>
+                <th colspan="3" style="display:none;"></th>
+                <th style="background:#f1f5f9;font-size:11px;">6 PM to 11 PM</th>
+                <th style="background:#f1f5f9;font-size:11px;">After 12:00 Night</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>₹ 2,500</td>
+                <td>₹ 18</td>
+                <td>₹ 200</td>
+                <td>₹ 300</td>
+                <td>₹ 500</td>
+              </tr>
+              <tr class="tour-strip">
+                <td colspan="3">North Goa Tour: ₹ 2,000</td>
+                <td colspan="2">South Goa Tour: ₹ 2,500</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="taxi-card-foot">
+          <div class="taxi-rating"><span class="stars">★★★★★</span> 4.8 (40+ Airport Pickups)</div>
+          <div class="taxi-btns">
+            <a href="tel:+919322730029" class="btn-enquire-cab">Call Desk</a>
+            <button type="button" class="btn-wa-cab" onclick="openCabModal('Toyota Etios')">Book via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Maruti Suzuki Ertiga -->
+    <div class="taxi-tariff-card">
+      <div class="taxi-media-wrap">
+        <img src="images/ertiga.png" alt="Maruti Suzuki Ertiga">
+        <div class="taxi-cap-tag">6 Passengers + 1 Driver</div>
+      </div>
+      <div class="taxi-details-wrap">
+        <h3>Maruti Suzuki Ertiga</h3>
+        <div class="tariff-table-wrap">
+          <table class="tariff-table">
+            <thead>
+              <tr>
+                <th>8 Hrs / 80 kms</th>
+                <th>Extra Km above 80 km</th>
+                <th>Extra hr. above 8 hr</th>
+                <th colspan="2">Driver Night Charges</th>
+              </tr>
+              <tr>
+                <th colspan="3" style="display:none;"></th>
+                <th style="background:#f1f5f9;font-size:11px;">6 PM to 11 PM</th>
+                <th style="background:#f1f5f9;font-size:11px;">After 12:00 Night</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>₹ 3,000</td>
+                <td>₹ 25</td>
+                <td>₹ 200</td>
+                <td>₹ 300</td>
+                <td>₹ 500</td>
+              </tr>
+              <tr class="tour-strip">
+                <td colspan="3">North Goa Tour: ₹ 2,500</td>
+                <td colspan="2">South Goa Tour: ₹ 3,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="taxi-card-foot">
+          <div class="taxi-rating"><span class="stars">★★★★★</span> 4.9 (65+ Airport Pickups)</div>
+          <div class="taxi-btns">
+            <a href="tel:+919322730029" class="btn-enquire-cab">Call Desk</a>
+            <button type="button" class="btn-wa-cab" onclick="openCabModal('Maruti Suzuki Ertiga')">Book via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kia Carens -->
+    <div class="taxi-tariff-card">
+      <div class="taxi-media-wrap">
+        <img src="images/carens.png" alt="Kia Carens">
+        <div class="taxi-cap-tag">6 Passengers + 1 Driver</div>
+      </div>
+      <div class="taxi-details-wrap">
+        <h3>Kia Carens</h3>
+        <div class="tariff-table-wrap">
+          <table class="tariff-table">
+            <thead>
+              <tr>
+                <th>8 Hrs / 80 kms</th>
+                <th>Extra Km above 80 km</th>
+                <th>Extra hr. above 8 hr</th>
+                <th colspan="2">Driver Night Charges</th>
+              </tr>
+              <tr>
+                <th colspan="3" style="display:none;"></th>
+                <th style="background:#f1f5f9;font-size:11px;">6 PM to 11 PM</th>
+                <th style="background:#f1f5f9;font-size:11px;">After 12:00 Night</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>₹ 3,200</td>
+                <td>₹ 25</td>
+                <td>₹ 250</td>
+                <td>₹ 300</td>
+                <td>₹ 500</td>
+              </tr>
+              <tr class="tour-strip">
+                <td colspan="3">North Goa Tour: ₹ 2,800</td>
+                <td colspan="2">South Goa Tour: ₹ 3,200</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="taxi-card-foot">
+          <div class="taxi-rating"><span class="stars">★★★★★</span> 4.9 (45+ Airport Pickups)</div>
+          <div class="taxi-btns">
+            <a href="tel:+919322730029" class="btn-enquire-cab">Call Desk</a>
+            <button type="button" class="btn-wa-cab" onclick="openCabModal('Kia Carens')">Book via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toyota Innova Crysta -->
+    <div class="taxi-tariff-card">
+      <div class="taxi-media-wrap">
+        <img src="images/crysta.png" alt="Toyota Innova Crysta">
+        <div class="taxi-cap-tag">6 Passengers + 1 Driver</div>
+      </div>
+      <div class="taxi-details-wrap">
+        <h3>Toyota Innova Crysta</h3>
+        <div class="tariff-table-wrap">
+          <table class="tariff-table">
+            <thead>
+              <tr>
+                <th>8 Hrs / 80 kms</th>
+                <th>Extra Km above 80 km</th>
+                <th>Extra hr. above 8 hr</th>
+                <th colspan="2">Driver Night Charges</th>
+              </tr>
+              <tr>
+                <th colspan="3" style="display:none;"></th>
+                <th style="background:#f1f5f9;font-size:11px;">6 PM to 11 PM</th>
+                <th style="background:#f1f5f9;font-size:11px;">After 12:00 Night</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>₹ 3,500</td>
+                <td>₹ 30</td>
+                <td>₹ 300</td>
+                <td>₹ 300</td>
+                <td>₹ 500</td>
+              </tr>
+              <tr class="tour-strip">
+                <td colspan="3">North Goa Tour: ₹ 3,500</td>
+                <td colspan="2">South Goa Tour: ₹ 4,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="taxi-card-foot">
+          <div class="taxi-rating"><span class="stars">★★★★★</span> 5.0 (80+ Airport Pickups)</div>
+          <div class="taxi-btns">
+            <a href="tel:+919322730029" class="btn-enquire-cab">Call Desk</a>
+            <button type="button" class="btn-wa-cab" onclick="openCabModal('Toyota Innova Crysta')">Book via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toyota Innova Hycross -->
+    <div class="taxi-tariff-card">
+      <div class="taxi-media-wrap">
+        <img src="images/hycross.png" alt="Toyota Innova Hycross">
+        <div class="taxi-cap-tag">6 Passengers + 1 Driver</div>
+      </div>
+      <div class="taxi-details-wrap">
+        <h3>Toyota Innova Hycross (Hybrid / VIP)</h3>
+        <div class="tariff-table-wrap">
+          <table class="tariff-table">
+            <thead>
+              <tr>
+                <th>8 Hrs / 80 kms</th>
+                <th>Extra Km above 80 km</th>
+                <th>Extra hr. above 8 hr</th>
+                <th colspan="2">Driver Night Charges</th>
+              </tr>
+              <tr>
+                <th colspan="3" style="display:none;"></th>
+                <th style="background:#f1f5f9;font-size:11px;">6 PM to 11 PM</th>
+                <th style="background:#f1f5f9;font-size:11px;">After 12:00 Night</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>₹ 4,500</td>
+                <td>₹ 35</td>
+                <td>₹ 350</td>
+                <td>₹ 300</td>
+                <td>₹ 500</td>
+              </tr>
+              <tr class="tour-strip">
+                <td colspan="3">North Goa Tour: ₹ 4,000</td>
+                <td colspan="2">South Goa Tour: ₹ 4,500</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="taxi-card-foot">
+          <div class="taxi-rating"><span class="stars">★★★★★</span> 5.0 (95+ VIP Airport Pickups)</div>
+          <div class="taxi-btns">
+            <a href="tel:+919322730029" class="btn-enquire-cab">Call Desk</a>
+            <button type="button" class="btn-wa-cab" onclick="openCabModal('Toyota Innova Hycross')">Book via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Modal for WhatsApp Booking -->
+<div class="modal-overlay-cab" id="cabModal">
+  <div class="modal-box-cab">
+    <button type="button" id="closeCabModal" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:18px;cursor:pointer;color:#64748b;">✕</button>
+    <h3 id="modalCabTitle">Book Airport Taxi</h3>
+    <p>Direct WhatsApp booking with Tourent Airport Desk</p>
+
+    <div class="modal-field">
+      <label for="modalAirport">Pickup Airport</label>
+      <select id="modalAirport">
+        <option value="Dabolim Airport (GOI)">Dabolim Airport (GOI) — South &amp; Central Goa</option>
+        <option value="Mopa Airport (GOX)">Manohar International Airport, Mopa (GOX) — North Goa</option>
+      </select>
+    </div>
+
+    <div class="modal-field">
+      <label for="modalDropLocation">Hotel / Drop Location in Goa</label>
+      <input type="text" id="modalDropLocation" placeholder="e.g. Calangute, Baga, Candolim, Panaji, Morjim">
+    </div>
+
+    <div class="modal-grid-2">
+      <div class="modal-field">
+        <label for="modalDate">Pickup Date</label>
+        <input type="date" id="modalDate">
+      </div>
+      <div class="modal-field">
+        <label for="modalTime">Pickup Time</label>
+        <input type="time" id="modalTime" value="12:00">
+      </div>
+    </div>
+
+    <div class="modal-field">
+      <label for="modalFlight">Flight Number <span style="font-weight:400;color:#8a99a8;text-transform:none;">(Optional)</span></label>
+      <input type="text" id="modalFlight" placeholder="e.g. 6E-512 (Optional for delay tracking)">
+    </div>
+
+    <div class="modal-actions-stack">
+      <button type="button" class="btn-modal-submit-wa" id="sendCabWhatsApp">Send WhatsApp Booking</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MY BOOKINGS MODAL (CLOUD PHONE LOOKUP) ============ -->
+<div class="modal-overlay" id="myBookingsOverlay">
+  <div class="modal my-bookings-modal" role="dialog" aria-modal="true" aria-labelledby="myBookingsTitle">
+    <button class="modal-close" id="myBookingsClose" aria-label="Close my bookings" type="button">✕</button>
+    <div class="modal-head">
+      <div class="eyebrow" style="margin-bottom:6px;">Live Cloud Lookup</div>
+      <h3 id="myBookingsTitle">Track &amp; View My Bookings</h3>
+      <p style="font-size:13px;color:#64748b;margin-top:4px;">Enter your phone number or reference ID to fetch your reservations from the cloud.</p>
+    </div>
+
+    <!-- Phone / Reference Lookup Bar -->
+    <div class="my-bk-lookup-bar">
+      <div class="my-bk-input-wrap">
+        <span class="my-bk-input-icon">📱</span>
+        <input type="tel" id="myBkPhoneInput" placeholder="Enter phone number (e.g. 93706 55832) or TRT-XXXXX" maxlength="25">
+      </div>
+      <button type="button" id="myBkSearchBtn" class="my-bk-search-btn">Track</button>
+    </div>
+
+    <div id="myBookingsList" class="my-bk-list">
+      <div class="empty-state">
+        <div style="margin-bottom:12px;color:var(--text-muted);">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <strong>No reservations loaded yet</strong>
+        <p>Enter your 10-digit phone number or Reference ID above to track your booking from any device.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer id="contact" style="background:var(--ink-blue);color:var(--foam);padding:40px 20px;text-align:center;font-size:13px;border-top:1px solid rgba(255,255,255,0.08);">
+  <p>© 2026 Tourent Goa — Airport Taxi &amp; Chauffeur Desk. <a href="index.html" style="color:var(--gold);text-decoration:none;margin-left:8px;">Switch to Self-Drive Fleet →</a> · <a href="help.html" style="color:var(--gold);text-decoration:none;margin-left:8px;">Help &amp; FAQs →</a> · <a href="https://www.instagram.com/tourentgoa?utm_source=qr" target="_blank" rel="noopener" style="color:#f39c12;text-decoration:none;margin-left:8px;font-weight:600;display:inline-flex;align-items:center;gap:4px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> <span>Instagram: @tourentgoa</span></a></p>
+</footer>
+
+<script>
+  const PHONE_NUMBER = "919322730029";
+  let activeCab = "Swift Dzire";
+
+  const modal = document.getElementById('cabModal');
+  const title = document.getElementById('modalCabTitle');
+  const airportEl = document.getElementById('modalAirport');
+  const dropEl = document.getElementById('modalDropLocation');
+  const dateEl = document.getElementById('modalDate');
+  const timeEl = document.getElementById('modalTime');
+  const flightEl = document.getElementById('modalFlight');
+
+  // Initialize date picker with today's date as min and default
+  const todayStr = new Date().toISOString().split('T')[0];
+  if (dateEl) {
+    dateEl.min = todayStr;
+    dateEl.value = todayStr;
+  }
+
+  function openCabModal(cabName) {
+    activeCab = cabName;
+    title.textContent = `Book: ${cabName}`;
+    modal.classList.add('open');
+  }
+
+  document.getElementById('closeCabModal').addEventListener('click', () => {
+    modal.classList.remove('open');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('open');
+  });
+
+  // Sticky header shrink on scroll
+  const siteHeader = document.getElementById('siteHeader');
+  if (siteHeader) {
+    const updateHeaderShrink = () => {
+      siteHeader.classList.toggle('shrink', window.scrollY > 30);
+    };
+    window.addEventListener('scroll', updateHeaderShrink, { passive: true });
+    updateHeaderShrink();
+  }
+
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      navToggle.textContent = isOpen ? '✕' : '☰';
+    });
+
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
+        navToggle.textContent = '☰';
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && e.target !== navToggle) {
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
+        navToggle.textContent = '☰';
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Header shrink on scroll (matching home page)
+  const headerEl = document.querySelector('header');
+  window.addEventListener('scroll', () => {
+    if (headerEl) {
+      headerEl.classList.toggle('shrink', window.scrollY > 40);
+    }
+  }, { passive: true });
+
+  function formatTimeDisplay(timeStr) {
+    if (!timeStr) return "Flexible";
+    const parts = timeStr.split(':');
+    if (parts.length < 2) return timeStr;
+    let hour = parseInt(parts[0], 10);
+    const min = parts[1];
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12;
+    hour = hour ? hour : 12;
+    return `${hour}:${min} ${ampm}`;
+  }
+
+  function formatDateDisplay(dateStr) {
+    if (!dateStr) return "Upcoming";
+    try {
+      const [y, m, d] = dateStr.split('-');
+      const dateObj = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
+      return dateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch (e) {
+      return dateStr;
+    }
+  }
+
+  function buildWhatsAppUrl(phone, text) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => {});
+      }
+    } catch (e) {}
+    // Direct WhatsApp API endpoint avoids 'wa.me' proxy redirect which corrupts UTF-8 emojis into replacement diamonds
+    const encoded = encodeURIComponent(text);
+    return `https://api.whatsapp.com/send/?phone=${phone}&text=${encoded}&type=phone_number&app_absent=0`;
+  }
+
+  const API_BASE = (window.location.protocol === 'file:' || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && window.location.port && window.location.port !== '5001')) ? 'http://localhost:5001' : '';
+
+  document.getElementById('sendCabWhatsApp').addEventListener('click', () => {
+    const airport = airportEl.value;
+    const drop = dropEl.value.trim() || "Hotel / Resort in Goa";
+    const dateRaw = dateEl.value;
+    const dateFormatted = formatDateDisplay(dateRaw);
+    const timeFormatted = formatTimeDisplay(timeEl.value);
+    const flight = flightEl.value.trim();
+
+    // Async sync to MongoDB Atlas
+    fetch(`${API_BASE}/api/taxis`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        cabType: activeCab,
+        airport,
+        dropLocation: drop,
+        pickupDate: dateRaw || dateFormatted,
+        pickupTime: timeFormatted,
+        flightNumber: flight,
+        status: 'Pending confirmation'
+      })
+    }).catch(err => console.warn('Offline mode: Taxi request handled via WhatsApp'));
+
+    let text = `*Tourent Goa — Airport Taxi Booking Request*\n\n` +
+      `🚗 *Vehicle:* ${activeCab}\n` +
+      `📍 *Pickup Airport:* ${airport}\n` +
+      `🏨 *Drop Destination:* ${drop}\n` +
+      `📅 *Pickup Date:* ${dateFormatted}\n` +
+      `⏰ *Pickup Time:* ${timeFormatted}\n`;
+
+    if (flight) {
+      text += `✈️ *Flight No:* ${flight}\n`;
+    }
+
+    text += `\nPlease confirm availability, fixed rate, and chauffeur name-board greeting.`;
+
+    const waUrl = buildWhatsAppUrl(PHONE_NUMBER, text);
+    window.open(waUrl, '_blank', 'noopener');
+    modal.classList.remove('open');
+  });
+
+  /* =========================================================
+    MY BOOKINGS & RESERVATION SYNC IN TAXIS PAGE
+    ========================================================= */
+  const BOOKINGS_KEY = "tourent_bookings";
+  const myBookingsOverlay = document.getElementById('myBookingsOverlay');
+  const myBookingsLink = document.getElementById('myBookingsLink');
+  const mbCloseBtn = document.getElementById('myBookingsClose');
+  const mbPhoneInput = document.getElementById('myBkPhoneInput');
+  const mbSearchBtn = document.getElementById('myBkSearchBtn');
+  const mbResultsList = document.getElementById('myBookingsList');
+
+  function escapeHTML(str) {
+    if (str === null || str === undefined) return "";
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function formatBookedOnDate(val) {
+    if (!val) return 'Recent';
+    const d = new Date(val);
+    if (isNaN(d.getTime())) return 'Recent';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const day = d.getDate();
+    const month = months[d.getMonth()];
+    const year = d.getFullYear();
+    let hours = d.getHours();
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    return `${day} ${month} ${year}, ${hours}:${minutes} ${ampm}`;
+  }
+
+  function loadStoredBookings() {
+    try {
+      const raw = localStorage.getItem(BOOKINGS_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+      const clean = parsed.filter(b => b && (b.referenceId || b.id) && !(b.referenceId || b.id).startsWith('TRT-SEC-') && !(b.referenceId || b.id).startsWith('TEST-'));
+      if (clean.length !== parsed.length) {
+        localStorage.setItem(BOOKINGS_KEY, JSON.stringify(clean));
+      }
+      return clean;
+    } catch (err) {
+      console.error('Could not read saved bookings:', err);
+      return [];
+    }
+  }
+
+  function saveStoredBookings(list) {
+    try {
+      localStorage.setItem(BOOKINGS_KEY, JSON.stringify(list));
+    } catch (err) {
+      console.error('Could not save bookings:', err);
+    }
+    refreshBookingCount();
+  }
+
+  function refreshBookingCount() {
+    const list = loadStoredBookings();
+    const count = list.length;
+    const badge = document.getElementById('bookingCount');
+    if (badge) {
+      badge.textContent = count;
+      badge.hidden = count === 0;
+    }
+  }
+
+  function renderTaxiMyBookings(customList = null) {
+    if (!mbResultsList) return;
+    const list = customList !== null ? customList : loadStoredBookings();
+    if (list.length === 0) {
+      mbResultsList.innerHTML = `
+        <div class="empty-state">
+          <div style="margin-bottom:12px;color:var(--text-muted);">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <strong>No reservations found</strong>
+          <p>Enter your 10-digit phone number or Reference ID above to track your booking from any device.</p>
+        </div>
+      `;
+      return;
+    }
+
+    mbResultsList.innerHTML = list.map(b => {
+      const isConfirmed = b.status && b.status.toLowerCase() === "confirmed";
+      const isCancelled = b.status && (b.status.toLowerCase() === "cancelled" || b.status.toLowerCase() === "declined");
+      const isCompleted = b.status && b.status.toLowerCase() === "completed";
+      const statusClass = isConfirmed ? "status-confirmed" : (isCancelled ? "status-cancelled" : (isCompleted ? "status-completed" : "status-pending"));
+      const statusIcon = isConfirmed ? "✓" : (isCancelled ? "✕" : (isCompleted ? "★" : ""));
+
+      let statusLabel = "Pending Confirmation";
+      if (isConfirmed) {
+        statusLabel = "Confirmed by Admin";
+      } else if (isCompleted) {
+        statusLabel = "Trip Completed";
+      } else if (isCancelled) {
+        if (b.refundStatus === 'Pending Refund' || (b.refundEligible && b.refundStatus !== 'Refunded')) {
+          statusLabel = `Cancelled (100% Refund Queued: ₹${Number(b.refundAmount || b.advancePaid || 0).toLocaleString('en-IN')})`;
+        } else if (b.refundStatus === 'Refunded') {
+          statusLabel = `Cancelled (Refund Completed: ₹${Number(b.refundAmount || b.advancePaid || 0).toLocaleString('en-IN')})`;
+        } else if (b.refundStatus === 'Non-Refundable') {
+          statusLabel = "Cancelled (Non-Refundable)";
+        } else {
+          statusLabel = "Cancelled";
+        }
+      }
+
+      const safeId = escapeHTML(b.referenceId || b.id || '');
+      const custName = escapeHTML(b.name || 'Valued Guest');
+      const custPhone = escapeHTML(b.phone || '');
+      const safePickup = escapeHTML(b.pickupDate || '');
+      const safeDrop = escapeHTML(b.dropDate || b.returnDate || '');
+      const safeLoc = escapeHTML(b.location || b.pickupLocation || 'Goa Counter');
+      const isAdvancePaid = b.advancePaid && Number(b.advancePaid) > 0;
+      const advancePaid = Number(b.advancePaid || 0);
+      const totalAmount = Number(b.rentalTotal || b.total || 0);
+      const balanceAmount = Number(b.balanceAtPickup !== undefined ? b.balanceAtPickup : (totalAmount - advancePaid));
+
+      const chatMsg = isCancelled
+        ? encodeURIComponent(`Hi Tourent Goa, I cancelled my booking #${safeId.replace(/^#/, '')} (${custName}, Phone: ${custPhone}). Please confirm the cancellation and refund status.`)
+        : encodeURIComponent(`Hello Tourent Goa, I am inquiring about my booking #${safeId.replace(/^#/, '')} (${custName}, Phone: ${custPhone}).`);
+
+      let vehicleDetailsHTML = '';
+      if (Array.isArray(b.vehicles) && b.vehicles.length > 0) {
+        vehicleDetailsHTML = b.vehicles.map(v => {
+          const trans = v.transmission ? ` (${escapeHTML(v.transmission)})` : '';
+          const depStr = v.deposit ? ` + ₹${Number(v.deposit).toLocaleString('en-IN')} Ref. Deposit` : '';
+          return `<div style="font-size:12.5px;color:#334155;margin:3px 0;display:flex;align-items:center;gap:5px;">🚗 <span><strong>${escapeHTML(v.name)}</strong>${trans} · ${v.days || 1}d @ ₹${Number(v.price || 0).toLocaleString('en-IN')}/d${depStr}</span></div>`;
+        }).join('');
+      } else {
+        vehicleDetailsHTML = `<div style="font-size:13.5px;color:var(--ink-blue);font-weight:700;margin-bottom:4px;">🚗 ${escapeHTML(b.vehicle || b.vehicleName || 'Goa Rental Fleet')}</div>`;
+      }
+
+      return `
+        <div class="booking-entry" style="margin-bottom:12px;">
+          <div class="booking-entry-head" style="margin-bottom:8px;">
+            <div>
+              <strong class="booking-ref" style="font-size:15px;color:var(--ink-blue);">#${safeId.replace(/^#/, '')}</strong>
+              <div class="booking-entry-date">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span class="booked-label">Booked on:</span> <strong class="booked-val">${formatBookedOnDate(b.createdAt || b.bookedAt || b.date)}</strong>
+              </div>
+              <div style="font-size:11.5px;color:#64748b;margin-top:2px;">Guest: <strong>${custName}</strong> ${custPhone ? `· 📱 ${custPhone}` : ''}</div>
+            </div>
+            <span class="booking-entry-status ${statusClass}">${statusIcon} ${statusLabel}</span>
+          </div>
+          ${vehicleDetailsHTML}
+          ${safePickup || safeDrop ? `<div style="font-size:12.5px;color:#475569;margin-bottom:2px;">📅 <strong>${safePickup}</strong> ${safeDrop ? `→ <strong>${safeDrop}</strong>` : ''}</div>` : ''}
+          <div style="font-size:12.5px;color:#475569;">📍 Pickup: <strong>${safeLoc}</strong></div>
+          
+          <div style="margin-top:10px;padding-top:10px;border-top:1px dashed #e2e8f0;display:flex;justify-content:space-between;align-items:center;font-size:12.5px;">
+            <span>Paid: <strong style="color:#166534;">₹${advancePaid.toLocaleString('en-IN')}</strong></span>
+            <span style="color:var(--laterite);font-weight:700;">Balance at Pickup: ₹${Math.max(0, balanceAmount).toLocaleString('en-IN')}</span>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <a href="https://api.whatsapp.com/send/?phone=919322730029&text=${chatMsg}" target="_blank" rel="noopener" style="background:#dcfce7;color:#15803d;padding:6px 12px;border-radius:8px;font-size:11.5px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+              💬 WhatsApp Desk
+            </a>
+            ${!isCancelled && !isCompleted ? `<button type="button" class="booking-cancel" data-cancel="${safeId.replace(/^#/, '')}" data-advance="${advancePaid}" data-created="${b.createdAt || b.bookedAt || b.date || ''}" data-name="${custName}" data-phone="${custPhone}" data-vehicle="${escapeHTML(b.vehicle || b.vehicleName || 'Vehicle')}">Cancel booking</button>` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function openMbModal() {
+    const overlay = document.getElementById('myBookingsOverlay');
+    const input = document.getElementById('myBkPhoneInput');
+    if (overlay) {
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      const q = input ? input.value.trim() : '';
+      if (q) {
+        performTaxiMbSearch();
+      } else {
+        renderTaxiMyBookings();
+      }
+      if (input) input.focus();
+    }
+  }
+
+  function closeMbModal() {
+    const overlay = document.getElementById('myBookingsOverlay');
+    if (overlay) {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  myBookingsLink?.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (navLinks && navToggle) {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.textContent = '☰';
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+    openMbModal();
+  });
+  mbCloseBtn?.addEventListener('click', closeMbModal);
+  myBookingsOverlay?.addEventListener('click', (e) => { if (e.target === myBookingsOverlay) closeMbModal(); });
+
+  async function performTaxiMbSearch() {
+    if (!mbPhoneInput || !mbResultsList) return;
+    const q = mbPhoneInput.value.trim();
+    if (!q) {
+      renderTaxiMyBookings();
+      return;
+    }
+    mbResultsList.innerHTML = '<div style="text-align:center;padding:24px;color:#64748b;font-size:13.5px;">⏳ Searching reservations...</div>';
+
+    try {
+      const resp = await fetch(`${API_BASE}/api/bookings?search=${encodeURIComponent(q)}`);
+      if (resp.ok) {
+        const json = await resp.json();
+        const list = Array.isArray(json.data) ? json.data : (json.bookings || []);
+        if (list.length > 0) {
+          renderTaxiMyBookings(list);
+          return;
+        }
+      }
+    } catch (e) {}
+
+    const cleanQ = q.toLowerCase().replace(/^#/, '');
+    const local = loadStoredBookings().filter(b => 
+      (b.phone && b.phone.includes(q)) || 
+      (b.id && b.id.toLowerCase().replace(/^#/, '').includes(cleanQ)) ||
+      (b.referenceId && b.referenceId.toLowerCase().replace(/^#/, '').includes(cleanQ)) ||
+      (b.name && b.name.toLowerCase().includes(cleanQ))
+    );
+
+    if (local.length > 0) {
+      renderTaxiMyBookings(local);
+      return;
+    }
+
+    mbResultsList.innerHTML = `
+      <div class="empty-state">
+        <div style="margin-bottom:10px;font-size:28px;">🔍</div>
+        <strong style="color:var(--ink-blue);font-size:14px;">No active bookings found for "${escapeHTML(q)}"</strong>
+        <p style="font-size:12.5px;color:#64748b;margin-top:6px;">Please verify your 10-digit mobile number or Reference ID.<br>Need urgent help? Call our 24/7 desk directly.</p>
+        <a href="tel:+919322730029" style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:var(--ink-blue);color:#ffffff;padding:8px 16px;border-radius:999px;font-size:12.5px;font-weight:700;text-decoration:none;">📞 +91 93227 30029</a>
+      </div>
+    `;
+  }
+
+  mbResultsList?.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-cancel]');
+    if (!btn) return;
+    const id = btn.dataset.cancel;
+    const localList = loadStoredBookings();
+    const currentBooking = localList.find(b => (b.id || b.referenceId || '').replace(/^#/, '').toLowerCase() === id.replace(/^#/, '').toLowerCase());
+
+    const advancePaid = Number(btn.dataset.advance || currentBooking?.advancePaid || 0);
+    const createdRaw = btn.dataset.created || currentBooking?.createdAt || currentBooking?.bookedAt || currentBooking?.date;
+    const createdDate = createdRaw ? new Date(createdRaw) : new Date();
+    const elapsedHours = Math.round((Math.max(0, Date.now() - createdDate.getTime()) / (1000 * 60 * 60)) * 10) / 10;
+    const isWithin24h = elapsedHours <= 24;
+
+    let confirmPrompt = `Are you sure you want to cancel booking #${id}?`;
+    if (advancePaid > 0) {
+      if (isWithin24h) {
+        confirmPrompt = `⚠️ CANCEL BOOKING #${id}?\n\n🟢 100% FULL REFUND ELIGIBLE\nThis reservation was made ${elapsedHours} hours ago (within the 24-hour cancellation window).\n\nYou will receive a 100% full refund of ₹${advancePaid.toLocaleString('en-IN')} back to your original payment method (UPI / Card) within 3–5 business days.\n\nClick OK to confirm cancellation and process refund.`;
+      } else {
+        confirmPrompt = `⚠️ CANCEL BOOKING #${id}?\n\n🛑 NON-REFUNDABLE NOTICE\nThis reservation was made ${elapsedHours} hours ago (exceeds the 24-hour cancellation window).\n\nAs per Tourent Goa policy, cancellations after 24 hours of booking are non-refundable (advance token of ₹${advancePaid.toLocaleString('en-IN')} is retained).\n\nClick OK if you still wish to release this vehicle reservation.`;
+      }
+    } else {
+      confirmPrompt = `⚠️ CANCEL BOOKING #${id}?\n\nYour Pay-at-Pickup reservation (₹0 advance) will be cancelled immediately.\n\nClick OK to confirm cancellation.`;
+    }
+
+    if (confirm(confirmPrompt)) {
+      btn.disabled = true;
+      btn.textContent = 'Cancelling...';
+
+      let refundInfo = null;
+      try {
+        const resp = await fetch(`${API_BASE}/api/bookings/${encodeURIComponent(id)}/cancel`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: "Cancelled", cancelReason: isWithin24h ? 'Cancelled within 24h grace period' : 'Cancelled after 24h window' })
+        });
+        if (resp.ok) {
+          const json = await resp.json();
+          refundInfo = json.refundInfo;
+        } else {
+          await fetch(`${API_BASE}/api/bookings/${encodeURIComponent(id)}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: "Cancelled" })
+          });
+        }
+      } catch (err) {
+        console.warn('Backend cancel error:', err);
+      }
+
+      try {
+        const cleanTargetId = id.replace(/^#/, '').toLowerCase();
+        const updated = localList.map(b => {
+          if ((b.id || b.referenceId || '').replace(/^#/, '').toLowerCase() === cleanTargetId) {
+            return {
+              ...b,
+              status: 'Cancelled',
+              cancelledAt: new Date().toISOString(),
+              refundEligible: refundInfo ? refundInfo.refundEligible : isWithin24h,
+              refundAmount: refundInfo ? refundInfo.refundAmount : (isWithin24h ? advancePaid : 0),
+              refundStatus: refundInfo ? refundInfo.refundStatus : (isWithin24h && advancePaid > 0 ? 'Pending Refund' : (advancePaid > 0 ? 'Non-Refundable' : 'Not Applicable'))
+            };
+          }
+          return b;
+        });
+        saveStoredBookings(updated);
+      } catch (e) {}
+
+      if (mbPhoneInput && mbPhoneInput.value.trim()) {
+        await performTaxiMbSearch();
+      } else {
+        renderTaxiMyBookings();
+      }
+    }
+  });
+
+  mbSearchBtn?.addEventListener('click', performTaxiMbSearch);
+  mbPhoneInput?.addEventListener('keydown', (e) => { if (e.key === 'Enter') performTaxiMbSearch(); });
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === BOOKINGS_KEY) {
+      refreshBookingCount();
+      if (myBookingsOverlay && myBookingsOverlay.classList.contains('open')) {
+        const q = mbPhoneInput ? mbPhoneInput.value.trim() : '';
+        if (q) performTaxiMbSearch();
+        else renderTaxiMyBookings();
+      }
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMbModal();
+    }
+  });
+
+  refreshBookingCount();
+</script>
+</body>
+</html>

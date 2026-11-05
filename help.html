@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Center &amp; Frequently Asked Questions — Tourent Goa</title>
+<meta name="description" content="Comprehensive Help & FAQ guide for self-drive car and bike rentals in Goa. Learn about Mopa & Dabolim airport delivery, 20% advance token, documents, deposits, and booking tracking.">
+
+<!-- Favicon & App Icons -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png?v=4">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=4">
+<link rel="shortcut icon" href="favicon.ico?v=4">
+<meta name="theme-color" content="#0e3552">
+
+<!-- OpenGraph / Social Media -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tourent.in/help.html">
+<meta property="og:site_name" content="Tourent Goa">
+<meta property="og:title" content="Help Center &amp; FAQs — Tourent Goa Vehicle Rentals">
+<meta property="og:description" content="Find answers to all your Goa car and scooter rental questions. Airport handovers, required documents, refundable deposits, and Goa RTO guidelines.">
+<meta property="og:image" content="https://tourent.in/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+  /* ============ FORCE FULL VISIBILITY (PREVENT OPACITY:0 BUG) ============ */
+  .reveal, .section-head, .hiw-grid, .faq-grid, .cta-band, .help-quick-cards, .faq-filter-bar {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  /* ============ PAGE-SPECIFIC ENHANCEMENTS ============ */
+  .help-hero-banner {
+    position: relative;
+    background: radial-gradient(1100px 600px at 15% -10%, #164a6b 0%, var(--ink-blue) 55%, #0a2540 100%);
+    padding: 70px 0 54px;
+    color: var(--foam);
+    overflow: hidden;
+  }
+  .help-hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .help-hero-inner .eyebrow {
+    color: var(--gold);
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .help-hero-inner .eyebrow::before {
+    background: var(--gold);
+  }
+  .help-hero-inner h1 {
+    font-family: var(--display);
+    font-size: clamp(26px, 4vw, 42px);
+    font-weight: 800;
+    color: var(--foam);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .help-breadcrumbs {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,253,248,0.65);
+    margin-bottom: 18px;
+  }
+  .help-breadcrumbs a {
+    color: var(--foam);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .help-breadcrumbs a:hover { color: var(--gold); }
+  .help-breadcrumbs span { color: var(--gold); }
+
+  .help-intro-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255,253,248,0.85);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* Filter Category Pills */
+  .faq-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 36px;
+  }
+  .faq-pill-btn {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    color: var(--ink-blue);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .faq-pill-btn:hover {
+    border-color: var(--tile-blue);
+    color: var(--tile-blue);
+  }
+  .faq-pill-btn.active {
+    background: var(--ink-blue);
+    color: #ffffff;
+    border-color: var(--ink-blue);
+    box-shadow: 0 4px 12px rgba(14,53,82,0.18);
+  }
+
+  /* Contact Desk Quick Strip */
+  .help-quick-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 50px;
+  }
+  .help-quick-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 24px 22px;
+    border: 1.5px solid #e2e8f0;
+    box-shadow: 0 4px 16px rgba(14,53,82,0.04);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative;
+  }
+  .help-quick-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(14,53,82,0.08);
+  }
+  .help-card-phone {
+    background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);
+    border-color: #bae6fd;
+  }
+  .help-card-phone:hover {
+    border-color: #38bdf8;
+    box-shadow: 0 12px 30px rgba(2, 132, 199, 0.12);
+  }
+  .help-card-phone .help-quick-icon {
+    background: #e0f2fe;
+    color: #0284c7;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+  }
+  .help-card-wa {
+    background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+    border-color: #bbf7d0;
+  }
+  .help-card-wa:hover {
+    border-color: #4ade80;
+    box-shadow: 0 12px 30px rgba(22, 163, 74, 0.12);
+  }
+  .help-card-wa .help-quick-icon {
+    background: #dcfce7;
+    color: #16a34a;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15);
+  }
+  .help-card-track {
+    background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%);
+    border-color: #fde68a;
+  }
+  .help-card-track:hover {
+    border-color: #fbbf24;
+    box-shadow: 0 12px 30px rgba(245, 158, 11, 0.14);
+  }
+  .help-card-track .help-quick-icon {
+    background: #fef3c7;
+    color: #d97706;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.18);
+  }
+
+  .help-quick-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    transition: transform 0.2s ease;
+  }
+  .help-quick-card:hover .help-quick-icon {
+    transform: scale(1.08);
+  }
+  .help-quick-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink-blue);
+    margin: 0 0 6px 0;
+  }
+  .help-quick-card p {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+  }
+  .help-quick-btn {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+  }
+  .help-quick-btn-phone {
+    background: linear-gradient(135deg, #0284c7, #0369a1);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+  }
+  .help-quick-btn-phone:hover {
+    background: linear-gradient(135deg, #0369a1, #0c4a6e);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
+  }
+  .help-quick-btn-wa {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+  }
+  .help-quick-btn-wa:hover {
+    background: linear-gradient(135deg, #15803d, #14532d);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(22, 163, 74, 0.35);
+  }
+  .help-quick-btn-search {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.28);
+  }
+  .help-quick-btn-search:hover {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(245, 158, 11, 0.38);
+  }
+
+  @media (max-width: 800px) {
+    .help-quick-cards {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+
+  /* Clean Centered FAQ Accordion Stack */
+  .faq-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    max-width: 860px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+  .faq-item {
+    width: 100% !important;
+  }
+  .faq-item.active .faq-answer {
+    max-height: 800px !important;
+    padding: 0 20px 18px 20px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SITE HEADER ============ -->
+<header id="siteHeader">
+  <nav class="nav">
+    <a href="index.html#top" class="logo">
+      <span class="logo-mark">T</span>
+      <span class="logo-text">Tourent</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#fleet">Fleet</a></li>
+      <li><a href="taxis.html">Airport Taxis</a></li>
+      <li><a href="index.html#estimator">Budget Estimator</a></li>
+      <li><a href="attractions.html">Attractions</a></li>
+      <li><a href="help.html" style="color:var(--gold);font-weight:700;">Help &amp; FAQ</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="#" id="myBookingsLink"><span>My Bookings</span> <span id="bookingCount" class="badge-count" hidden>0</span></a></li>
+    </ul>
+    <select id="langSwitch" class="lang-switch" aria-label="Choose language">
+      <option value="en">EN</option>
+      <option value="ru">RU</option>
+      <option value="de">DE</option>
+      <option value="pt">PT</option>
+    </select>
+    <a href="index.html#fleet" class="nav-cta" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Book a Vehicle</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ HERO BANNER ============ -->
+  <section class="help-hero-banner">
+    <div class="gold-particles"></div>
+    <div class="help-hero-inner">
+      <div class="help-breadcrumbs">
+        <a href="index.html">Home</a> &nbsp;/&nbsp; <span>Help Center &amp; FAQs</span>
+      </div>
+      <div class="eyebrow">HELP &amp; TOURIST SUPPORT DESK</div>
+      <h1>Goa Vehicle Rental Help Center</h1>
+      <p class="help-intro-desc">Everything you need to know about self-drive cars, scooter rentals, airport handovers at Mopa &amp; Dabolim, refundable security deposits, and booking tracking.</p>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS & FAQ CONTENT ============ -->
+  <section class="faq-section" style="padding: 60px 0 80px;">
+    <div class="container">
+      
+      <!-- Direct Tourist Support Cards -->
+      <div class="help-quick-cards">
+        <div class="help-quick-card help-card-phone">
+          <div class="help-quick-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <h4>Call Primary Desk</h4>
+          <p>Instant phone support for instant booking, route assistance or flight delays.</p>
+          <a href="tel:+919322730029" class="help-quick-btn help-quick-btn-phone">📞 +91 93227 30029</a>
+        </div>
+
+        <div class="help-quick-card help-card-wa">
+          <div class="help-quick-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </div>
+          <h4>WhatsApp Desk</h4>
+          <p>Get instant confirmation, airport live location pin, or photos of your car.</p>
+          <a href="https://api.whatsapp.com/send/?phone=919322730029&text=Hello%20Tourent%20Goa,%20I%20have%20a%20question%20regarding%20rentals." target="_blank" class="help-quick-btn help-quick-btn-wa">💬 Chat on WhatsApp</a>
+        </div>
+
+        <div class="help-quick-card help-card-track">
+          <div class="help-quick-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <h4>Track My Booking</h4>
+          <p>Lookup your reservation status or download your official voucher receipt.</p>
+          <button type="button" class="help-quick-btn help-quick-btn-search" onclick="openMbModal()">🎫 Open My Bookings</button>
+        </div>
+      </div>
+
+      <!-- 3-Step How It Works Guide (Original Clean Style) -->
+      <div class="section-head-center">
+        <span class="eyebrow-pill">3-Step Process</span>
+        <h2>How Renting Works with Tourent</h2>
+        <p>Simple, transparent, and zero-waiting handover across Goa.</p>
+      </div>
+
+      <div class="hiw-grid">
+        <div class="hiw-card">
+          <span class="hiw-step-badge">Step 1</span>
+          <div class="hiw-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <h4>Select Your Vehicle</h4>
+          <p>Choose your preferred car, SUV, luxury convertible, or scooter. Add multiple vehicles in one single reservation if traveling with friends.</p>
+        </div>
+
+        <div class="hiw-card">
+          <span class="hiw-step-badge">Step 2</span>
+          <div class="hiw-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h4>Lock with 20% Advance</h4>
+          <p>Pay a transparent 20% token online via UPI or Cards to lock your vehicle. Instant official confirmation voucher sent via Email &amp; WhatsApp.</p>
+        </div>
+
+        <div class="hiw-card">
+          <span class="hiw-step-badge">Step 3</span>
+          <div class="hiw-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h4>Airport / Counter Pickup</h4>
+          <p>Meet our coordinator at Mopa (GOX), Dabolim (GOI), or city kiosk. Complete a 2-min digital check and drive away with zero airport wait time.</p>
+        </div>
+      </div>
+
+      <!-- FAQ Section Heading -->
+      <div class="section-head-center" style="margin-top:28px;">
+        <span class="eyebrow-pill">Frequently Asked Questions</span>
+        <h2>All Your Questions Answered</h2>
+        <p>Clear, transparent answers for tourists visiting Goa.</p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="faq-filter-bar">
+        <button type="button" class="faq-pill-btn active" data-cat="all">All Questions</button>
+        <button type="button" class="faq-pill-btn" data-cat="booking">📱 Booking &amp; Tracking</button>
+        <button type="button" class="faq-pill-btn" data-cat="airport">✈️ Airport Delivery</button>
+        <button type="button" class="faq-pill-btn" data-cat="documents">🪪 Documents &amp; Rules</button>
+        <button type="button" class="faq-pill-btn" data-cat="deposit">💳 Deposits &amp; Payments</button>
+        <button type="button" class="faq-pill-btn" data-cat="timings">⏰ Rental Timings</button>
+      </div>
+
+      <!-- FAQ 2-Column Grid (Original Clean Style) -->
+      <div class="faq-grid" id="faqMainGrid">
+        
+        <!-- FAQ 1: Booking & Tracking -->
+        <div class="faq-item" data-category="booking">
+          <button type="button" class="faq-question">
+            <span>📱 How do I track, view, or manage my booking?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>Click <strong>"My Bookings"</strong> in the top menu at any time and enter your registered phone number (e.g. <code>93706 55832</code>) or Reference ID (<code>TRT-XXXXX</code>).</p>
+            <p>You can instantly view your live booking status (Pending/Confirmed), pickup location, balance breakdown, and resend your WhatsApp voucher copy with 1 click.</p>
+            <div class="faq-track-box">
+              <div class="faq-track-box-header">
+                <span>🎫</span>
+                <span>Track an Existing Reservation</span>
+              </div>
+              <p style="font-size:12.5px;color:#64748b;margin-bottom:8px;">Instant live lookup for voucher receipt, pickup bay, and rental confirmation.</p>
+              <button type="button" class="faq-track-btn" onclick="openMbModal()">
+                🔍 Track My Booking Now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2: Documents -->
+        <div class="faq-item" data-category="documents">
+          <button type="button" class="faq-question">
+            <span>🪪 What documents are required for vehicle pickup?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>For Indian Tourists:</strong> Valid Original Driving Licence + Government ID (Aadhaar Card or Passport).</p>
+            <p><strong>For International Tourists:</strong> Home Country Driving Licence + International Driving Permit (IDP) + Passport with valid Indian Visa.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 3: Airport Delivery -->
+        <div class="faq-item" data-category="airport">
+          <button type="button" class="faq-question">
+            <span>✈️ How does Airport Delivery work at Mopa &amp; Dabolim?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>When your flight lands at <strong>Manohar International Airport, Mopa (GOX)</strong> or <strong>Dabolim Airport (GOI)</strong>, our delivery coordinator meets you right at the designated arrival parking bay with your vehicle clean and fueled.</p>
+            <p>On departure day, simply return the vehicle at the airport departure parking bay — zero taxi queues and zero waiting.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 4: Deposits & Payments -->
+        <div class="faq-item" data-category="deposit">
+          <button type="button" class="faq-question">
+            <span>💳 How does the 20% advance &amp; security deposit work?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>The <strong>20% advance token</strong> reserves and guarantees your vehicle. The remaining rental balance (80%) + refundable security deposit is paid at pickup via UPI, Card, or Cash.</p>
+            <p>Your <strong>100% security deposit is refunded immediately on the spot</strong> upon vehicle return via instant UPI transfer or Cash after a quick walkaround inspection.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 5: Rental Timings -->
+        <div class="faq-item" data-category="timings">
+          <button type="button" class="faq-question">
+            <span>⏰ What is the standard Goa 09:00 AM rental cycle?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>In accordance with the Goa Tourist Vehicle Association, all self-drive rentals operate on a <strong>09:00 AM to 09:00 AM (next morning)</strong> standard cycle.</p>
+            <p>Vehicles collected in the afternoon or evening are returnable by 09:00 AM the following day. Need late return? Contact our desk anytime for affordable hourly extension rates.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 6: Driving Outside Goa -->
+        <div class="faq-item" data-category="documents">
+          <button type="button" class="faq-question">
+            <span>🛣️ Can I drive the rental vehicle outside Goa?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>All Tourent vehicles carry yellow-on-black Goa commercial self-drive registration permits for unrestricted travel across North &amp; South Goa.</p>
+            <p>Interstate travel (e.g. Maharashtra or Karnataka border excursions) requires prior authorization and state tax permits. Please notify our desk at booking.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 7: Multi-Vehicle Bookings -->
+        <div class="faq-item" data-category="booking">
+          <button type="button" class="faq-question">
+            <span>🚗 Can I book multiple cars and scooters in a single booking?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>Yes!</strong> If you are traveling with a group or family, open the booking form and click <strong>"+ Add another car/bike"</strong> to bundle multiple vehicles (e.g., 1 Innova Crysta + 2 Activa Scooters) under one single reservation ticket.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 8: Fuel Policy -->
+        <div class="faq-item" data-category="deposit">
+          <button type="button" class="faq-question">
+            <span>⛽ What is the fuel policy for rental cars and bikes?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>All vehicles are provided on a <strong>Level-to-Level Fuel Policy</strong>. The vehicle is handed over with sufficient fuel to reach nearest petrol pumps, and you return it at the same fuel level indicated on your handover receipt.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 9: Breakdown & Roadside -->
+        <div class="faq-item" data-category="documents">
+          <button type="button" class="faq-question">
+            <span>🛠️ What happens if the vehicle has a breakdown or flat tyre?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>Tourent provides <strong>24/7 Roadside Assistance</strong> across Goa. In the rare event of a puncture or mechanical issue, call our emergency helpline at <strong>+91 93227 30029</strong> and our local Goa field technician or replacement vehicle will be dispatched immediately.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 10: Hotel Delivery -->
+        <div class="faq-item" data-category="airport">
+          <button type="button" class="faq-question">
+            <span>🏨 Can the vehicle be delivered directly to my hotel or villa?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>Yes!</strong> We provide direct hotel/resort delivery across North Goa (Calangute, Baga, Candolim, Anjuna, Vagator, Panaji, Candolim) and South Goa (Margao, Colva, Benaulim, Cavelossim). Simply specify your hotel in the booking notes.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 11: Helmet & Traffic Rules -->
+        <div class="faq-item" data-category="documents">
+          <button type="button" class="faq-question">
+            <span>🛵 Is a helmet compulsory for bike &amp; scooter rentals in Goa?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>Yes.</strong> Goa RTO mandates ISI-certified helmets for both rider and pillion passenger. Every Tourent two-wheeler rental includes 2 complimentary sanitized helmets.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 12: Cancellation Policy -->
+        <div class="faq-item" data-category="deposit">
+          <button type="button" class="faq-question">
+            <span>🔄 What is the cancellation and refund policy?</span>
+            <span class="faq-icon-toggle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>100% Full Refund within 24 Hours:</strong> You are eligible for a 100% full refund of your 20% advance token if cancelled within 24 hours of making your reservation. Refunds are processed back to your original source (UPI / Card / NetBanking) within 3–5 business days.<br><br><strong>After 24 Hours:</strong> Cancellations made after 24 hours of booking are non-refundable (advance token retained to cover reserved fleet dates). For flight delays or rescheduled timings, we hold your reserved vehicle at no additional charge upon receiving your updated flight number.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ BOTTOM CTA BAND ============ -->
+  <section style="padding-top:0;">
+    <div class="cta-band reveal">
+      <h2>Ready for your Goa Road Trip?</h2>
+      <p>Reserve your car or scooter today with transparent pricing, zero surge, and instant confirmation.</p>
+      <div class="hero-actions">
+        <a href="index.html#fleet" class="btn-primary" style="text-decoration:none;">Browse Fleet &amp; Book</a>
+        <a href="tel:+919322730029" class="btn-ghost" style="display:inline-flex;align-items:center;text-decoration:none;">Call +91 93227 30029</a>
+        <a href="https://api.whatsapp.com/send/?phone=919322730029&text=Hello%20Tourent%20Goa,%20I%20want%20to%20reserve%20a%20vehicle." target="_blank" class="btn-ghost" style="display:inline-flex;align-items:center;text-decoration:none;">WhatsApp Support</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact">
+  <div class="container foot-grid">
+    <div class="foot-brand">
+      <div class="logo"><span class="logo-mark">T</span><span class="logo-text" style="color:#fffdf8;">Tourent</span></div>
+      <p>Rent any vehicle, anytime. Goa's independent self-drive, scooter and luxury rental counter — from Mopa to Mormugao.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Fleet</h5>
+      <ul>
+        <li><a href="index.html#fleet">Hatchbacks &amp; Sedans</a></li>
+        <li><a href="index.html#fleet">SUVs &amp; MUVs</a></li>
+        <li><a href="index.html#fleet">Two-Wheelers</a></li>
+        <li><a href="index.html#fleet">Luxury Fleet</a></li>
+        <li><a href="taxis.html">Airport Taxis</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Explore &amp; Company</h5>
+      <ul>
+        <li><a href="attractions.html">Goa Attractions Guide</a></li>
+        <li><a href="index.html#estimator">Budget Estimator</a></li>
+        <li><a href="help.html">Help &amp; FAQs</a></li>
+        <li><a href="index.html#top">Terms &amp; Policies</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Reach Us</h5>
+      <ul>
+        <li><a href="tel:+919322730029">+91 93227 30029 (Primary Desk)</a></li>
+        <li><a href="tel:+919322469973">+91 93224 69973 (Support / Alt)</a></li>
+        <li><a href="mailto:tourentgoarentals@gmail.com">tourentgoarentals@gmail.com</a></li>
+        <li><a href="https://www.instagram.com/tourentgoa?utm_source=qr" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;color:#f39c12;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> <span>Instagram: <strong>@tourentgoa</strong></span></a></li>
+        <li><a href="index.html#top">Panaji · Margao · Vasco</a></li>
+        <li><a href="index.html#top">Dabolim &amp; Mopa Airports</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container foot-bottom">
+    <span>© 2026 Tourent Vehicle Rentals, Goa. All rights reserved.</span>
+    <span>Prices are indicative; final quote confirmed at booking. · <a href="admin.html" style="color:inherit;text-decoration:underline;">Staff login</a></span>
+  </div>
+</footer>
+
+<!-- ============ MODAL: MY BOOKINGS ============ -->
+<div class="modal-overlay" id="myBookingsModal" role="dialog" aria-modal="true" aria-labelledby="mbTitle">
+  <div class="modal my-bookings-modal">
+    <button class="modal-close" id="mbCloseBtn" aria-label="Close modal">✕</button>
+    <div class="modal-head">
+      <div class="eyebrow" style="margin-bottom:6px;">Live Cloud Lookup</div>
+      <h3 id="mbTitle">Track &amp; View My Bookings</h3>
+      <p style="font-size:13px;color:#64748b;margin-top:4px;">Enter your phone number or reference ID to fetch your reservations from the cloud.</p>
+    </div>
+
+    <!-- Phone / Reference Lookup Bar -->
+    <div class="my-bk-lookup-bar">
+      <div class="my-bk-input-wrap">
+        <span class="my-bk-input-icon">📱</span>
+        <input type="tel" id="mbPhoneInput" placeholder="Enter phone number (e.g. 93706 55832) or TRT-XXXXX" maxlength="25">
+      </div>
+      <button type="button" id="mbSearchBtn" class="my-bk-search-btn">Track</button>
+    </div>
+
+    <div id="mbResultsList" class="my-bk-list">
+      <div class="empty-state">
+        <div style="margin-bottom:12px;color:var(--text-muted);">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <strong>No reservations loaded yet</strong>
+        <p>Enter your 10-digit phone number or Reference ID above to track your booking from any device.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ INTERACTIVE CLIENTSIDE SCRIPT ============ -->
+<script>
+  // Sticky header shrink on scroll
+  const siteHeader = document.getElementById('siteHeader');
+  if (siteHeader) {
+    const updateHeaderShrink = () => {
+      siteHeader.classList.toggle('shrink', window.scrollY > 30);
+    };
+    window.addEventListener('scroll', updateHeaderShrink, { passive: true });
+    updateHeaderShrink();
+  }
+
+  // Mobile navigation menu toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      navToggle.textContent = isOpen ? '✕' : '☰';
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
+        navToggle.textContent = '☰';
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && e.target !== navToggle) {
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
+        navToggle.textContent = '☰';
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // FAQ Accordion Toggle
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      if (!item) return;
+      const isOpen = item.classList.contains('active');
+      document.querySelectorAll('.faq-item.active').forEach(openItem => {
+        if (openItem !== item) openItem.classList.remove('active');
+      });
+      item.classList.toggle('active', !isOpen);
+    });
+  });
+
+  // Filter Category Pills
+  const pillBtns = document.querySelectorAll('.faq-pill-btn');
+  const allFaqItems = document.querySelectorAll('.faq-item');
+
+  pillBtns.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pillBtns.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+
+      const selectedCat = pill.dataset.cat;
+      allFaqItems.forEach(item => {
+        if (selectedCat === 'all' || item.dataset.category === selectedCat) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+
+
+
+  const API_BASE = (window.location.protocol === 'file:' || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && window.location.port && window.location.port !== '5001')) ? 'http://localhost:5001' : '';
+
+  /* =========================================================
+    MY BOOKINGS & RESERVATION SYNC IN HELP PAGE
+    ========================================================= */
+  const BOOKINGS_KEY = "tourent_bookings";
+  const myBookingsModal = document.getElementById('myBookingsModal');
+  const myBookingsLink = document.getElementById('myBookingsLink');
+  const mbCloseBtn = document.getElementById('mbCloseBtn');
+  const mbPhoneInput = document.getElementById('mbPhoneInput');
+  const mbSearchBtn = document.getElementById('mbSearchBtn');
+  const mbResultsList = document.getElementById('mbResultsList');
+
+  function escapeHTML(str) {
+    if (str === null || str === undefined) return "";
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function formatBookedOnDate(val) {
+    if (!val) return 'Recent';
+    const d = new Date(val);
+    if (isNaN(d.getTime())) return 'Recent';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const day = d.getDate();
+    const month = months[d.getMonth()];
+    const year = d.getFullYear();
+    let hours = d.getHours();
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    return `${day} ${month} ${year}, ${hours}:${minutes} ${ampm}`;
+  }
+
+  function loadStoredBookings() {
+    try {
+      const raw = localStorage.getItem(BOOKINGS_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+      const clean = parsed.filter(b => b && (b.referenceId || b.id) && !(b.referenceId || b.id).startsWith('TRT-SEC-') && !(b.referenceId || b.id).startsWith('TEST-'));
+      if (clean.length !== parsed.length) {
+        localStorage.setItem(BOOKINGS_KEY, JSON.stringify(clean));
+      }
+      return clean;
+    } catch (err) {
+      console.error('Could not read saved bookings:', err);
+      return [];
+    }
+  }
+
+  function saveStoredBookings(list) {
+    try {
+      localStorage.setItem(BOOKINGS_KEY, JSON.stringify(list));
+    } catch (err) {
+      console.error('Could not save bookings:', err);
+    }
+    refreshBookingCount();
+  }
+
+  function refreshBookingCount() {
+    const list = loadStoredBookings();
+    const count = list.length;
+    const badge = document.getElementById('bookingCount');
+    if (badge) {
+      badge.textContent = count;
+      badge.hidden = count === 0;
+    }
+  }
+
+  function renderHelpMyBookings(customList = null) {
+    if (!mbResultsList) return;
+    const list = customList !== null ? customList : loadStoredBookings();
+    if (list.length === 0) {
+      mbResultsList.innerHTML = `
+        <div class="empty-state">
+          <div style="margin-bottom:12px;color:var(--text-muted);">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <strong>No reservations found</strong>
+          <p>Enter your 10-digit phone number or Reference ID above to track your booking from any device.</p>
+        </div>
+      `;
+      return;
+    }
+
+    mbResultsList.innerHTML = list.map(b => {
+      const isConfirmed = b.status && b.status.toLowerCase() === "confirmed";
+      const isCancelled = b.status && (b.status.toLowerCase() === "cancelled" || b.status.toLowerCase() === "declined");
+      const isCompleted = b.status && b.status.toLowerCase() === "completed";
+      const statusClass = isConfirmed ? "status-confirmed" : (isCancelled ? "status-cancelled" : (isCompleted ? "status-completed" : "status-pending"));
+      const statusIcon = isConfirmed ? "✓" : (isCancelled ? "✕" : (isCompleted ? "★" : ""));
+
+      let statusLabel = "Pending Confirmation";
+      if (isConfirmed) {
+        statusLabel = "Confirmed by Admin";
+      } else if (isCompleted) {
+        statusLabel = "Trip Completed";
+      } else if (isCancelled) {
+        if (b.refundStatus === 'Pending Refund' || (b.refundEligible && b.refundStatus !== 'Refunded')) {
+          statusLabel = `Cancelled (100% Refund Queued: ₹${Number(b.refundAmount || b.advancePaid || 0).toLocaleString('en-IN')})`;
+        } else if (b.refundStatus === 'Refunded') {
+          statusLabel = `Cancelled (Refund Completed: ₹${Number(b.refundAmount || b.advancePaid || 0).toLocaleString('en-IN')})`;
+        } else if (b.refundStatus === 'Non-Refundable') {
+          statusLabel = "Cancelled (Non-Refundable)";
+        } else {
+          statusLabel = "Cancelled";
+        }
+      }
+
+      const safeId = escapeHTML(b.referenceId || b.id || '');
+      const custName = escapeHTML(b.name || 'Valued Guest');
+      const custPhone = escapeHTML(b.phone || '');
+      const safePickup = escapeHTML(b.pickupDate || '');
+      const safeDrop = escapeHTML(b.dropDate || b.returnDate || '');
+      const safeLoc = escapeHTML(b.location || b.pickupLocation || 'Goa Counter');
+      const advancePaid = Number(b.advancePaid || 0);
+      const totalAmount = Number(b.rentalTotal || b.total || 0);
+      const balanceAmount = Number(b.balanceAtPickup !== undefined ? b.balanceAtPickup : (totalAmount - advancePaid));
+
+      const chatMsg = isCancelled
+        ? encodeURIComponent(`Hi Tourent Goa, I cancelled my booking #${safeId.replace(/^#/, '')} (${custName}, Phone: ${custPhone}). Please confirm the cancellation and refund status.`)
+        : encodeURIComponent(`Hello Tourent Goa, I am inquiring about my booking #${safeId.replace(/^#/, '')} (${custName}, Phone: ${custPhone}).`);
+
+      let vehicleDetailsHTML = '';
+      if (Array.isArray(b.vehicles) && b.vehicles.length > 0) {
+        vehicleDetailsHTML = b.vehicles.map(v => {
+          const trans = v.transmission ? ` (${escapeHTML(v.transmission)})` : '';
+          const depStr = v.deposit ? ` + ₹${Number(v.deposit).toLocaleString('en-IN')} Ref. Deposit` : '';
+          return `<div style="font-size:12.5px;color:#334155;margin:3px 0;display:flex;align-items:center;gap:5px;">🚗 <span><strong>${escapeHTML(v.name)}</strong>${trans} · ${v.days || 1}d @ ₹${Number(v.price || 0).toLocaleString('en-IN')}/d${depStr}</span></div>`;
+        }).join('');
+      } else {
+        vehicleDetailsHTML = `<div style="font-size:13.5px;color:var(--ink-blue);font-weight:700;margin-bottom:4px;">🚗 ${escapeHTML(b.vehicle || b.vehicleName || 'Goa Rental Fleet')}</div>`;
+      }
+
+      return `
+        <div class="booking-entry" style="margin-bottom:12px;">
+          <div class="booking-entry-head" style="margin-bottom:8px;">
+            <div>
+              <strong class="booking-ref" style="font-size:15px;color:var(--ink-blue);">#${safeId.replace(/^#/, '')}</strong>
+              <div class="booking-entry-date">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span class="booked-label">Booked on:</span> <strong class="booked-val">${formatBookedOnDate(b.createdAt || b.bookedAt || b.date)}</strong>
+              </div>
+              <div style="font-size:11.5px;color:#64748b;margin-top:2px;">Guest: <strong>${custName}</strong> ${custPhone ? `· 📱 ${custPhone}` : ''}</div>
+            </div>
+            <span class="booking-entry-status ${statusClass}">${statusIcon} ${statusLabel}</span>
+          </div>
+          ${vehicleDetailsHTML}
+          ${safePickup || safeDrop ? `<div style="font-size:12.5px;color:#475569;margin-bottom:2px;">📅 <strong>${safePickup}</strong> ${safeDrop ? `→ <strong>${safeDrop}</strong>` : ''}</div>` : ''}
+          <div style="font-size:12.5px;color:#475569;">📍 Pickup: <strong>${safeLoc}</strong></div>
+          
+          <div style="margin-top:10px;padding-top:10px;border-top:1px dashed #e2e8f0;display:flex;justify-content:space-between;align-items:center;font-size:12.5px;">
+            <span>Paid: <strong style="color:#166534;">₹${advancePaid.toLocaleString('en-IN')}</strong></span>
+            <span style="color:var(--laterite);font-weight:700;">Balance at Pickup: ₹${Math.max(0, balanceAmount).toLocaleString('en-IN')}</span>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <a href="https://api.whatsapp.com/send/?phone=919322730029&text=${chatMsg}" target="_blank" rel="noopener" style="background:#dcfce7;color:#15803d;padding:6px 12px;border-radius:8px;font-size:11.5px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+              💬 WhatsApp Desk
+            </a>
+            ${!isCancelled && !isCompleted ? `<button type="button" class="booking-cancel" data-cancel="${safeId.replace(/^#/, '')}" data-advance="${advancePaid}" data-created="${b.createdAt || b.bookedAt || b.date || ''}" data-name="${custName}" data-phone="${custPhone}" data-vehicle="${escapeHTML(b.vehicle || b.vehicleName || 'Vehicle')}">Cancel booking</button>` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function openMbModal() {
+    if (myBookingsModal) {
+      myBookingsModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      const q = mbPhoneInput ? mbPhoneInput.value.trim() : '';
+      if (q) {
+        performMbSearch();
+      } else {
+        renderHelpMyBookings();
+      }
+      if (mbPhoneInput) mbPhoneInput.focus();
+    }
+  }
+
+  function closeMbModal() {
+    if (myBookingsModal) {
+      myBookingsModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  myBookingsLink?.addEventListener('click', (e) => { e.preventDefault(); openMbModal(); });
+  mbCloseBtn?.addEventListener('click', closeMbModal);
+  myBookingsModal?.addEventListener('click', (e) => { if (e.target === myBookingsModal) closeMbModal(); });
+
+  async function performMbSearch() {
+    if (!mbPhoneInput || !mbResultsList) return;
+    const q = mbPhoneInput.value.trim();
+    if (!q) {
+      renderHelpMyBookings();
+      return;
+    }
+    mbResultsList.innerHTML = '<div style="text-align:center;padding:24px;color:#64748b;font-size:13.5px;">⏳ Searching reservations...</div>';
+
+    try {
+      const resp = await fetch(`${API_BASE}/api/bookings?search=${encodeURIComponent(q)}`);
+      if (resp.ok) {
+        const json = await resp.json();
+        const list = Array.isArray(json.data) ? json.data : (json.bookings || []);
+        if (list.length > 0) {
+          renderHelpMyBookings(list);
+          return;
+        }
+      }
+    } catch (e) {}
+
+    const cleanQ = q.toLowerCase().replace(/^#/, '');
+    const local = loadStoredBookings().filter(b => 
+      (b.phone && b.phone.includes(q)) || 
+      (b.id && b.id.toLowerCase().replace(/^#/, '').includes(cleanQ)) ||
+      (b.referenceId && b.referenceId.toLowerCase().replace(/^#/, '').includes(cleanQ)) ||
+      (b.name && b.name.toLowerCase().includes(cleanQ))
+    );
+
+    if (local.length > 0) {
+      renderHelpMyBookings(local);
+      return;
+    }
+
+    mbResultsList.innerHTML = `
+      <div class="empty-state">
+        <div style="margin-bottom:10px;font-size:28px;">🔍</div>
+        <strong style="color:var(--ink-blue);font-size:14px;">No active bookings found for "${escapeHTML(q)}"</strong>
+        <p style="font-size:12.5px;color:#64748b;margin-top:6px;">Please verify your 10-digit mobile number or Reference ID.<br>Need urgent help? Call our 24/7 desk directly.</p>
+        <a href="tel:+919322730029" style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:var(--ink-blue);color:#ffffff;padding:8px 16px;border-radius:999px;font-size:12.5px;font-weight:700;text-decoration:none;">📞 +91 93227 30029</a>
+      </div>
+    `;
+  }
+
+  mbResultsList?.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-cancel]');
+    if (!btn) return;
+    const id = btn.dataset.cancel;
+    const localList = loadStoredBookings();
+    const currentBooking = localList.find(b => (b.id || b.referenceId || '').replace(/^#/, '').toLowerCase() === id.replace(/^#/, '').toLowerCase());
+
+    const advancePaid = Number(btn.dataset.advance || currentBooking?.advancePaid || 0);
+    const createdRaw = btn.dataset.created || currentBooking?.createdAt || currentBooking?.bookedAt || currentBooking?.date;
+    const createdDate = createdRaw ? new Date(createdRaw) : new Date();
+    const elapsedHours = Math.round((Math.max(0, Date.now() - createdDate.getTime()) / (1000 * 60 * 60)) * 10) / 10;
+    const isWithin24h = elapsedHours <= 24;
+
+    let confirmPrompt = `Are you sure you want to cancel booking #${id}?`;
+    if (advancePaid > 0) {
+      if (isWithin24h) {
+        confirmPrompt = `⚠️ CANCEL BOOKING #${id}?\n\n🟢 100% FULL REFUND ELIGIBLE\nThis reservation was made ${elapsedHours} hours ago (within the 24-hour cancellation window).\n\nYou will receive a 100% full refund of ₹${advancePaid.toLocaleString('en-IN')} back to your original payment method (UPI / Card) within 3–5 business days.\n\nClick OK to confirm cancellation and process refund.`;
+      } else {
+        confirmPrompt = `⚠️ CANCEL BOOKING #${id}?\n\n🛑 NON-REFUNDABLE NOTICE\nThis reservation was made ${elapsedHours} hours ago (exceeds the 24-hour cancellation window).\n\nAs per Tourent Goa policy, cancellations after 24 hours of booking are non-refundable (advance token of ₹${advancePaid.toLocaleString('en-IN')} is retained).\n\nClick OK if you still wish to release this vehicle reservation.`;
+      }
+    } else {
+      confirmPrompt = `⚠️ CANCEL BOOKING #${id}?\n\nYour Pay-at-Pickup reservation (₹0 advance) will be cancelled immediately.\n\nClick OK to confirm cancellation.`;
+    }
+
+    if (confirm(confirmPrompt)) {
+      btn.disabled = true;
+      btn.textContent = 'Cancelling...';
+
+      let refundInfo = null;
+      try {
+        const resp = await fetch(`${API_BASE}/api/bookings/${encodeURIComponent(id)}/cancel`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: "Cancelled", cancelReason: isWithin24h ? 'Cancelled within 24h grace period' : 'Cancelled after 24h window' })
+        });
+        if (resp.ok) {
+          const json = await resp.json();
+          refundInfo = json.refundInfo;
+        } else {
+          await fetch(`${API_BASE}/api/bookings/${encodeURIComponent(id)}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: "Cancelled" })
+          });
+        }
+      } catch (err) {
+        console.warn('Backend cancel error:', err);
+      }
+
+      try {
+        const cleanTargetId = id.replace(/^#/, '').toLowerCase();
+        const updated = localList.map(b => {
+          if ((b.id || b.referenceId || '').replace(/^#/, '').toLowerCase() === cleanTargetId) {
+            return {
+              ...b,
+              status: 'Cancelled',
+              cancelledAt: new Date().toISOString(),
+              refundEligible: refundInfo ? refundInfo.refundEligible : isWithin24h,
+              refundAmount: refundInfo ? refundInfo.refundAmount : (isWithin24h ? advancePaid : 0),
+              refundStatus: refundInfo ? refundInfo.refundStatus : (isWithin24h && advancePaid > 0 ? 'Pending Refund' : (advancePaid > 0 ? 'Non-Refundable' : 'Not Applicable'))
+            };
+          }
+          return b;
+        });
+        saveStoredBookings(updated);
+      } catch (e) {}
+
+      if (mbPhoneInput && mbPhoneInput.value.trim()) {
+        await performMbSearch();
+      } else {
+        renderHelpMyBookings();
+      }
+    }
+  });
+
+  mbSearchBtn?.addEventListener('click', performMbSearch);
+  mbPhoneInput?.addEventListener('keydown', (e) => { if (e.key === 'Enter') performMbSearch(); });
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === BOOKINGS_KEY) {
+      refreshBookingCount();
+      if (myBookingsModal && myBookingsModal.classList.contains('open')) {
+        const q = mbPhoneInput ? mbPhoneInput.value.trim() : '';
+        if (q) performMbSearch();
+        else renderHelpMyBookings();
+      }
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMbModal();
+    }
+  });
+
+  refreshBookingCount();
+</script>
+
+</body>
+</html>

@@ -466,7 +466,7 @@
 
     async function syncFleetFromServer() {
       try {
-        const res = await fetch(`${API_BASE}/api/fleet`);
+        const res = await fetch(`${API_BASE}/api/fleet?_t=${Date.now()}`, { cache: 'no-store' });
         const data = await res.json();
         if (data.success && Array.isArray(data.data) && data.data.length > 0) {
           const sorted = sortVehiclesInOriginalOrder(data.data);
@@ -494,7 +494,7 @@
       LIVE_AVAILABILITY_DATES = { pickupDate: pDate, returnDate: rDate };
 
       try {
-        const res = await fetch(`${API_BASE}/api/fleet/availability?pickupDate=${encodeURIComponent(pDate)}&returnDate=${encodeURIComponent(rDate)}`);
+        const res = await fetch(`${API_BASE}/api/fleet/availability?pickupDate=${encodeURIComponent(pDate)}&returnDate=${encodeURIComponent(rDate)}&_t=${Date.now()}`, { cache: 'no-store' });
         const data = await res.json();
         if (data.success && data.availability) {
           LIVE_AVAILABILITY = data.availability;

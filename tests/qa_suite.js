@@ -188,6 +188,29 @@ async function runAll() {
         `All ${res.json?.data?.length} vehicles expose soldOut boolean flag`
       );
     }
+    {
+      const jwt = require('jsonwebtoken');
+      const testAdminToken = jwt.sign({ username: 'admin', role: 'admin', staffRole: 'admin', sessionVersion: 10 }, process.env.JWT_SECRET || 'tourent_fallback_secret_key_goa_2026');
+      
+      // Mark v_baleno as soldOut
+      const markSoldOutRes = await invoke('POST', '/api/fleet/v_baleno/sold-out', { soldOut: true }, {
+        authorization: `Bearer ${testAdminToken}`
+      });
+      
+      // Verify availability
+      const availRes = await invoke('GET', '/api/fleet/availability?pickupDate=2026-11-01&returnDate=2026-11-04');
+      const isBalenoSoldOut = availRes.json?.availability?.v_baleno?.status === 'Sold Out' && availRes.json?.availability?.v_baleno?.availableUnits === 0;
+
+      // Revert v_baleno to available
+      await invoke('POST', '/api/fleet/v_baleno/sold-out', { soldOut: false }, {
+        authorization: `Bearer ${testAdminToken}`
+      });
+
+      record('Fleet Module', 'POST /api/fleet/:id/sold-out sets soldOut atomically across all devices', 
+        markSoldOutRes.statusCode === 200 && isBalenoSoldOut, 
+        `HTTP ${markSoldOutRes.statusCode} (v_baleno marked Sold Out with 0 available units)`
+      );
+    }
 
     // 4. AUTHENTICATION & ACCESS CONTROL
     {

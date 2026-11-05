@@ -4422,7 +4422,7 @@
 
     async function fetchFleetFromServer() {
       try {
-        const res = await fetch(`${API_BASE}/api/fleet`);
+        const res = await fetch(`${API_BASE}/api/fleet?_t=${Date.now()}`, { cache: 'no-store' });
         const data = await res.json();
         if (data.success && Array.isArray(data.data) && data.data.length > 0) {
           const sorted = sortVehiclesInOriginalOrder(data.data);
@@ -4446,7 +4446,7 @@
 
       try {
         const token = getAdminToken();
-        await fetch(`${API_BASE}/api/fleet`, {
+        const res = await fetch(`${API_BASE}/api/fleet`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -4454,6 +4454,13 @@
           },
           body: JSON.stringify(list)
         });
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          console.warn('Cloud fleet sync notice (HTTP ' + res.status + '):', errData);
+          if (res.status === 401 || res.status === 403) {
+            showToast('⚠️ Admin session expired. Please re-enter your password to sync to cloud.');
+          }
+        }
       } catch (err) {
         console.warn('Cloud database fleet sync notice:', err);
       }
@@ -4665,9 +4672,24 @@
         openEditVehicleModal(vehicle);
       } else if (vaction === 'toggle-soldout') {
         const currentlySoldOut = vehicle.soldOut === true || vehicle.isSoldOut === true;
-        vehicle.soldOut = !currentlySoldOut;
-        vehicle.isSoldOut = !currentlySoldOut;
+        const newSoldOut = !currentlySoldOut;
+        vehicle.soldOut = newSoldOut;
+        vehicle.isSoldOut = newSoldOut;
         saveFleet(fleet);
+
+        // Atomic direct sync to cloud database
+        try {
+          const token = getAdminToken();
+          fetch(`${API_BASE}/api/fleet/${encodeURIComponent(vehicle.id)}/sold-out`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify({ soldOut: newSoldOut })
+          }).catch(err => console.warn('Atomic sold-out update notice:', err));
+        } catch (_) {}
+
         if (window.BroadcastChannel) {
           try {
             const bc = new BroadcastChannel('tourent_fleet_channel');

@@ -3128,7 +3128,7 @@ async function getFleetAvailability(pickupDateStr, returnDateStr) {
     }
   }
   if (!fleet || fleet.length === 0) {
-    fleet = INITIAL_FLEET.map(v => ({ ...v }));
+    fleet = getCachedFleet().map(v => ({ ...v }));
   } else {
     fleet = fleet.map(v => {
       const obj = v.toObject ? v.toObject() : { ...v };
@@ -3233,6 +3233,7 @@ async function getFleetAvailability(pickupDateStr, returnDateStr) {
 }
 
 app.get('/api/fleet/availability', async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   try {
     const { pickupDate, returnDate, days } = req.query;
     let rDate = returnDate;
@@ -3260,6 +3261,7 @@ function getCachedFleet() {
 }
 
 app.get('/api/fleet', async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   try {
     const { category, active } = req.query;
     let query = {};
@@ -3330,13 +3332,53 @@ app.get('/api/fleet', async (req, res) => {
   }
 });
 
+// Dedicated atomic endpoint to set or toggle sold-out status
+app.post('/api/fleet/:id/sold-out', requireAdminAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { soldOut } = req.body;
+
+    const current = getCachedFleet();
+    const idx = current.findIndex(v => v.id === id);
+    const newSoldOut = (soldOut !== undefined) ? Boolean(soldOut) : (idx !== -1 ? !Boolean(current[idx].soldOut || current[idx].isSoldOut) : true);
+
+    if (idx !== -1) {
+      current[idx] = { ...current[idx], soldOut: newSoldOut, isSoldOut: newSoldOut };
+    }
+    cachedFleet = current;
+
+    if (mongoose.connection.readyState === 1) {
+      await Vehicle.updateOne(
+        { id },
+        { $set: { soldOut: newSoldOut, isSoldOut: newSoldOut } },
+        { upsert: true }
+      );
+    }
+
+    res.json({ success: true, id, soldOut: newSoldOut, isSoldOut: newSoldOut });
+  } catch (err) {
+    console.error('Error updating vehicle soldOut in MongoDB:', err);
+    res.status(500).json({ success: false, error: 'Failed to update sold out status' });
+  }
+});
+
 app.post('/api/fleet', requireAdminAuth, async (req, res) => {
   try {
     const vData = req.body;
     if (Array.isArray(vData)) {
-      cachedFleet = vData;
+      // Clean immutable fields (_id, __v) so MongoDB update does not fail
+      const cleanedList = vData.map(v => {
+        const item = { ...v };
+        delete item._id;
+        delete item.__v;
+        item.soldOut = Boolean(item.soldOut === true || item.isSoldOut === true);
+        item.isSoldOut = item.soldOut;
+        return item;
+      });
+
+      cachedFleet = cleanedList;
       if (mongoose.connection.readyState === 1) {
-        const ops = vData.map(v => ({
+        const ops = cleanedList.map(v => ({
           updateOne: { filter: { id: v.id }, update: { $set: v }, upsert: true }
         }));
         await Vehicle.bulkWrite(ops);
@@ -3345,25 +3387,32 @@ app.post('/api/fleet', requireAdminAuth, async (req, res) => {
     }
 
     if (vData && vData.id) {
+      const item = { ...vData };
+      delete item._id;
+      delete item.__v;
+      item.soldOut = Boolean(item.soldOut === true || item.isSoldOut === true);
+      item.isSoldOut = item.soldOut;
+
       const current = getCachedFleet();
-      const idx = current.findIndex(v => v.id === vData.id);
+      const idx = current.findIndex(v => v.id === item.id);
       if (idx !== -1) {
-        current[idx] = { ...current[idx], ...vData };
+        current[idx] = { ...current[idx], ...item };
       } else {
-        current.push(vData);
+        current.push(item);
       }
       cachedFleet = current;
-    }
 
-    if (mongoose.connection.readyState === 1) {
-      const upserted = await Vehicle.findOneAndUpdate(
-        { id: vData.id },
-        { $set: vData },
-        { upsert: true, new: true }
-      );
-      return res.json({ success: true, data: upserted });
+      if (mongoose.connection.readyState === 1) {
+        const upserted = await Vehicle.findOneAndUpdate(
+          { id: item.id },
+          { $set: item },
+          { upsert: true, new: true }
+        );
+        return res.json({ success: true, data: upserted });
+      }
+      return res.json({ success: true, data: item });
     }
-    res.json({ success: true, data: vData });
+    res.status(400).json({ success: false, error: 'Invalid fleet payload' });
   } catch (err) {
     console.error('Error updating vehicle in MongoDB:', err);
     res.status(500).json({ success: false, error: 'Failed to save vehicle' });

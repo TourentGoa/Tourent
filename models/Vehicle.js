@@ -63,6 +63,14 @@ const VehicleSchema = new mongoose.Schema({
     default: 10,
     min: 1
   },
+  soldOut: {
+    type: Boolean,
+    default: false
+  },
+  isSoldOut: {
+    type: Boolean,
+    default: false
+  },
   active: {
     type: Boolean,
     default: true

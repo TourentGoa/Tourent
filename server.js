@@ -3201,11 +3201,12 @@ async function getFleetAvailability(pickupDateStr, returnDateStr) {
 
   const availability = {};
   for (const v of fleet) {
+    const isManuallySoldOut = Boolean(v.soldOut === true || v.isSoldOut === true);
     const totalUnits = Math.max(1, Number(v.totalUnits) || (v.id === 'v_baleno' ? 20 : 10));
     const bookedUnits = bookedCounts[v.id] || 0;
-    const availableUnits = Math.max(0, totalUnits - bookedUnits);
+    const availableUnits = isManuallySoldOut ? 0 : Math.max(0, totalUnits - bookedUnits);
     let status = 'Available';
-    if (availableUnits <= 0) {
+    if (isManuallySoldOut || availableUnits <= 0) {
       status = 'Sold Out';
     } else if (availableUnits <= 3) {
       status = 'Low Stock';
@@ -3218,7 +3219,9 @@ async function getFleetAvailability(pickupDateStr, returnDateStr) {
       totalUnits,
       bookedUnits,
       availableUnits,
-      status
+      status,
+      soldOut: isManuallySoldOut,
+      isSoldOut: isManuallySoldOut
     };
   }
 
@@ -3279,13 +3282,15 @@ app.get('/api/fleet', async (req, res) => {
       });
     }
 
-    // Ensure totalUnits is present on all vehicles
+    // Ensure totalUnits and soldOut states are present on all vehicles
     fleet = fleet.map(v => {
       const obj = v.toObject ? v.toObject() : { ...v };
       if (obj.totalUnits === undefined || obj.totalUnits === null) {
         const seedMatch = INITIAL_FLEET.find(s => s.id === obj.id || (s.name && obj.name && s.name.toLowerCase() === obj.name.toLowerCase()));
         obj.totalUnits = seedMatch?.totalUnits || (obj.id === 'v_baleno' ? 20 : 10);
       }
+      obj.soldOut = Boolean(obj.soldOut === true || obj.isSoldOut === true);
+      obj.isSoldOut = obj.soldOut;
       return obj;
     });
 

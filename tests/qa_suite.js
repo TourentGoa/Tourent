@@ -180,6 +180,14 @@ async function runAll() {
         `Calculated stock for ${Object.keys(res.json?.availability || {}).length} models`
       );
     }
+    {
+      const res = await invoke('GET', '/api/fleet');
+      const allHaveSoldOut = res.json?.data?.every(v => typeof v.soldOut === 'boolean');
+      record('Fleet Module', 'GET /api/fleet includes soldOut status on all vehicles', 
+        res.statusCode === 200 && allHaveSoldOut, 
+        `All ${res.json?.data?.length} vehicles expose soldOut boolean flag`
+      );
+    }
 
     // 4. AUTHENTICATION & ACCESS CONTROL
     {

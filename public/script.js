@@ -362,9 +362,12 @@
       const list = active.length > 0 ? active : DEFAULT_VEHICLES;
       return list.map(v => {
         const price = Number(v.price) || 1000;
+        const isSoldOut = Boolean(v.soldOut === true || v.isSoldOut === true);
         return {
           ...v,
           totalUnits: Number(v.totalUnits) || (v.id === 'v_baleno' ? 20 : 10),
+          soldOut: isSoldOut,
+          isSoldOut: isSoldOut,
           basePrice: price,
           price: price,
           isSurged: false,
@@ -390,6 +393,45 @@
       if (e.key === FLEET_STORAGE_KEY || e.key === PRICING_STORAGE_KEY || !e.key) {
         LIVE_PRICING_RULES = getStoredPricingRules();
         refreshLiveFleet();
+        if (typeof fetchFleetAvailability === 'function') {
+          fetchFleetAvailability();
+        }
+      }
+    });
+
+    // Cross-tab instantaneous sync via BroadcastChannel
+    if (window.BroadcastChannel) {
+      try {
+        const fleetChannel = new BroadcastChannel('tourent_fleet_channel');
+        fleetChannel.onmessage = (e) => {
+          if (e.data && e.data.type === 'FLEET_UPDATED') {
+            refreshLiveFleet();
+            syncFleetFromServer();
+            if (typeof fetchFleetAvailability === 'function') {
+              fetchFleetAvailability();
+            }
+          }
+        };
+      } catch (_) {}
+    }
+
+    // Periodic gentle background poll (every 10s) when visible to keep all remote tabs in sync
+    setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        syncFleetFromServer();
+        if (typeof fetchFleetAvailability === 'function') {
+          fetchFleetAvailability();
+        }
+      }
+    }, 10000);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        refreshLiveFleet();
+        syncFleetFromServer();
+        if (typeof fetchFleetAvailability === 'function') {
+          fetchFleetAvailability();
+        }
       }
     });
 
@@ -398,6 +440,9 @@
       refreshLiveFleet();
       syncFleetFromServer();
       syncPricingRulesFromServer();
+      if (typeof fetchFleetAvailability === 'function') {
+        fetchFleetAvailability();
+      }
     });
 
     async function syncPricingRulesFromServer() {
@@ -461,14 +506,17 @@
       if (!LIVE_AVAILABILITY) {
         LIVE_AVAILABILITY = {};
         VEHICLES.forEach(v => {
+          const isManuallySoldOut = Boolean(v.soldOut === true || v.isSoldOut === true);
           const total = Number(v.totalUnits) || (v.id === 'v_baleno' ? 20 : 10);
           LIVE_AVAILABILITY[v.id] = {
             id: v.id,
             name: v.name,
             totalUnits: total,
-            bookedUnits: 0,
-            availableUnits: total,
-            status: 'Available'
+            bookedUnits: isManuallySoldOut ? total : 0,
+            availableUnits: isManuallySoldOut ? 0 : total,
+            status: isManuallySoldOut ? 'Sold Out' : 'Available',
+            soldOut: isManuallySoldOut,
+            isSoldOut: isManuallySoldOut
           };
         });
       }
@@ -949,8 +997,9 @@
 
         const availInfo = LIVE_AVAILABILITY ? LIVE_AVAILABILITY[v.id] : null;
         const totalUnits = Number(v.totalUnits) || (v.id === 'v_baleno' ? 20 : 10);
-        const remUnits = availInfo !== null && availInfo !== undefined ? availInfo.availableUnits : totalUnits;
-        const isSoldOut = remUnits <= 0;
+        const isManuallySoldOut = Boolean(v.soldOut === true || v.isSoldOut === true || (availInfo && (availInfo.soldOut || availInfo.isSoldOut)));
+        const remUnits = isManuallySoldOut ? 0 : (availInfo !== null && availInfo !== undefined ? availInfo.availableUnits : totalUnits);
+        const isSoldOut = Boolean(isManuallySoldOut || remUnits <= 0 || (availInfo && availInfo.status === 'Sold Out'));
         const isLowStock = !isSoldOut && remUnits <= 3;
 
         let stockBadgeHTML = '';
@@ -1514,14 +1563,15 @@
 
           const availInfo = LIVE_AVAILABILITY ? LIVE_AVAILABILITY[veh.id] : null;
           const totalUnits = Number(veh.totalUnits) || (veh.id === 'v_baleno' ? 20 : 10);
-          const baseAvail = availInfo !== null && availInfo !== undefined ? availInfo.availableUnits : totalUnits;
+          const isManuallySoldOut = Boolean(veh.soldOut === true || veh.isSoldOut === true || (availInfo && (availInfo.soldOut || availInfo.isSoldOut)));
+          const baseAvail = isManuallySoldOut ? 0 : (availInfo !== null && availInfo !== undefined ? availInfo.availableUnits : totalUnits);
           const otherCardsUsingThisVeh = otherCardsUsedCounts[veh.id] || 0;
           const isCurrentSelection = (vIdx === item.vehicleIndex);
 
           let stockBadge = '';
           let isOptionDisabled = false;
 
-          if (baseAvail <= 0) {
+          if (isManuallySoldOut || baseAvail <= 0) {
             stockBadge = ' · (Sold Out)';
             if (!isCurrentSelection) isOptionDisabled = true;
           } else if (otherCardsUsingThisVeh >= baseAvail && !isCurrentSelection) {
@@ -1720,7 +1770,8 @@
         const availInfo = LIVE_AVAILABILITY ? LIVE_AVAILABILITY[vId] : null;
         const vObj = VEHICLES.find(v => v.id === vId);
         const total = Number(vObj?.totalUnits) || (vId === 'v_baleno' ? 20 : 10);
-        const avail = availInfo !== null && availInfo !== undefined ? availInfo.availableUnits : total;
+        const isManuallySoldOut = Boolean(vObj?.soldOut === true || vObj?.isSoldOut === true || (availInfo && (availInfo.soldOut || availInfo.isSoldOut)));
+        const avail = isManuallySoldOut ? 0 : (availInfo !== null && availInfo !== undefined ? availInfo.availableUnits : total);
         if (count > avail) {
           overbookedVehicle = { name: vObj?.name || vId, available: avail, requested: count };
           break;

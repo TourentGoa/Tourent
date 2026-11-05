@@ -1769,8 +1769,8 @@
     }
 
     .v-card-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr 38px;
+      display: flex;
+      flex-direction: column;
       gap: 6px;
     }
     .btn-v-action {
@@ -1783,8 +1783,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 5px;
       transition: all 0.15s ease;
+    }
+    .btn-v-soldout {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1.5px solid #fecaca;
+    }
+    .btn-v-soldout:hover {
+      background: #fee2e2;
+      border-color: #fca5a5;
+      color: #b91c1c;
+    }
+    .btn-v-soldout.is-soldout {
+      background: #dc2626;
+      color: #ffffff;
+      border: 1.5px solid #b91c1c;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.28);
+    }
+    .btn-v-soldout.is-soldout:hover {
+      background: #b91c1c;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(185, 28, 28, 0.35);
     }
     .btn-v-edit {
       background: #eaf3f8;
@@ -1795,6 +1816,7 @@
     .btn-v-toggle {
       background: #f1f5f9;
       color: #334155;
+      border: 1px solid #e2e8f0;
     }
     .btn-v-toggle:hover { background: #e2e8f0; }
     .btn-v-del {
@@ -1806,6 +1828,15 @@
       color: var(--laterite);
       background: #fee2e2;
       border-color: #fca5a5;
+    }
+    .fleet-admin-card.is-soldout {
+      border-color: #fca5a5;
+    }
+    .v-badge-status.soldout {
+      background: #dc2626;
+      color: #ffffff;
+      border: 1px solid #b91c1c;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
     }
 
     /* Seasonal Pricing Engine */
@@ -3393,6 +3424,12 @@
             <label for="vFormTag">Badge / Tag *</label>
             <input type="text" id="vFormTag" placeholder="e.g. Self-drive, Scooter, Luxury SUV" required>
           </div>
+          <div class="form-field-admin" style="display:flex;align-items:center;margin-top:22px;">
+            <label style="display:inline-flex;align-items:center;gap:8px;margin:0;cursor:pointer;font-weight:700;color:#dc2626;background:#fef2f2;border:1.5px solid #fecaca;padding:10px 14px;border-radius:10px;width:100%;">
+              <input type="checkbox" id="vFormSoldOut" style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
+              <span>Mark as Sold Out</span>
+            </label>
+          </div>
         </div>
 
         <div class="form-field-admin">
@@ -4508,14 +4545,19 @@
 
       grid.innerHTML = filtered.map(v => {
         const isInactive = v.active === false;
+        const isSoldOut = Boolean(v.soldOut === true || v.isSoldOut === true);
 
         return `
-          <div class="fleet-admin-card ${isInactive ? 'is-inactive' : ''}" data-id="${v.id}">
+          <div class="fleet-admin-card ${isInactive ? 'is-inactive' : ''} ${isSoldOut ? 'is-soldout' : ''}" data-id="${v.id}">
             <div class="v-card-media">
               <span class="v-badge-cat">${getCatLabel(v.cat)}</span>
-              <span class="v-badge-status ${isInactive ? 'inactive' : 'active'}">
-                ${isInactive ? 'Out of Service' : 'Active'}
-              </span>
+              ${isSoldOut ? `
+                <span class="v-badge-status soldout">● SOLD OUT</span>
+              ` : `
+                <span class="v-badge-status ${isInactive ? 'inactive' : 'active'}">
+                  ${isInactive ? 'Out of Service' : 'Active'}
+                </span>
+              `}
               <img src="${getAdminVehiclePhoto(v)}" alt="${escapeHTML(v.name)}" loading="lazy">
             </div>
 
@@ -4528,7 +4570,11 @@
                   <span class="v-chip">${v.trans}</span>
                   <span class="v-chip">${v.mileage} km/L</span>
                   <span class="v-chip" style="background:#fef3c7;color:#92400e;">${v.tag}</span>
-                  <span class="v-chip" style="background:#ecfdf5;color:#047857;font-weight:700;border:1px solid #a7f3d0;">📦 ${v.totalUnits || (v.id === 'v_baleno' ? 20 : 10)} Units</span>
+                  ${isSoldOut ? `
+                    <span class="v-chip" style="background:#fee2e2;color:#b91c1c;font-weight:800;border:1px solid #fca5a5;">🔴 Sold Out (0 Available)</span>
+                  ` : `
+                    <span class="v-chip" style="background:#ecfdf5;color:#047857;font-weight:700;border:1px solid #a7f3d0;">📦 ${v.totalUnits || (v.id === 'v_baleno' ? 20 : 10)} Units</span>
+                  `}
                 </div>
               </div>
 
@@ -4560,20 +4606,27 @@
                 </div>
 
                 <div class="v-card-actions">
-                  ${isOwnerRole() ? `
-                  <button type="button" class="btn-v-action btn-v-edit" data-vaction="edit" data-id="${v.id}" style="display:inline-flex;align-items:center;gap:5px;">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                    Edit
+                  <button type="button" class="btn-v-action btn-v-soldout ${isSoldOut ? 'is-soldout' : ''}" data-vaction="toggle-soldout" data-id="${v.id}" title="${isSoldOut ? 'Vehicle is currently marked sold out. Click to restock.' : 'Click to instantly mark this vehicle as sold out on the website.'}">
+                    ${isSoldOut 
+                      ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Sold Out · Click to Restock' 
+                      : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg> Mark Sold Out'}
                   </button>
-                  ` : ''}
-                  <button type="button" class="btn-v-action btn-v-toggle" data-vaction="toggle" data-id="${v.id}" style="display:inline-flex;align-items:center;gap:5px;">
-                    ${isInactive ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg> Enable' : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg> Disable'}
-                  </button>
-                  ${isOwnerRole() ? `
-                  <button type="button" class="btn-v-action btn-v-del" data-vaction="delete" data-id="${v.id}" title="Delete" style="display:inline-flex;align-items:center;justify-content:center;">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                  </button>
-                  ` : ''}
+                  <div style="display:grid;grid-template-columns:${isOwnerRole() ? '1fr 1fr 38px' : '1fr'};gap:6px;">
+                    ${isOwnerRole() ? `
+                    <button type="button" class="btn-v-action btn-v-edit" data-vaction="edit" data-id="${v.id}" style="display:inline-flex;align-items:center;justify-content:center;gap:5px;">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                      Edit
+                    </button>
+                    ` : ''}
+                    <button type="button" class="btn-v-action btn-v-toggle" data-vaction="toggle" data-id="${v.id}" style="display:inline-flex;align-items:center;justify-content:center;gap:5px;">
+                      ${isInactive ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg> Enable' : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg> Disable'}
+                    </button>
+                    ${isOwnerRole() ? `
+                    <button type="button" class="btn-v-action btn-v-del" data-vaction="delete" data-id="${v.id}" title="Delete" style="display:inline-flex;align-items:center;justify-content:center;">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    </button>
+                    ` : ''}
+                  </div>
                 </div>
               </div>
             </div>
@@ -4610,6 +4663,19 @@
 
       if (vaction === 'edit') {
         openEditVehicleModal(vehicle);
+      } else if (vaction === 'toggle-soldout') {
+        const currentlySoldOut = vehicle.soldOut === true || vehicle.isSoldOut === true;
+        vehicle.soldOut = !currentlySoldOut;
+        vehicle.isSoldOut = !currentlySoldOut;
+        saveFleet(fleet);
+        if (window.BroadcastChannel) {
+          try {
+            const bc = new BroadcastChannel('tourent_fleet_channel');
+            bc.postMessage({ type: 'FLEET_UPDATED', id: vehicle.id, soldOut: vehicle.soldOut });
+            bc.close();
+          } catch (_) {}
+        }
+        showToast(`⚡ ${vehicle.name} is now ${vehicle.soldOut ? 'MARKED SOLD OUT on website' : 'RESTOCKED & AVAILABLE on website'}!`);
       } else if (vaction === 'toggle') {
         vehicle.active = vehicle.active === false ? true : false;
         saveFleet(fleet);
@@ -4698,6 +4764,7 @@
       document.getElementById('vFormEditId').value = "";
       vehicleForm.reset();
       document.getElementById('vFormUnits').value = 10;
+      document.getElementById('vFormSoldOut').checked = false;
       vFormFinalImage.value = "images/swift.png";
       vFormPreviewImg.src = "images/swift.png";
       vFormPreviewLabel.textContent = "Default: Maruti Swift";
@@ -4727,6 +4794,7 @@
       document.getElementById('vFormTrans').value = v.trans;
       document.getElementById('vFormTag').value = v.tag;
       document.getElementById('vFormUnits').value = v.totalUnits || (v.id === 'v_baleno' ? 20 : 10);
+      document.getElementById('vFormSoldOut').checked = Boolean(v.soldOut === true || v.isSoldOut === true);
 
       const img = v.image || "images/default-car.jpg";
       vFormFinalImage.value = img;
@@ -4776,6 +4844,7 @@
       const trans = document.getElementById('vFormTrans').value.trim();
       const tag = document.getElementById('vFormTag').value.trim();
       const totalUnits = Math.max(1, Number(document.getElementById('vFormUnits').value) || 10);
+      const soldOut = Boolean(document.getElementById('vFormSoldOut').checked);
       const image = vFormFinalImage.value || "images/default-car.jpg";
 
       const fleet = loadFleet();
@@ -4783,15 +4852,29 @@
       if (editId) {
         const idx = fleet.findIndex(v => v.id === editId);
         if (idx > -1) {
-          fleet[idx] = { ...fleet[idx], name, cat, price, mileage, fuel, seats, trans, tag, totalUnits, image };
+          fleet[idx] = { ...fleet[idx], name, cat, price, mileage, fuel, seats, trans, tag, totalUnits, image, soldOut, isSoldOut: soldOut };
           saveFleet(fleet);
-          showToast(`Vehicle "${name}" updated successfully! (${totalUnits} units in fleet)`);
+          if (window.BroadcastChannel) {
+            try {
+              const bc = new BroadcastChannel('tourent_fleet_channel');
+              bc.postMessage({ type: 'FLEET_UPDATED', id: editId, soldOut });
+              bc.close();
+            } catch (_) {}
+          }
+          showToast(`Vehicle "${name}" updated successfully! (${totalUnits} units in fleet${soldOut ? ' · SOLD OUT' : ''})`);
         }
       } else {
         const newId = "v_" + Date.now().toString(36);
-        fleet.unshift({ id: newId, name, cat, price, mileage, fuel, seats, trans, tag, totalUnits, image, active: true });
+        fleet.unshift({ id: newId, name, cat, price, mileage, fuel, seats, trans, tag, totalUnits, image, active: true, soldOut, isSoldOut: soldOut });
         saveFleet(fleet);
-        showToast(`Vehicle "${name}" added to fleet! (${totalUnits} units)`);
+        if (window.BroadcastChannel) {
+          try {
+            const bc = new BroadcastChannel('tourent_fleet_channel');
+            bc.postMessage({ type: 'FLEET_UPDATED', id: newId, soldOut });
+            bc.close();
+          } catch (_) {}
+        }
+        showToast(`Vehicle "${name}" added to fleet! (${totalUnits} units${soldOut ? ' · SOLD OUT' : ''})`);
       }
 
       vehicleModal.classList.remove('open');

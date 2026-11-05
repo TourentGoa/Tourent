@@ -63,7 +63,9 @@ body.modal-open{overflow:hidden !important;touch-action:none;}
 
 /* ============ HEADER ============ */
 header{
+  position:-webkit-sticky;
   position:sticky;top:0;z-index:1000;
+  width:100%;
   background:rgba(14,53,82,0.95);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
@@ -1479,7 +1481,7 @@ footer{background:#0a2540;color:rgba(255,253,248,0.7);padding:70px 0 30px;margin
   body {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   .nav {
@@ -1503,7 +1505,7 @@ footer{background:#0a2540;color:rgba(255,253,248,0.7);padding:70px 0 30px;margin
   body {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   body {
@@ -2573,19 +2575,18 @@ footer{background:#0a2540;color:rgba(255,253,248,0.7);padding:70px 0 30px;margin
 
 /* ============ RESPONSIVE BREAKPOINTS (DESKTOP, TABLET & MOBILE) ============ */
 
-/* Global Overflow & Sizing Guard */
+/* Global Overflow & Sizing Guard (clip prevents horizontal blowouts without breaking position:sticky) */
 html {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-text-size-adjust: 100%;
 }
 body {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
-  -webkit-overflow-scrolling: touch;
 }
 *, *::before, *::after {
   box-sizing: border-box;

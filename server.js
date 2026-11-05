@@ -224,6 +224,14 @@ app.use(cors({
     if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
       return callback(null, true);
     }
+    // Allow any Vercel domain (*.vercel.app)
+    if (/^https:\/\/([a-zA-Z0-9-]+\.)*vercel\.app$/i.test(origin)) {
+      return callback(null, true);
+    }
+    // Allow Tourent production domains
+    if (/^https?:\/\/(www\.)?tourent\.in$/i.test(origin)) {
+      return callback(null, true);
+    }
     // Check against allowed production origins
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);

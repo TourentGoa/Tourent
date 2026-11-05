@@ -209,7 +209,11 @@ const allowedOrigins = [
   'http://localhost:5001',
   'http://localhost:3000',
   'http://127.0.0.1:5001',
-  'http://127.0.0.1:3000'
+  'http://127.0.0.1:3000',
+  'https://tourent.in',
+  'https://www.tourent.in',
+  'http://tourent.in',
+  'http://www.tourent.in'
 ];
 if (process.env.APP_URL) allowedOrigins.push(process.env.APP_URL.replace(/\/$/, ''));
 if (process.env.PRODUCTION_DOMAIN) allowedOrigins.push(process.env.PRODUCTION_DOMAIN.replace(/\/$/, ''));
@@ -236,7 +240,7 @@ app.use(cors({
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    return callback(new Error('Blocked by CORS policy: untrusted origin'));
+    return callback(null, false);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],

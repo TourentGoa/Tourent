@@ -257,12 +257,21 @@ app.use(express.json({
 }));
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static frontend files (HTML, CSS, JS, Images, Icons)
+// Serve static frontend files (HTML, CSS, JS, Images, Icons) with optimized caching
 const PUBLIC_DIR = path.join(__dirname, 'public');
+const staticOptions = {
+  maxAge: '7d',
+  dotfiles: 'ignore',
+  setHeaders: (res, filePath) => {
+    if (/\.(ico|png|jpg|jpeg|svg|webp|woff2|woff|ttf)$/i.test(filePath)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+  }
+};
 if (fs.existsSync(PUBLIC_DIR)) {
-  app.use(express.static(PUBLIC_DIR, { dotfiles: 'ignore' }));
+  app.use(express.static(PUBLIC_DIR, staticOptions));
 }
-app.use(express.static(path.join(__dirname), { dotfiles: 'ignore' }));
+app.use(express.static(path.join(__dirname), staticOptions));
 
 // ==========================================
 // 🔐 ADMIN AUTHENTICATION & SECURITY ENGINE

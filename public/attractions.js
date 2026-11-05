@@ -2446,6 +2446,7 @@ function renderFeaturedAttractions() {
         src="${getAttractionImg(p)}"
         alt="${p.name}"
         loading="lazy"
+        decoding="async"
         onerror="this.src='https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&auto=format&fit=crop&q=80'"
       >
       <div class="featured-card-gradient"></div>
@@ -2588,6 +2589,7 @@ function renderAttractionsGrid() {
           src="${getAttractionImg(p)}"
           alt="${p.name}"
           loading="lazy"
+          decoding="async"
           onerror="this.src='https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&auto=format&fit=crop&q=80'"
         >
       </div>
@@ -2716,7 +2718,7 @@ function syncMapMarkers() {
       const marker = L.marker(p.coordinates, { icon: customIcon });
       const popupContent = `
         <div class="map-popup-card">
-          <img class="map-popup-img" src="${getAttractionImg(p)}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&auto=format&fit=crop&q=80'">
+          <img class="map-popup-img" src="${getAttractionImg(p)}" alt="${p.name}" loading="lazy" decoding="async" onerror="this.src='https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&auto=format&fit=crop&q=80'">
           <div class="map-popup-body">
             <div class="map-popup-tags">
               <span class="map-popup-tag cat">${p.category}</span>

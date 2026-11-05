@@ -903,7 +903,7 @@
         return;
       }
 
-      list.forEach((v)=>{
+      list.forEach((v, idx)=>{
         const isTwoWheeler = isTwoWheelerVehicle(v);
         const transOpts = getVehicleTransOptions(v);
         const effManual = getEffectiveVehicleRate(v, "Manual", pickupDateVal);
@@ -985,7 +985,9 @@
               class="vcard-photo"
               src="${photoUrlFor(v.name)}"
               alt="${v.name}"
-              loading="lazy"
+              loading="${idx < 2 ? 'eager' : 'lazy'}"
+              decoding="async"
+              ${idx === 0 ? 'fetchpriority="high"' : ''}
             >
           </div>
           <div class="vcard-body">

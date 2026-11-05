@@ -107,6 +107,17 @@ const searchLimiter = rateLimit({
   message: { success: false, error: 'Lookup rate limit exceeded. Please slow down.' }
 });
 
+// Normalize URL in case Vercel Serverless proxy stripped /api
+app.use((req, res, next) => {
+  const matched = req.headers['x-matched-path'] || req.headers['x-vercel-matched-path'] || '';
+  if (matched && matched.startsWith('/api') && !req.url.startsWith('/api')) {
+    const qIndex = req.url.indexOf('?');
+    const query = qIndex !== -1 ? req.url.slice(qIndex) : '';
+    req.url = matched + query;
+  }
+  next();
+});
+
 // Apply global rate limiting to all /api/ routes
 app.use('/api/', globalApiLimiter);
 

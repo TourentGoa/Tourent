@@ -59,7 +59,7 @@ section{padding:96px 0;}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease, transform 0.6s ease;}
 .reveal.is-visible{opacity:1;transform:translateY(0);}
 .vcard{opacity:1;}
-body.modal-open{overflow:hidden !important;touch-action:none;}
+body.modal-open{overflow:hidden !important;}
 
 /* ============ HEADER ============ */
 header{
@@ -2748,8 +2748,8 @@ body {
   .est-form { padding: 20px 16px; border-radius: 16px; }
 
   /* Modals */
-  .modal-overlay { padding: 12px 10px; align-items: flex-start; }
-  .modal { padding: 20px 15px; width: 100%; max-height: calc(100dvh - 24px); border-radius: 18px; margin: auto; }
+  .modal-overlay { padding: 12px 10px 100px; align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
+  .modal { padding: 20px 15px 36px; width: 100%; max-height: none; border-radius: 18px; margin: 10px auto 50px; touch-action: pan-y; box-sizing: border-box; }
   .modal.attraction-modal { padding: 0 !important; width: 100%; border-radius: 18px; }
   .attr-modal-hero { height: 200px; }
   .attr-hero-info { bottom: 12px; left: 14px; right: 14px; }

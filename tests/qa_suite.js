@@ -241,6 +241,13 @@ async function runAll() {
         `HTTP ${res.statusCode} (Bcrypt hash verified, 2FA challenge generated)`
       );
     }
+    {
+      const res = await invoke('POST', '/api/admin/login', { password: '3029' });
+      record('Authentication', 'Authenticate staff PIN instantly without 2FA block', 
+        res.statusCode === 200 && res.json?.success === true && res.json?.requires2FA === false && Boolean(res.json?.token), 
+        `HTTP ${res.statusCode} (Staff PIN 3029 verified, instant JWT token issued)`
+      );
+    }
 
     // 5. BOOKING VALIDATION & OVERBOOKING ENFORCEMENT
     {

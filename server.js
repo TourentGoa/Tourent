@@ -110,6 +110,52 @@ const searchLimiter = rateLimit({
 // Apply global rate limiting to all /api/ routes
 app.use('/api/', globalApiLimiter);
 
+// ==========================================
+// 🔌 SERVERLESS MONGODB CONNECTION CACHE
+// ==========================================
+const isServerless = Boolean(process.env.VERCEL || process.env.NOW_REGION || process.env.AWS_LAMBDA_FUNCTION_NAME);
+
+let cachedMongoPromise = global.mongoosePromise || null;
+
+async function connectMongoServerless() {
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
+  if (!MONGODB_URI) {
+    return null;
+  }
+  if (!cachedMongoPromise) {
+    cachedMongoPromise = mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 8000
+    }).then(async (m) => {
+      console.log('✅ [MongoDB Atlas] Connected to TourentCluster (Serverless)');
+      try {
+        await seedDatabaseIfEmpty();
+      } catch (seedErr) {
+        console.warn('⚠️ Seeding note:', seedErr.message);
+      }
+      return m;
+    }).catch(err => {
+      console.error('❌ [MongoDB Atlas] Serverless connection error:', err.message);
+      cachedMongoPromise = null;
+      return null;
+    });
+    global.mongoosePromise = cachedMongoPromise;
+  }
+  return cachedMongoPromise;
+}
+
+if (isServerless) {
+  app.use(async (req, res, next) => {
+    if (req.path.startsWith('/api/') || req.path === '/health') {
+      try {
+        await connectMongoServerless();
+      } catch (_) {}
+    }
+    next();
+  });
+}
+
 // 1. Hide backend server signature (prevents fingerprinting)
 app.disable('x-powered-by');
 
@@ -186,6 +232,10 @@ app.use(express.json({
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static frontend files (HTML, CSS, JS, Images, Icons)
+const PUBLIC_DIR = path.join(__dirname, 'public');
+if (fs.existsSync(PUBLIC_DIR)) {
+  app.use(express.static(PUBLIC_DIR, { dotfiles: 'ignore' }));
+}
 app.use(express.static(path.join(__dirname), { dotfiles: 'ignore' }));
 
 // ==========================================
@@ -3332,11 +3382,17 @@ app.post('/api/enquiries', bookingLimiter, async (req, res) => {
 });
 
 // Stealth Admin & Frontend Routing Fallbacks
-const ADMIN_FILE = path.join(__dirname, 'admin.html');
-const TAXIS_FILE = path.join(__dirname, 'taxis.html');
-const HELP_FILE = path.join(__dirname, 'help.html');
-const ATTRACTIONS_FILE = path.join(__dirname, 'attractions.html');
-const INDEX_FILE = path.join(__dirname, 'index.html');
+const resolveFrontendFile = (filename) => {
+  const inPublic = path.join(PUBLIC_DIR, filename);
+  if (fs.existsSync(inPublic)) return inPublic;
+  return path.join(__dirname, filename);
+};
+
+const ADMIN_FILE = resolveFrontendFile('admin.html');
+const TAXIS_FILE = resolveFrontendFile('taxis.html');
+const HELP_FILE = resolveFrontendFile('help.html');
+const ATTRACTIONS_FILE = resolveFrontendFile('attractions.html');
+const INDEX_FILE = resolveFrontendFile('index.html');
 
 app.get(['/owner', '/hq', '/ops', '/portal', '/admin', '/admin.html'], (req, res) => {
   res.sendFile(ADMIN_FILE);
@@ -3355,6 +3411,11 @@ app.get(['/attractions', '/attractions.html', '/attraction', '/places', '/touris
 });
 
 app.get('*', (req, res) => {
+  // Prevent static asset requests (.css, .js, .png, etc.) from falling through to index.html
+  if (path.extname(req.path)) {
+    return res.status(404).type('text/plain').send('Resource not found');
+  }
+
   if (req.path.startsWith('/admin')) {
     return res.sendFile(ADMIN_FILE);
   }
@@ -3460,6 +3521,9 @@ async function startServer() {
   }
 }
 
-startServer();
+// Only spin up persistent HTTP listener in standalone Node process (e.g. local development or npm test)
+if (!isServerless && (require.main === module || process.env.PORT === '0')) {
+  startServer();
+}
 
 module.exports = app;

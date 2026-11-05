@@ -1,0 +1,37 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.js" },
+    { "source": "/health", "destination": "/api/index.js" },
+    { "source": "/owner", "destination": "/admin.html" },
+    { "source": "/hq", "destination": "/admin.html" },
+    { "source": "/ops", "destination": "/admin.html" },
+    { "source": "/portal", "destination": "/admin.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/taxis", "destination": "/taxis.html" },
+    { "source": "/taxi", "destination": "/taxis.html" },
+    { "source": "/cabs", "destination": "/taxis.html" },
+    { "source": "/help", "destination": "/help.html" },
+    { "source": "/faq", "destination": "/help.html" },
+    { "source": "/support", "destination": "/help.html" },
+    { "source": "/attractions", "destination": "/attractions.html" },
+    { "source": "/attraction", "destination": "/attractions.html" },
+    { "source": "/places", "destination": "/attractions.html" },
+    { "source": "/tourist-guide", "destination": "/attractions.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*\\.(css|js))",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(images|iconic)/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}

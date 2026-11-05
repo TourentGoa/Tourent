@@ -1,6 +1,6 @@
 const app = require('../server.js');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   const matched = req.headers['x-matched-path'] || req.headers['x-vercel-matched-path'] || '';
 
   if (matched && (matched.startsWith('/api') || matched.startsWith('/health'))) {
@@ -9,6 +9,12 @@ module.exports = (req, res) => {
     req.url = matched + queryString;
   } else if (!req.url.startsWith('/api') && !req.url.startsWith('/health')) {
     req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
+  }
+
+  if (typeof app.connectMongoServerless === 'function') {
+    try {
+      await app.connectMongoServerless();
+    } catch (_) {}
   }
 
   return app(req, res);

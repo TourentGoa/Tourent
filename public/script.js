@@ -358,19 +358,19 @@
 
     function getActiveVehicles() {
       const fleet = getStoredFleetRaw();
-      return fleet
-        .filter(v => v.active !== false)
-        .map(v => {
-          const price = Number(v.price) || 1000;
-          return {
-            ...v,
-            totalUnits: Number(v.totalUnits) || (v.id === 'v_baleno' ? 20 : 10),
-            basePrice: price,
-            price: price,
-            isSurged: false,
-            isDiscounted: false
-          };
-        });
+      const active = (Array.isArray(fleet) ? fleet : []).filter(v => v.active !== false);
+      const list = active.length > 0 ? active : DEFAULT_VEHICLES;
+      return list.map(v => {
+        const price = Number(v.price) || 1000;
+        return {
+          ...v,
+          totalUnits: Number(v.totalUnits) || (v.id === 'v_baleno' ? 20 : 10),
+          basePrice: price,
+          price: price,
+          isSurged: false,
+          isDiscounted: false
+        };
+      });
     }
 
     let VEHICLES = getActiveVehicles();
@@ -887,9 +887,21 @@
     }
 
     function renderFleet(cat, selectedDateStr){
-      fleetGrid.innerHTML = "";
-      const list = cat==="all" ? VEHICLES : VEHICLES.filter(v=>v.cat===cat);
+      const grid = document.getElementById('fleetGrid');
+      if (!grid) return;
+      grid.innerHTML = "";
+      const activeVehicles = (Array.isArray(VEHICLES) ? VEHICLES : []).filter(v => v.active !== false);
+      const list = cat === "all" ? activeVehicles : activeVehicles.filter(v => v.cat === cat);
       const pickupDateVal = selectedDateStr || document.getElementById('fleetPickupDate')?.value || todayISO(1);
+
+      if (list.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: #64748b; font-size: 15px; font-weight: 600;">
+            No vehicles currently available in this category. Please select another category above.
+          </div>
+        `;
+        return;
+      }
 
       list.forEach((v)=>{
         const isTwoWheeler = isTwoWheelerVehicle(v);
@@ -958,7 +970,7 @@
         }
 
         const card = document.createElement('div');
-        card.className = "vcard reveal" + (isSoldOut ? " is-sold-out" : "");
+        card.className = "vcard reveal is-visible" + (isSoldOut ? " is-sold-out" : "");
         card.dataset.id = v.id;
         card.dataset.selectedTrans = initTrans;
         card.dataset.manualPrice = priceManual;
@@ -1000,7 +1012,7 @@
             </div>
           </div>
         `;
-        fleetGrid.appendChild(card);
+        grid.appendChild(card);
       });
       observeReveals();
     }
@@ -1027,7 +1039,7 @@
       fleetPickupInput.min = todayISO(0);
       fleetReturnInput.min = todayISO(1);
 
-      fleetPickupInput.addEventListener('change', () => {
+      const onPickupDateChange = () => {
         if (fleetPickupInput.value) {
           fleetReturnInput.min = fleetPickupInput.value;
           if (fleetReturnInput.value && fleetReturnInput.value < fleetPickupInput.value) {
@@ -1039,13 +1051,17 @@
           renderFleet(activeCat, fleetPickupInput.value);
           fetchFleetAvailability(fleetPickupInput.value, fleetReturnInput.value);
         }
-      });
+      };
+      fleetPickupInput.addEventListener('change', onPickupDateChange);
+      fleetPickupInput.addEventListener('input', onPickupDateChange);
 
-      fleetReturnInput.addEventListener('change', () => {
+      const onReturnDateChange = () => {
         if (fleetPickupInput.value && fleetReturnInput.value) {
           fetchFleetAvailability(fleetPickupInput.value, fleetReturnInput.value);
         }
-      });
+      };
+      fleetReturnInput.addEventListener('change', onReturnDateChange);
+      fleetReturnInput.addEventListener('input', onReturnDateChange);
 
       if (btnCheckFleetAvail) {
         btnCheckFleetAvail.addEventListener('click', () => {
@@ -1057,7 +1073,9 @@
     }
 
     // event delegation for Transmission pills and "Reserve" buttons rendered dynamically above
-    fleetGrid.addEventListener('click', (e)=>{
+    const fleetGridContainer = document.getElementById('fleetGrid');
+    if (fleetGridContainer) {
+      fleetGridContainer.addEventListener('click', (e)=>{
       const pill = e.target.closest('.trans-pill-btn');
       if (pill) {
         const card = pill.closest('.vcard');
@@ -1087,6 +1105,7 @@
       const chosenTrans = card?.dataset.selectedTrans || "Manual";
       openBooking(btn.dataset.vehicle, null, chosenTrans);
     });
+  }
 
     /* ============ ESTIMATOR ============ */
     const vehicleSelect = document.getElementById('vehicleSelect');
@@ -1357,6 +1376,17 @@
         navToggle.textContent = '☰';
         navToggle.setAttribute('aria-expanded','false');
       });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (navLinks && navLinks.classList.contains('open')) {
+        if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) {
+          navLinks.classList.remove('open');
+          navToggle.classList.remove('open');
+          navToggle.textContent = '☰';
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      }
     });
 
     /* ============ TOAST ============ */
@@ -1820,6 +1850,7 @@
       if (typeof updateDropLocationUI === 'function') updateDropLocationUI();
 
       bookingOverlay.classList.add('open');
+      document.body.classList.add('modal-open');
       document.body.style.overflow = 'hidden';
       const bkModal = bookingOverlay.querySelector('.modal');
       if (bkModal) {
@@ -1872,6 +1903,7 @@
 
     function closeBooking(){
       bookingOverlay.classList.remove('open');
+      document.body.classList.remove('modal-open');
       document.body.style.overflow = '';
 
       // Clear customer details on close
@@ -3241,11 +3273,16 @@
 
     function openModal(overlay){ 
       overlay.classList.add('open'); 
+      document.body.classList.add('modal-open');
       document.body.style.overflow = 'hidden'; 
       const m = overlay.querySelector('.modal');
       if (m) m.scrollTop = 0;
     }
-    function closeModal(overlay){ overlay.classList.remove('open'); document.body.style.overflow = ''; }
+    function closeModal(overlay){ 
+      overlay.classList.remove('open'); 
+      document.body.classList.remove('modal-open');
+      document.body.style.overflow = ''; 
+    }
 
     document.getElementById('openMatcherBtn').addEventListener('click', ()=>{
       matcherFormView.hidden = false;

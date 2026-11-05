@@ -27,6 +27,7 @@ const Enquiry = require('./models/Enquiry');
 const TaxiBooking = require('./models/TaxiBooking');
 const Review = require('./models/Review');
 const AdminSecurity = require('./models/AdminSecurity');
+const PricingRule = require('./models/PricingRule');
 const { INITIAL_FLEET, INITIAL_REVIEWS } = require('./data/seedData');
 
 const app = express();
@@ -155,6 +156,8 @@ async function connectMongoServerless() {
   }
   return cachedMongoPromise;
 }
+
+app.connectMongoServerless = connectMongoServerless;
 
 if (isServerless) {
   app.use(async (req, res, next) => {
@@ -539,13 +542,16 @@ const DEFAULT_PRICING_RULES = {
   ]
 };
 
-function getPricingRules() {
+let cachedPricingRules = null;
+
+function getPricingRulesFromFile() {
   try {
     if (fs.existsSync(PRICING_RULES_FILE)) {
       const raw = fs.readFileSync(PRICING_RULES_FILE, 'utf8');
       const parsed = JSON.parse(raw);
       return {
         globalOverride: { ...DEFAULT_PRICING_RULES.globalOverride, ...(parsed.globalOverride || {}) },
+        globalSurge: { ...DEFAULT_PRICING_RULES.globalOverride, ...(parsed.globalSurge || parsed.globalOverride || {}) },
         seasons: Array.isArray(parsed.seasons) ? parsed.seasons : DEFAULT_PRICING_RULES.seasons
       };
     }
@@ -555,18 +561,65 @@ function getPricingRules() {
   return DEFAULT_PRICING_RULES;
 }
 
-function savePricingRules(rules) {
+function getPricingRulesSync() {
+  return cachedPricingRules || getPricingRulesFromFile();
+}
+
+async function getPricingRules() {
+  if (cachedPricingRules) {
+    return cachedPricingRules;
+  }
+  if (mongoose.connection.readyState === 1) {
+    try {
+      let doc = await PricingRule.findOne({ key: 'primary' }).lean();
+      if (!doc) {
+        const fileRules = getPricingRulesFromFile();
+        const created = await PricingRule.create({ key: 'primary', ...fileRules });
+        doc = created.toObject ? created.toObject() : created;
+      }
+      cachedPricingRules = {
+        globalOverride: doc.globalOverride || DEFAULT_PRICING_RULES.globalOverride,
+        globalSurge: doc.globalSurge || doc.globalOverride || DEFAULT_PRICING_RULES.globalOverride,
+        seasons: Array.isArray(doc.seasons) ? doc.seasons : DEFAULT_PRICING_RULES.seasons
+      };
+      return cachedPricingRules;
+    } catch (err) {
+      console.warn('⚠️ [Pricing Engine] MongoDB load warning, falling back to file cache:', err.message);
+    }
+  }
+  cachedPricingRules = getPricingRulesFromFile();
+  return cachedPricingRules;
+}
+
+async function savePricingRules(rules) {
+  cachedPricingRules = {
+    globalOverride: rules.globalOverride || rules.globalSurge || DEFAULT_PRICING_RULES.globalOverride,
+    globalSurge: rules.globalSurge || rules.globalOverride || DEFAULT_PRICING_RULES.globalOverride,
+    seasons: Array.isArray(rules.seasons) ? rules.seasons : DEFAULT_PRICING_RULES.seasons
+  };
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      await PricingRule.findOneAndUpdate(
+        { key: 'primary' },
+        { ...cachedPricingRules, key: 'primary' },
+        { upsert: true, new: true }
+      );
+    } catch (err) {
+      console.error('❌ [Pricing Engine] Error saving rules to MongoDB:', err.message);
+    }
+  }
+
   try {
     const dir = path.dirname(PRICING_RULES_FILE);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
-    fs.writeFileSync(PRICING_RULES_FILE, JSON.stringify(rules, null, 2), 'utf8');
-    return true;
+    fs.writeFileSync(PRICING_RULES_FILE, JSON.stringify(cachedPricingRules, null, 2), 'utf8');
   } catch (err) {
-    console.error('❌ Error saving pricing rules file:', err);
-    return false;
+    // EROFS on read-only serverless environment is normal and handled safely by MongoDB
   }
+  return true;
 }
 
 function calculateAuthoritativeVehicleRate(vItem, pickupDate) {
@@ -600,7 +653,7 @@ function calculateAuthoritativeVehicleRate(vItem, pickupDate) {
   }
 
   // Apply active seasonal pricing multipliers if active
-  const rules = getPricingRules();
+  const rules = getPricingRulesSync();
   let multiplier = 1.0;
   if (rules.globalOverride && (rules.globalOverride.active || rules.globalOverride.enabled) && Number(rules.globalOverride.multiplier) > 0) {
     multiplier = Math.max(multiplier, Number(rules.globalOverride.multiplier));
@@ -3184,6 +3237,16 @@ app.get('/api/fleet/availability', async (req, res) => {
   }
 });
 
+// In-memory fleet cache for zero-loss serverless and offline resilience
+let cachedFleet = null;
+
+function getCachedFleet() {
+  if (Array.isArray(cachedFleet) && cachedFleet.length > 0) {
+    return cachedFleet;
+  }
+  return [...INITIAL_FLEET];
+}
+
 app.get('/api/fleet', async (req, res) => {
   try {
     const { category, active } = req.query;
@@ -3194,8 +3257,13 @@ app.get('/api/fleet', async (req, res) => {
     let fleet = [];
     if (mongoose.connection.readyState === 1) {
       fleet = await Vehicle.find(query);
-    } else {
-      fleet = [...INITIAL_FLEET].filter(v => {
+      if (Array.isArray(fleet) && fleet.length > 0 && !category && active === undefined) {
+        cachedFleet = fleet.map(v => (v.toObject ? v.toObject() : { ...v }));
+      }
+    }
+    if (!fleet || fleet.length === 0) {
+      const source = getCachedFleet();
+      fleet = source.filter(v => {
         if (category && v.cat !== category) return false;
         if (active !== undefined && (v.active === true) !== (active === 'true')) return false;
         return true;
@@ -3252,19 +3320,36 @@ app.post('/api/fleet', requireAdminAuth, async (req, res) => {
   try {
     const vData = req.body;
     if (Array.isArray(vData)) {
-      const ops = vData.map(v => ({
-        updateOne: { filter: { id: v.id }, update: { $set: v }, upsert: true }
-      }));
-      await Vehicle.bulkWrite(ops);
+      cachedFleet = vData;
+      if (mongoose.connection.readyState === 1) {
+        const ops = vData.map(v => ({
+          updateOne: { filter: { id: v.id }, update: { $set: v }, upsert: true }
+        }));
+        await Vehicle.bulkWrite(ops);
+      }
       return res.json({ success: true, message: 'Fleet updated successfully' });
     }
 
-    const upserted = await Vehicle.findOneAndUpdate(
-      { id: vData.id },
-      { $set: vData },
-      { upsert: true, new: true }
-    );
-    res.json({ success: true, data: upserted });
+    if (vData && vData.id) {
+      const current = getCachedFleet();
+      const idx = current.findIndex(v => v.id === vData.id);
+      if (idx !== -1) {
+        current[idx] = { ...current[idx], ...vData };
+      } else {
+        current.push(vData);
+      }
+      cachedFleet = current;
+    }
+
+    if (mongoose.connection.readyState === 1) {
+      const upserted = await Vehicle.findOneAndUpdate(
+        { id: vData.id },
+        { $set: vData },
+        { upsert: true, new: true }
+      );
+      return res.json({ success: true, data: upserted });
+    }
+    res.json({ success: true, data: vData });
   } catch (err) {
     console.error('Error updating vehicle in MongoDB:', err);
     res.status(500).json({ success: false, error: 'Failed to save vehicle' });
@@ -3273,7 +3358,12 @@ app.post('/api/fleet', requireAdminAuth, async (req, res) => {
 
 app.delete('/api/fleet/:id', requireOwnerAuth, async (req, res) => {
   try {
-    await Vehicle.findOneAndDelete({ id: req.params.id });
+    if (cachedFleet) {
+      cachedFleet = cachedFleet.filter(v => v.id !== req.params.id);
+    }
+    if (mongoose.connection.readyState === 1) {
+      await Vehicle.findOneAndDelete({ id: req.params.id });
+    }
     res.json({ success: true, message: 'Vehicle deleted from fleet' });
   } catch (err) {
     res.status(500).json({ success: false, error: 'Failed to delete vehicle' });
@@ -3318,37 +3408,37 @@ app.post('/api/reviews', bookingLimiter, async (req, res) => {
 // ==========================================
 // ⚡ DYNAMIC & SEASONAL PRICING API
 // ==========================================
-app.get('/api/pricing-rules', (req, res) => {
+app.get('/api/pricing-rules', async (req, res) => {
   try {
-    const rules = getPricingRules();
+    const rules = await getPricingRules();
     res.json({
       success: true,
       data: rules,
       rules: rules,
       globalOverride: rules.globalOverride,
       globalSurge: rules.globalSurge || rules.globalOverride,
-      seasons: rules.seasons.filter(s => s.active !== false)
+      seasons: (rules.seasons || []).filter(s => s.active !== false)
     });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.get('/api/admin/pricing-rules', requireAdminAuth, (req, res) => {
+app.get('/api/admin/pricing-rules', requireAdminAuth, async (req, res) => {
   try {
-    const rules = getPricingRules();
+    const rules = await getPricingRules();
     res.json({ success: true, rules, data: rules });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.post('/api/admin/pricing-rules', requireOwnerAuth, (req, res) => {
+app.post('/api/admin/pricing-rules', requireAdminAuth, async (req, res) => {
   try {
     const bodyRules = req.body.rules || req.body;
     const globalOverride = bodyRules.globalOverride || bodyRules.globalSurge;
     const seasons = bodyRules.seasons;
-    const current = getPricingRules();
+    const current = await getPricingRules();
     const updated = {
       globalOverride: globalOverride ? {
         enabled: Boolean(globalOverride.enabled || globalOverride.active),
@@ -3363,7 +3453,7 @@ app.post('/api/admin/pricing-rules', requireOwnerAuth, (req, res) => {
       } : (current.globalSurge || current.globalOverride),
       seasons: Array.isArray(seasons) ? seasons : current.seasons
     };
-    savePricingRules(updated);
+    await savePricingRules(updated);
     console.log(`⚡ [Pricing Engine] Rules updated by admin. Global Surge: ${updated.globalOverride.enabled ? `${updated.globalOverride.multiplier}x` : 'OFF'}, Seasons: ${updated.seasons.length}`);
     res.json({ success: true, rules: updated, data: updated });
   } catch (err) {

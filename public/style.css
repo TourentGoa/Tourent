@@ -2748,9 +2748,9 @@ body {
   .est-form { padding: 20px 16px; border-radius: 16px; }
 
   /* Modals */
-  .modal-overlay { padding: 0; align-items: flex-end; justify-content: center; overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
-  .modal { padding: 22px 18px calc(env(safe-area-inset-bottom, 20px) + 24px) 18px; width: 100%; max-height: 92dvh; max-height: 92vh; border-radius: 24px 24px 0 0; margin: auto 0 0 0; touch-action: pan-y; box-sizing: border-box; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-  .modal.attraction-modal { padding: 0 !important; width: 100%; border-radius: 24px 24px 0 0; }
+  .modal-overlay { padding: 20px 14px; align-items: center; justify-content: center; overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
+  .modal { padding: 24px 20px; width: 100%; max-width: 520px; max-height: min(88vh, 88dvh); border-radius: 22px; margin: auto; touch-action: pan-y; box-sizing: border-box; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .modal.attraction-modal { padding: 0 !important; width: 100%; border-radius: 22px; }
   .attr-modal-hero { height: 200px; }
   .attr-hero-info { bottom: 12px; left: 14px; right: 14px; }
   .attr-hero-title { font-size: 19px; line-height: 1.25; margin: 2px 0 4px; }
@@ -3204,80 +3204,99 @@ body {
 }
 
 /* ==========================================================================
-   MOBILE MODALS & BOTTOM SHEETS (max-width: 640px)
-   Professional, spacious, modern mobile presentation for all Tourent modals:
-   - Track & View My Bookings (#myBookingsOverlay)
-   - Rental Terms & Policies (#termsModalOverlay)
-   - Reserve a Vehicle / Booking (#bookingOverlay)
-   - 20% Advance Payment (#paymentModalOverlay)
-   - Vehicle Recommender & Planner (#matcherOverlay, #itineraryOverlay)
+   MOBILE FLOATING MODALS (CENTER ALIGNMENT, max-width: 640px)
+   Elegant, floating, professional centered modal presentation:
+   - Floating centered card layout with luxury rounded corners (border-radius: 22px)
+   - Soft executive backdrop & blur
+   - Generous breathing margins from screen edges
+   - Zero horizontal overflow or cut-off
+   - Smooth internal scrolling with no scroll trapping
+   - Beautiful, spacious typography and clean card structure
    ========================================================================== */
 @media (max-width: 640px) {
-  /* 1. Backdrop & Container */
+  /* 1. Backdrop Overlay & Centered Alignment */
   .modal-overlay {
-    padding: 0 !important;
-    align-items: flex-end !important;
+    position: fixed !important;
+    inset: 0 !important;
+    padding: 24px 14px !important;
+    display: flex !important;
+    align-items: center !important;
     justify-content: center !important;
     background: rgba(10, 25, 40, 0.72) !important;
     backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
     overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior-y: contain !important;
-  }
-
-  .modal {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: auto 0 0 0 !important;
-    max-height: 92dvh !important;
-    max-height: 92vh !important;
-    border-radius: 24px 24px 0 0 !important;
-    padding: 22px 18px calc(env(safe-area-inset-bottom, 20px) + 24px) 18px !important;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35) !important;
-    overflow-y: auto !important;
+    overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior-y: contain !important;
     box-sizing: border-box !important;
-    transform: translateY(18px) scale(0.99);
-    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease !important;
+    z-index: 2000 !important;
+  }
+
+  /* 2. Floating Centered Modal Card */
+  .modal {
+    width: 100% !important;
+    max-width: 520px !important;
+    margin: auto !important;
+    max-height: min(88vh, 88dvh) !important;
+    border-radius: 22px !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    background: var(--foam, #fffdf8) !important;
+    padding: 26px 20px 28px 20px !important;
+    box-shadow: 0 25px 65px -15px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(14, 53, 82, 0.08) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    box-sizing: border-box !important;
+    transform: scale(0.96) translateY(6px) !important;
+    transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease !important;
+    position: relative !important;
   }
 
   .modal-overlay.open .modal {
-    transform: translateY(0) scale(1) !important;
+    transform: scale(1) translateY(0) !important;
   }
 
-  /* Sleek native iOS/Android sheet handle pill */
+  /* Remove any drag handle pill */
   .modal::before {
-    content: '';
-    display: block;
-    width: 42px;
-    height: 4.5px;
-    border-radius: 999px;
-    background: #cbd5e1;
-    margin: 0 auto 16px;
-    flex-shrink: 0;
+    display: none !important;
   }
 
-  /* Close button positioned neatly in upper right */
+  /* Universal child guard to prevent horizontal blowout/cut-offs */
+  .modal * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .modal form {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Elegant Circular Close Button */
   .modal-close {
     position: absolute !important;
-    top: 14px !important;
-    right: 14px !important;
-    width: 36px !important;
-    height: 36px !important;
-    background: #f1f5f9 !important;
-    border: 1px solid #e2e8f0 !important;
+    top: 16px !important;
+    right: 16px !important;
+    width: 34px !important;
+    height: 34px !important;
+    background: var(--sand, #f0ebd8) !important;
+    border: 1px solid rgba(14, 53, 82, 0.1) !important;
     border-radius: 50% !important;
     font-size: 15px !important;
     font-weight: 700 !important;
-    color: #475569 !important;
+    color: var(--ink-blue, #0e3552) !important;
     z-index: 10 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.2s ease !important;
+  }
+  .modal-close:hover {
+    background: var(--line, #e2e8f0) !important;
   }
 
   /* Modal Headings & Subtitles */
@@ -3290,11 +3309,12 @@ body {
     letter-spacing: 0.08em !important;
     margin-bottom: 6px !important;
     font-weight: 700 !important;
+    color: var(--laterite, #b4472e) !important;
   }
   .modal-head h3 {
     font-size: 22px !important;
     line-height: 1.25 !important;
-    color: var(--ink-blue) !important;
+    color: var(--ink-blue, #0e3552) !important;
     margin: 0 0 6px !important;
     font-weight: 800 !important;
   }
@@ -3305,12 +3325,12 @@ body {
     margin: 0 !important;
   }
 
-  /* 2. MY BOOKINGS MODAL (#myBookingsOverlay) */
+  /* 3. MY BOOKINGS MODAL (#myBookingsOverlay) */
   .my-bookings-modal {
-    max-width: 100% !important;
-    max-height: 92dvh !important;
-    max-height: 92vh !important;
-    padding: 22px 18px calc(env(safe-area-inset-bottom, 20px) + 24px) 18px !important;
+    max-width: 540px !important;
+    max-height: min(88vh, 88dvh) !important;
+    padding: 26px 20px !important;
+    border-radius: 22px !important;
   }
 
   .my-bk-lookup-bar {
@@ -3318,6 +3338,7 @@ body {
     gap: 8px !important;
     margin: 14px 0 16px !important;
     align-items: center !important;
+    width: 100% !important;
   }
   .my-bk-input-wrap {
     flex: 1 !important;
@@ -3360,7 +3381,7 @@ body {
     flex-shrink: 0 !important;
   }
 
-  /* Status Banner: Fix awkward 3-column wrap */
+  /* Status Banner: Smooth single-sentence layout */
   .my-bk-status-banner {
     display: block !important;
     line-height: 1.55 !important;
@@ -3395,7 +3416,7 @@ body {
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03) !important;
   }
 
-  /* Card Head: Stacking reference, status, and date eliminates awkward wrapping */
+  /* Card Head: Clean stacked layout gives badge & reference ID 100% breathing room */
   .booking-entry-head {
     display: flex !important;
     flex-direction: column !important;
@@ -3404,6 +3425,9 @@ body {
     margin-bottom: 12px !important;
     padding-bottom: 12px !important;
     border-bottom: 1px solid #f1f5f9 !important;
+  }
+  .booking-entry-title-col {
+    width: 100% !important;
   }
   .booking-entry-head strong.booking-ref {
     font-size: 16px !important;
@@ -3423,6 +3447,7 @@ body {
     gap: 5px !important;
     white-space: normal !important;
     max-width: 100% !important;
+    align-self: flex-start !important;
   }
   .booking-entry-date {
     display: flex !important;
@@ -3452,13 +3477,12 @@ body {
     margin-top: 8px !important;
   }
 
-  /* 3. RENTAL TERMS & POLICIES MODAL (#termsModalOverlay) */
+  /* 4. RENTAL TERMS & POLICIES MODAL (#termsModalOverlay) */
   .terms-modal {
-    max-width: 100% !important;
-    max-height: 92dvh !important;
-    max-height: 92vh !important;
-    padding: 22px 18px calc(env(safe-area-inset-bottom, 20px) + 24px) 18px !important;
-    border-radius: 24px 24px 0 0 !important;
+    max-width: 540px !important;
+    max-height: min(88vh, 88dvh) !important;
+    padding: 26px 20px !important;
+    border-radius: 22px !important;
   }
   .terms-nav-tabs {
     display: flex !important;
@@ -3470,6 +3494,7 @@ body {
     padding: 4px 2px 12px !important;
     margin: 8px 0 16px !important;
     border-bottom: 1.5px solid #e2e8f0 !important;
+    width: 100% !important;
   }
   .terms-nav-tabs::-webkit-scrollbar {
     display: none !important;
@@ -3484,6 +3509,7 @@ body {
   }
   .terms-tab-pane {
     padding: 0 !important;
+    width: 100% !important;
   }
   .terms-card {
     background: #ffffff !important;
@@ -3554,9 +3580,16 @@ body {
     cursor: pointer !important;
   }
 
-  /* 4. RESERVE A VEHICLE MODAL (#bookingOverlay) */
+  /* 5. RESERVE A VEHICLE MODAL (#bookingOverlay) */
+  #bookingOverlay .modal {
+    max-width: 520px !important;
+    max-height: min(88vh, 88dvh) !important;
+    padding: 26px 20px !important;
+    border-radius: 22px !important;
+  }
   .bk-vehicles-section {
     margin-bottom: 16px !important;
+    width: 100% !important;
   }
   .bk-vehicles-head {
     display: flex !important;
@@ -3583,6 +3616,7 @@ body {
     padding: 16px 14px !important;
     margin-bottom: 14px !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+    width: 100% !important;
   }
   .bk-vehicle-card-head {
     margin-bottom: 10px !important;
@@ -3595,6 +3629,8 @@ body {
     font-size: 12px !important;
   }
   .bk-v-select {
+    width: 100% !important;
+    max-width: 100% !important;
     height: 48px !important;
     border-radius: 12px !important;
     font-size: 14px !important;
@@ -3603,6 +3639,9 @@ body {
     background: #ffffff !important;
     color: var(--ink-blue) !important;
     box-sizing: border-box !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
   }
   .bk-v-actions-row {
     margin-top: 12px !important;
@@ -3611,10 +3650,11 @@ body {
     align-items: center !important;
     justify-content: space-between !important;
     flex-wrap: wrap !important;
+    width: 100% !important;
   }
   .modal-trans-row {
     gap: 6px !important;
-    flex: 1 1 180px !important;
+    flex: 1 1 auto !important;
     margin: 0 !important;
   }
   .modal-trans-label {
@@ -3650,6 +3690,7 @@ body {
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 4px !important;
+    width: 100% !important;
   }
   .bk-v-calc-preview strong {
     font-size: 14px !important;
@@ -3660,9 +3701,11 @@ body {
   .modal .field-row {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
+    width: 100% !important;
   }
   .modal .field {
     margin-bottom: 14px !important;
+    width: 100% !important;
   }
   .modal .field label {
     font-size: 12px !important;
@@ -3677,6 +3720,8 @@ body {
   .modal input[type="tel"],
   .modal input[type="date"],
   .modal select {
+    width: 100% !important;
+    max-width: 100% !important;
     height: 48px !important;
     border-radius: 12px !important;
     font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
@@ -3685,6 +3730,7 @@ body {
     box-sizing: border-box !important;
   }
   .phone-input-wrap {
+    width: 100% !important;
     height: 48px !important;
     border-radius: 12px !important;
   }
@@ -3701,6 +3747,7 @@ body {
     gap: 10px !important;
     display: flex !important;
     align-items: flex-start !important;
+    width: 100% !important;
   }
   .bk-advance-lock-banner {
     padding: 14px 14px !important;
@@ -3710,6 +3757,7 @@ body {
     line-height: 1.5 !important;
     background: #fff8eb !important;
     border: 1.5px solid #fde0b2 !important;
+    width: 100% !important;
   }
   .bk-advance-lock-banner strong {
     font-size: 13.5px !important;
@@ -3725,6 +3773,7 @@ body {
     padding: 16px 14px !important;
     margin: 16px 0 !important;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03) !important;
+    width: 100% !important;
   }
   .bk-summary-title {
     font-size: 14px !important;
@@ -3764,6 +3813,7 @@ body {
     font-size: 13px !important;
     line-height: 1.4 !important;
     gap: 10px !important;
+    width: 100% !important;
   }
 
   /* Submit Button & Help Notes */
@@ -3786,18 +3836,34 @@ body {
     line-height: 1.4 !important;
   }
 
-  /* 5. ATTRACTIONS & OTHER MODALS */
-  .modal.attraction-modal::before {
-    display: none !important;
-  }
+  /* 6. ATTRACTIONS MODAL (#attractionModalOverlay) */
   .modal.attraction-modal {
     padding: 0 !important;
     overflow: hidden !important;
+    border-radius: 22px !important;
+    max-width: 520px !important;
+    max-height: min(88vh, 88dvh) !important;
   }
+  .modal.attraction-modal .attr-modal-hero {
+    border-radius: 22px 22px 0 0 !important;
+    height: 200px !important;
+  }
+  .modal.attraction-modal .modal-close {
+    background: rgba(10, 37, 64, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    top: 14px !important;
+    right: 14px !important;
+  }
+
+  /* 7. PAYMENT MODAL (#paymentModalOverlay) */
   .modal.payment-checkout-modal {
-    padding: 22px 18px calc(env(safe-area-inset-bottom, 20px) + 24px) 18px !important;
-    border-radius: 24px 24px 0 0 !important;
-    max-width: 100% !important;
+    padding: 24px 20px !important;
+    border-radius: 22px !important;
+    max-width: 480px !important;
+    max-height: min(88vh, 88dvh) !important;
   }
   .pay-qr-box {
     padding: 16px !important;

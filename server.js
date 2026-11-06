@@ -32,7 +32,7 @@ const { INITIAL_FLEET, INITIAL_REVIEWS } = require('./data/seedData');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://padwalramchandra0204_db_user:HbqOiExiNHaf5kCP@tourentcluster.nn7qrdd.mongodb.net/tourent_db?retryWrites=true&w=majority&appName=TourentCluster';
 const JWT_SECRET = process.env.JWT_SECRET || 'tourent_fallback_secret_key_goa_2026';
 const ADMIN_USERNAME = (process.env.ADMIN_USERNAME || 'admin').trim();
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'TourentGoa@2026!';
@@ -183,6 +183,16 @@ async function connectMongoServerless() {
 }
 
 app.connectMongoServerless = connectMongoServerless;
+
+async function ensureDbConnected() {
+  if (mongoose.connection.readyState === 1) return true;
+  try {
+    await connectMongoServerless();
+    return mongoose.connection.readyState === 1;
+  } catch (e) {
+    return false;
+  }
+}
 
 if (isServerless) {
   app.use(async (req, res, next) => {
@@ -3183,6 +3193,7 @@ app.patch('/api/taxis/:id', requireAdminAuth, async (req, res) => {
 // ==========================================
 
 async function getFleetAvailability(pickupDateStr, returnDateStr) {
+  await ensureDbConnected();
   const todayStr = new Date().toISOString().slice(0, 10);
   const pDate = (pickupDateStr || todayStr).slice(0, 10);
   const rDate = (returnDateStr || pDate).slice(0, 10);
@@ -3331,6 +3342,7 @@ function getCachedFleet() {
 app.get('/api/fleet', async (req, res) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   try {
+    await ensureDbConnected();
     const { category, active } = req.query;
     let query = {};
     if (category) query.cat = category;
@@ -3406,6 +3418,8 @@ app.post('/api/fleet/:id/sold-out', requireAdminAuth, async (req, res) => {
     const { id } = req.params;
     const { soldOut } = req.body;
 
+    await ensureDbConnected();
+
     const current = getCachedFleet();
     const idx = current.findIndex(v => v.id === id);
     const newSoldOut = (soldOut !== undefined) ? Boolean(soldOut) : (idx !== -1 ? !Boolean(current[idx].soldOut || current[idx].isSoldOut) : true);
@@ -3421,6 +3435,7 @@ app.post('/api/fleet/:id/sold-out', requireAdminAuth, async (req, res) => {
         { $set: { soldOut: newSoldOut, isSoldOut: newSoldOut } },
         { upsert: true }
       );
+      console.log(`✅ [MongoDB Atlas] Vehicle ${id} soldOut persisted as ${newSoldOut}`);
     }
 
     res.json({ success: true, id, soldOut: newSoldOut, isSoldOut: newSoldOut });
@@ -3432,6 +3447,7 @@ app.post('/api/fleet/:id/sold-out', requireAdminAuth, async (req, res) => {
 
 app.post('/api/fleet', requireAdminAuth, async (req, res) => {
   try {
+    await ensureDbConnected();
     const vData = req.body;
     if (Array.isArray(vData)) {
       // Clean immutable fields (_id, __v) so MongoDB update does not fail

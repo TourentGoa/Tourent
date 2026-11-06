@@ -3795,7 +3795,16 @@
     }
 
     function getAdminToken() {
-      return sessionStorage.getItem(AUTH_TOKEN_KEY) || localStorage.getItem(AUTH_REMEMBER_KEY) || "";
+      const token = sessionStorage.getItem(AUTH_TOKEN_KEY) || localStorage.getItem(AUTH_REMEMBER_KEY) || "";
+      if (!token) return "";
+      const payload = parseJwtPayload(token);
+      if (payload && payload.exp && (payload.exp * 1000 < Date.now())) {
+        console.warn("Stored admin token has expired. Prompting for authentication.");
+        sessionStorage.removeItem(AUTH_TOKEN_KEY);
+        localStorage.removeItem(AUTH_REMEMBER_KEY);
+        return "";
+      }
+      return token;
     }
 
     function getStaffRole() {
@@ -4447,11 +4456,15 @@
 
       try {
         const token = getAdminToken();
+        if (!token) {
+          console.warn('No active admin token to sync fleet to server.');
+          return;
+        }
         const res = await fetch(`${API_BASE}/api/fleet`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify(list)
         });
@@ -4460,6 +4473,7 @@
           console.warn('Cloud fleet sync notice (HTTP ' + res.status + '):', errData);
           if (res.status === 401 || res.status === 403) {
             showToast('⚠️ Admin session expired. Please re-enter your password to sync to cloud.');
+            document.getElementById('authGate').classList.remove('hidden');
           }
         }
       } catch (err) {
@@ -4679,17 +4693,32 @@
         saveFleet(fleet);
 
         // Atomic direct sync to cloud database
-        try {
-          const token = getAdminToken();
+        const token = getAdminToken();
+        if (token) {
           fetch(`${API_BASE}/api/fleet/${encodeURIComponent(vehicle.id)}/sold-out`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+              'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ soldOut: newSoldOut })
+          }).then(async (res) => {
+            if (!res.ok) {
+              const err = await res.json().catch(() => ({}));
+              if (res.status === 401 || res.status === 403) {
+                showToast('⚠️ Admin session expired. Please enter your PIN/Password to sync to website.');
+                document.getElementById('authGate').classList.remove('hidden');
+              } else {
+                showToast(`⚠️ Cloud database sync warning: ${err.error || 'Server notice'}`);
+              }
+            } else {
+              console.log(`✅ MongoDB Atlas confirmed: ${vehicle.name} soldOut is now ${newSoldOut}`);
+            }
           }).catch(err => console.warn('Atomic sold-out update notice:', err));
-        } catch (_) {}
+        } else {
+          showToast('⚠️ Please enter your password/PIN to sync status to cloud.');
+          document.getElementById('authGate').classList.remove('hidden');
+        }
 
         if (window.BroadcastChannel) {
           try {

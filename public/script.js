@@ -2644,6 +2644,8 @@
           renderMyBookings();
           myBookingsOverlay.classList.add('open');
           document.body.style.overflow = 'hidden';
+          const myBkModal = myBookingsOverlay.querySelector('.modal');
+          if (myBkModal) myBkModal.scrollTop = 0;
         };
       }
     }
@@ -2773,10 +2775,10 @@
           vehicleDetailsHTML = b.vehicles.map(v => {
             const trans = v.transmission ? ` (${escapeHTML(v.transmission)})` : '';
             const depStr = v.deposit ? ` + ₹${Number(v.deposit).toLocaleString('en-IN')} Ref. Deposit` : ' (₹0 Deposit)';
-            return `<div style="font-size:12.5px;color:#334155;margin:3px 0;display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> <span><strong>${escapeHTML(v.name)}</strong>${trans} · ${v.days}d @ ₹${Number(v.price).toLocaleString('en-IN')}/d${depStr} (Return: ${escapeHTML(v.returnDate || safeReturn)})</span></div>`;
+            return `<div class="booking-entry-vitem" style="font-size:13px;color:#334155;margin:5px 0;display:flex;align-items:flex-start;gap:6px;line-height:1.45;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> <span><strong>${escapeHTML(v.name)}</strong>${trans} · ${v.days}d @ ₹${Number(v.price).toLocaleString('en-IN')}/d${depStr} (Return: ${escapeHTML(v.returnDate || safeReturn)})</span></div>`;
           }).join('');
         } else {
-          vehicleDetailsHTML = `<p><strong>${safeVehicle}</strong> · ${Number(b.days) || 1} day(s) · Return: ${safeReturn}</p>`;
+          vehicleDetailsHTML = `<p class="booking-entry-vitem" style="font-size:13px;color:#334155;margin:5px 0;"><strong>${safeVehicle}</strong> · ${Number(b.days) || 1} day(s) · Return: ${safeReturn}</p>`;
         }
 
         const isAdvancePaid = b.advancePaid && Number(b.advancePaid) > 0;
@@ -2787,10 +2789,10 @@
         return `
         <div class="booking-entry" data-id="${safeId}">
           <div class="booking-entry-head">
-            <div>
+            <div class="booking-entry-title-col">
               <strong class="booking-ref" style="font-size:15px;color:var(--ink-blue);">#${safeId}</strong>
               <div class="booking-entry-date">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 <span class="booked-label">Booked on:</span> <strong class="booked-val">${createdTimeStr}</strong>
               </div>
             </div>
@@ -2798,9 +2800,9 @@
           </div>
 
           ${vehicleDetailsHTML}
-          <p style="margin-top:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-            <span style="display:inline-flex;align-items:center;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <strong>Pickup:</strong> ${safePickup}</span>
-            <span style="display:inline-flex;align-items:center;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong>Location:</strong> ${safeLocation}</span>
+          <p class="booking-entry-meta" style="margin:8px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;color:#475569;">
+            <span style="display:inline-flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <strong>Pickup:</strong> ${safePickup}</span>
+            <span style="display:inline-flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong>Location:</strong> ${safeLocation}</span>
           </p>
 
           ${isAdvancePaid ? `
@@ -3082,6 +3084,8 @@
 
       myBookingsOverlay.classList.add('open');
       document.body.style.overflow = 'hidden';
+      const myBkModal = myBookingsOverlay.querySelector('.modal');
+      if (myBkModal) myBkModal.scrollTop = 0;
     });
 
     document.getElementById('viewMyBookingsBtn')?.addEventListener('click', () => {

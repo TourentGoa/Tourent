@@ -2748,9 +2748,9 @@ body {
   .est-form { padding: 20px 16px; border-radius: 16px; }
 
   /* Modals */
-  .modal-overlay { padding: 12px 10px 100px; align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
-  .modal { padding: 20px 15px 36px; width: 100%; max-height: none; border-radius: 18px; margin: 10px auto 50px; touch-action: pan-y; box-sizing: border-box; }
-  .modal.attraction-modal { padding: 0 !important; width: 100%; border-radius: 18px; }
+  .modal-overlay { padding: 0; align-items: flex-end; justify-content: center; overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
+  .modal { padding: 22px 18px calc(env(safe-area-inset-bottom, 20px) + 24px) 18px; width: 100%; max-height: 92dvh; max-height: 92vh; border-radius: 24px 24px 0 0; margin: auto 0 0 0; touch-action: pan-y; box-sizing: border-box; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .modal.attraction-modal { padding: 0 !important; width: 100%; border-radius: 24px 24px 0 0; }
   .attr-modal-hero { height: 200px; }
   .attr-hero-info { bottom: 12px; left: 14px; right: 14px; }
   .attr-hero-title { font-size: 19px; line-height: 1.25; margin: 2px 0 4px; }
@@ -3202,5 +3202,616 @@ body {
   z-index: 5;
   letter-spacing: 0.02em;
 }
+
+/* ==========================================================================
+   MOBILE MODALS & BOTTOM SHEETS (max-width: 640px)
+   Professional, spacious, modern mobile presentation for all Tourent modals:
+   - Track & View My Bookings (#myBookingsOverlay)
+   - Rental Terms & Policies (#termsModalOverlay)
+   - Reserve a Vehicle / Booking (#bookingOverlay)
+   - 20% Advance Payment (#paymentModalOverlay)
+   - Vehicle Recommender & Planner (#matcherOverlay, #itineraryOverlay)
+   ========================================================================== */
+@media (max-width: 640px) {
+  /* 1. Backdrop & Container */
+  .modal-overlay {
+    padding: 0 !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    background: rgba(10, 25, 40, 0.72) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+  }
+
+  .modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: auto 0 0 0 !important;
+    max-height: 92dvh !important;
+    max-height: 92vh !important;
+    border-radius: 24px 24px 0 0 !important;
+    padding: 22px 18px calc(env(safe-area-inset-bottom, 20px) + 24px) 18px !important;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+    box-sizing: border-box !important;
+    transform: translateY(18px) scale(0.99);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease !important;
+  }
+
+  .modal-overlay.open .modal {
+    transform: translateY(0) scale(1) !important;
+  }
+
+  /* Sleek native iOS/Android sheet handle pill */
+  .modal::before {
+    content: '';
+    display: block;
+    width: 42px;
+    height: 4.5px;
+    border-radius: 999px;
+    background: #cbd5e1;
+    margin: 0 auto 16px;
+    flex-shrink: 0;
+  }
+
+  /* Close button positioned neatly in upper right */
+  .modal-close {
+    position: absolute !important;
+    top: 14px !important;
+    right: 14px !important;
+    width: 36px !important;
+    height: 36px !important;
+    background: #f1f5f9 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 50% !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    z-index: 10 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+  }
+
+  /* Modal Headings & Subtitles */
+  .modal-head {
+    margin-bottom: 18px !important;
+    padding-right: 36px !important; /* Space for close button */
+  }
+  .modal-head .eyebrow {
+    font-size: 11px !important;
+    letter-spacing: 0.08em !important;
+    margin-bottom: 6px !important;
+    font-weight: 700 !important;
+  }
+  .modal-head h3 {
+    font-size: 22px !important;
+    line-height: 1.25 !important;
+    color: var(--ink-blue) !important;
+    margin: 0 0 6px !important;
+    font-weight: 800 !important;
+  }
+  .modal-head p {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+    color: #64748b !important;
+    margin: 0 !important;
+  }
+
+  /* 2. MY BOOKINGS MODAL (#myBookingsOverlay) */
+  .my-bookings-modal {
+    max-width: 100% !important;
+    max-height: 92dvh !important;
+    max-height: 92vh !important;
+    padding: 22px 18px calc(env(safe-area-inset-bottom, 20px) + 24px) 18px !important;
+  }
+
+  .my-bk-lookup-bar {
+    display: flex !important;
+    gap: 8px !important;
+    margin: 14px 0 16px !important;
+    align-items: center !important;
+  }
+  .my-bk-input-wrap {
+    flex: 1 !important;
+    position: relative !important;
+  }
+  .my-bk-input-icon {
+    position: absolute !important;
+    left: 14px !important;
+    font-size: 16px !important;
+    pointer-events: none !important;
+  }
+  .my-bk-lookup-bar input {
+    width: 100% !important;
+    height: 48px !important;
+    padding: 0 14px 0 42px !important;
+    border-radius: 12px !important;
+    font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
+    border: 1.5px solid #cbd5e1 !important;
+    background: #ffffff !important;
+    color: var(--ink-blue) !important;
+    box-sizing: border-box !important;
+  }
+  .my-bk-lookup-bar input:focus {
+    border-color: var(--tile-blue) !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+  }
+  .my-bk-search-btn {
+    height: 48px !important;
+    padding: 0 20px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: var(--ink-blue) !important;
+    color: #ffffff !important;
+    border: none !important;
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Status Banner: Fix awkward 3-column wrap */
+  .my-bk-status-banner {
+    display: block !important;
+    line-height: 1.55 !important;
+    padding: 12px 14px !important;
+    border-radius: 12px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    background: #f1f5f9 !important;
+    border: 1.5px solid #cbd5e1 !important;
+    color: #334155 !important;
+    margin-bottom: 16px !important;
+    text-align: left !important;
+  }
+  .my-bk-status-banner strong {
+    font-weight: 700 !important;
+    color: var(--ink-blue) !important;
+  }
+
+  .my-bk-list {
+    max-height: none !important;
+    overflow-y: visible !important;
+    padding-right: 0 !important;
+  }
+
+  /* Booking Entry Card */
+  .booking-entry {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 18px 16px !important;
+    margin-bottom: 16px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03) !important;
+  }
+
+  /* Card Head: Stacking reference, status, and date eliminates awkward wrapping */
+  .booking-entry-head {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 12px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+  }
+  .booking-entry-head strong.booking-ref {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: var(--ink-blue) !important;
+    letter-spacing: 0.02em !important;
+  }
+  .booking-entry-status {
+    font-size: 11.5px !important;
+    padding: 5px 12px !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em !important;
+    line-height: 1.3 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    white-space: normal !important;
+    max-width: 100% !important;
+  }
+  .booking-entry-date {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 12.5px !important;
+    color: #64748b !important;
+    margin-top: 2px !important;
+    line-height: 1.4 !important;
+    flex-wrap: wrap !important;
+  }
+  .booking-entry p {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: #475569 !important;
+    margin: 6px 0 !important;
+  }
+  .booking-cancel {
+    height: 40px !important;
+    padding: 0 16px !important;
+    border-radius: 999px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 8px !important;
+  }
+
+  /* 3. RENTAL TERMS & POLICIES MODAL (#termsModalOverlay) */
+  .terms-modal {
+    max-width: 100% !important;
+    max-height: 92dvh !important;
+    max-height: 92vh !important;
+    padding: 22px 18px calc(env(safe-area-inset-bottom, 20px) + 24px) 18px !important;
+    border-radius: 24px 24px 0 0 !important;
+  }
+  .terms-nav-tabs {
+    display: flex !important;
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    gap: 8px !important;
+    padding: 4px 2px 12px !important;
+    margin: 8px 0 16px !important;
+    border-bottom: 1.5px solid #e2e8f0 !important;
+  }
+  .terms-nav-tabs::-webkit-scrollbar {
+    display: none !important;
+  }
+  .terms-tab-btn {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    padding: 9px 15px !important;
+    font-size: 12.5px !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+  }
+  .terms-tab-pane {
+    padding: 0 !important;
+  }
+  .terms-card {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 18px 16px !important;
+    margin-bottom: 14px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+  }
+  .terms-card-head {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 12px !important;
+  }
+  .terms-card-icon {
+    font-size: 24px !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+  }
+  .terms-card-head h4 {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: var(--ink-blue) !important;
+    line-height: 1.35 !important;
+    margin: 0 !important;
+  }
+  .terms-card-head p {
+    font-size: 12px !important;
+    color: #64748b !important;
+    margin: 3px 0 0 !important;
+    line-height: 1.4 !important;
+  }
+  .terms-points {
+    margin: 0 !important;
+    padding-left: 20px !important;
+    font-size: 13.5px !important;
+    color: #334155 !important;
+    line-height: 1.6 !important;
+  }
+  .terms-points li {
+    margin-bottom: 10px !important;
+  }
+  .terms-points li:last-child {
+    margin-bottom: 0 !important;
+  }
+  .terms-points strong {
+    color: var(--ink-blue) !important;
+    font-weight: 700 !important;
+  }
+  .terms-modal-foot {
+    margin-top: 16px !important;
+    padding-top: 14px !important;
+    border-top: 1.5px solid #e2e8f0 !important;
+  }
+  #termsModalGotItBtn {
+    width: 100% !important;
+    height: 50px !important;
+    border-radius: 14px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: var(--gold) !important;
+    color: var(--ink-blue) !important;
+    box-shadow: 0 4px 14px rgba(227, 162, 61, 0.28) !important;
+    cursor: pointer !important;
+  }
+
+  /* 4. RESERVE A VEHICLE MODAL (#bookingOverlay) */
+  .bk-vehicles-section {
+    margin-bottom: 16px !important;
+  }
+  .bk-vehicles-head {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 10px !important;
+  }
+  .bk-vehicles-head span {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: var(--ink-blue) !important;
+  }
+  .bk-add-vehicle-btn {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+  }
+
+  .bk-vehicle-card {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 16px 14px !important;
+    margin-bottom: 14px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+  }
+  .bk-vehicle-card-head {
+    margin-bottom: 10px !important;
+  }
+  .bk-v-num {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+  }
+  .bk-v-remove-btn {
+    font-size: 12px !important;
+  }
+  .bk-v-select {
+    height: 48px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    padding: 10px 12px !important;
+    border: 1.5px solid #cbd5e1 !important;
+    background: #ffffff !important;
+    color: var(--ink-blue) !important;
+    box-sizing: border-box !important;
+  }
+  .bk-v-actions-row {
+    margin-top: 12px !important;
+    gap: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+  }
+  .modal-trans-row {
+    gap: 6px !important;
+    flex: 1 1 180px !important;
+    margin: 0 !important;
+  }
+  .modal-trans-label {
+    padding: 9px 10px !important;
+    font-size: 12px !important;
+    border-radius: 10px !important;
+    min-height: 40px !important;
+  }
+  .bk-capsule-stepper {
+    height: 40px !important;
+    padding: 2px 6px !important;
+    border-radius: 999px !important;
+    flex-shrink: 0 !important;
+  }
+  .bk-capsule-btn {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 17px !important;
+  }
+  .bk-capsule-val {
+    font-size: 16px !important;
+  }
+  .bk-capsule-label {
+    font-size: 12px !important;
+  }
+  .bk-v-calc-preview {
+    margin-top: 12px !important;
+    padding-top: 10px !important;
+    border-top: 1px dashed #e2e8f0 !important;
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+  }
+  .bk-v-calc-preview strong {
+    font-size: 14px !important;
+    color: var(--laterite) !important;
+  }
+
+  /* Booking Form Controls */
+  .modal .field-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .modal .field {
+    margin-bottom: 14px !important;
+  }
+  .modal .field label {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.03em !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+    color: var(--laterite) !important;
+  }
+  .modal input[type="text"],
+  .modal input[type="email"],
+  .modal input[type="tel"],
+  .modal input[type="date"],
+  .modal select {
+    height: 48px !important;
+    border-radius: 12px !important;
+    font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
+    padding: 10px 14px !important;
+    border: 1.5px solid #cbd5e1 !important;
+    box-sizing: border-box !important;
+  }
+  .phone-input-wrap {
+    height: 48px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Timing Notice & Advance Lock Banners */
+  .bk-timing-banner {
+    padding: 14px 14px !important;
+    border-radius: 14px !important;
+    margin: 14px 0 !important;
+    font-size: 12.5px !important;
+    line-height: 1.5 !important;
+    background: #f0f7fb !important;
+    border: 1.5px solid #d0e4f0 !important;
+    gap: 10px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+  .bk-advance-lock-banner {
+    padding: 14px 14px !important;
+    border-radius: 14px !important;
+    margin: 14px 0 !important;
+    font-size: 12.5px !important;
+    line-height: 1.5 !important;
+    background: #fff8eb !important;
+    border: 1.5px solid #fde0b2 !important;
+  }
+  .bk-advance-lock-banner strong {
+    font-size: 13.5px !important;
+    display: block !important;
+    margin-bottom: 4px !important;
+  }
+
+  /* Bottom Order Summary Card */
+  .bk-bottom-summary {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 16px 14px !important;
+    margin: 16px 0 !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03) !important;
+  }
+  .bk-summary-title {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+  }
+  .bk-summary-line {
+    padding: 6px 0 !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+  .bk-summary-total-line {
+    padding-top: 10px !important;
+    margin-top: 8px !important;
+    border-top: 1.5px dashed #e2e8f0 !important;
+    font-size: 16px !important;
+  }
+  .bk-summary-perks {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
+    margin-top: 10px !important;
+    padding-top: 10px !important;
+    border-top: 1px solid #f1f5f9 !important;
+  }
+  .bk-summary-perk {
+    font-size: 11.5px !important;
+    color: #475569 !important;
+  }
+
+  /* Terms Checkbox */
+  .bk-terms-agreement {
+    background: #f8fafc !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 14px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 14px !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    gap: 10px !important;
+  }
+
+  /* Submit Button & Help Notes */
+  #bkSubmitBtn {
+    height: 52px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    border-radius: 14px !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 6px 18px rgba(227, 162, 61, 0.3) !important;
+  }
+  #bkSubmitNote {
+    font-size: 12px !important;
+    text-align: center !important;
+    color: #64748b !important;
+    margin-top: 8px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* 5. ATTRACTIONS & OTHER MODALS */
+  .modal.attraction-modal::before {
+    display: none !important;
+  }
+  .modal.attraction-modal {
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+  .modal.payment-checkout-modal {
+    padding: 22px 18px calc(env(safe-area-inset-bottom, 20px) + 24px) 18px !important;
+    border-radius: 24px 24px 0 0 !important;
+    max-width: 100% !important;
+  }
+  .pay-qr-box {
+    padding: 16px !important;
+    border-radius: 16px !important;
+  }
+  .pay-qr-box img {
+    max-width: 170px !important;
+    height: auto !important;
+  }
+  .pay-steps-list {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+}
+
 
 

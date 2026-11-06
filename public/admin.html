@@ -8983,6 +8983,62 @@ function doGet(e) {
       }
     }, 4000);
 
+    // =========================================================
+    // ⚡ ULTRA-FAST SUB-SECOND LIVE FLEET SYNCHRONIZATION ENGINE
+    // =========================================================
+    let lastAdminFleetVersion = null;
+    let isCheckingAdminFleetSync = false;
+
+    async function checkAdminFleetLiveSync() {
+      if (document.hidden || isCheckingAdminFleetSync) return;
+      isCheckingAdminFleetSync = true;
+      try {
+        const res = await fetch(`${API_BASE}/api/fleet/live-status?_t=${Date.now()}`, { cache: 'no-store' });
+        const data = await res.json();
+        if (data.success && data.statusMap) {
+          const fleet = loadFleet();
+          let hasStatusChange = false;
+
+          fleet.forEach(v => {
+            const remote = data.statusMap[v.id];
+            if (remote) {
+              if (v.soldOut !== remote.soldOut || v.isSoldOut !== remote.soldOut || v.active !== remote.active) {
+                v.soldOut = remote.soldOut;
+                v.isSoldOut = remote.soldOut;
+                v.active = remote.active;
+                hasStatusChange = true;
+              }
+            }
+          });
+
+          const versionChanged = lastAdminFleetVersion !== null && data.version !== lastAdminFleetVersion;
+          lastAdminFleetVersion = data.version;
+
+          if (hasStatusChange || versionChanged) {
+            localStorage.setItem(FLEET_STORAGE_KEY, JSON.stringify(fleet));
+            renderAdminFleet();
+            renderRatesManager();
+          }
+        }
+      } catch (_) {}
+      finally {
+        isCheckingAdminFleetSync = false;
+      }
+    }
+
+    // High-speed real-time polling (every 1 second) in admin for immediate cross-device updates
+    setInterval(checkAdminFleetLiveSync, 1000);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        checkAdminFleetLiveSync();
+      }
+    });
+
+    window.addEventListener('focus', () => {
+      checkAdminFleetLiveSync();
+    });
+
     // Cross-Tab Instant Synchronization (Reacts immediately when a customer books or cancels in index.html)
     window.addEventListener('storage', (e) => {
       if (e.key === BOOKINGS_KEY) {

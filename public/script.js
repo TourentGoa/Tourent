@@ -415,18 +415,93 @@
       } catch (_) {}
     }
 
-    // Periodic gentle background poll (every 5s) when visible to keep all remote tabs & devices in sync
-    setInterval(() => {
-      if (document.visibilityState === 'visible') {
-        syncFleetFromServer();
-        if (typeof fetchFleetAvailability === 'function') {
-          fetchFleetAvailability();
+    // =========================================================
+    // ⚡ ULTRA-FAST SUB-SECOND LIVE FLEET SYNCHRONIZATION ENGINE
+    // =========================================================
+    let lastKnownFleetVersion = null;
+    let isCheckingFleetSync = false;
+
+    async function checkFleetLiveSync() {
+      if (document.hidden || isCheckingFleetSync) return;
+      isCheckingFleetSync = true;
+      try {
+        const res = await fetch(`${API_BASE}/api/fleet/live-status?_t=${Date.now()}`, { cache: 'no-store' });
+        const data = await res.json();
+        if (data.success && data.statusMap) {
+          let hasStatusChange = false;
+
+          VEHICLES.forEach(v => {
+            const remote = data.statusMap[v.id];
+            if (remote) {
+              if (v.soldOut !== remote.soldOut || v.isSoldOut !== remote.soldOut || v.active !== remote.active) {
+                v.soldOut = remote.soldOut;
+                v.isSoldOut = remote.soldOut;
+                v.active = remote.active;
+                hasStatusChange = true;
+              }
+            }
+          });
+
+          const versionChanged = lastKnownFleetVersion !== null && data.version !== lastKnownFleetVersion;
+          lastKnownFleetVersion = data.version;
+
+          if (hasStatusChange || versionChanged) {
+            // Update local storage so data is persistent across reloads
+            try {
+              const raw = localStorage.getItem(FLEET_STORAGE_KEY);
+              if (raw) {
+                const stored = JSON.parse(raw);
+                if (Array.isArray(stored)) {
+                  stored.forEach(sv => {
+                    if (data.statusMap[sv.id]) {
+                      sv.soldOut = data.statusMap[sv.id].soldOut;
+                      sv.isSoldOut = data.statusMap[sv.id].soldOut;
+                      sv.active = data.statusMap[sv.id].active;
+                    }
+                  });
+                  localStorage.setItem(FLEET_STORAGE_KEY, JSON.stringify(stored));
+                }
+              }
+            } catch (_) {}
+
+            // Update in-memory availability cache directly
+            if (LIVE_AVAILABILITY) {
+              Object.keys(data.statusMap).forEach(vId => {
+                if (LIVE_AVAILABILITY[vId]) {
+                  const rem = data.statusMap[vId];
+                  LIVE_AVAILABILITY[vId].soldOut = rem.soldOut;
+                  LIVE_AVAILABILITY[vId].isSoldOut = rem.soldOut;
+                  if (rem.soldOut) {
+                    LIVE_AVAILABILITY[vId].status = 'Sold Out';
+                    LIVE_AVAILABILITY[vId].availableUnits = 0;
+                  } else {
+                    LIVE_AVAILABILITY[vId].availableUnits = rem.totalUnits;
+                    LIVE_AVAILABILITY[vId].status = 'Available';
+                  }
+                }
+              });
+            }
+
+            // Immediately re-render with zero delay!
+            refreshLiveFleet();
+            if (typeof fetchFleetAvailability === 'function') {
+              fetchFleetAvailability();
+            }
+          }
         }
+      } catch (err) {
+        // Fallback gracefully
+      } finally {
+        isCheckingFleetSync = false;
       }
-    }, 5000);
+    }
+
+    // High-speed real-time polling (every 1 second) for instant cross-device updates
+    setInterval(checkFleetLiveSync, 1000);
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
+        checkFleetLiveSync();
         refreshLiveFleet();
         syncFleetFromServer();
         if (typeof fetchFleetAvailability === 'function') {
@@ -436,6 +511,7 @@
     });
 
     window.addEventListener('focus', () => {
+      checkFleetLiveSync();
       LIVE_PRICING_RULES = getStoredPricingRules();
       refreshLiveFleet();
       syncFleetFromServer();

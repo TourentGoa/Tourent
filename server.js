@@ -3331,6 +3331,7 @@ app.get('/api/fleet/availability', async (req, res) => {
 
 // In-memory fleet cache for zero-loss serverless and offline resilience
 let cachedFleet = null;
+let lastFleetVersion = Date.now();
 
 function getCachedFleet() {
   if (Array.isArray(cachedFleet) && cachedFleet.length > 0) {
@@ -3338,6 +3339,49 @@ function getCachedFleet() {
   }
   return [...INITIAL_FLEET];
 }
+
+// Ultra-fast, lightweight real-time status endpoint for instant sub-second cross-device sync
+app.get('/api/fleet/live-status', async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  try {
+    await ensureDbConnected();
+    const statusMap = {};
+
+    if (mongoose.connection.readyState === 1) {
+      const docs = await Vehicle.find({}, 'id soldOut isSoldOut totalUnits active updatedAt').lean();
+      for (const d of docs) {
+        const isSold = (d.soldOut !== undefined && d.soldOut !== null) ? Boolean(d.soldOut) : Boolean(d.isSoldOut);
+        statusMap[d.id] = {
+          id: d.id,
+          soldOut: isSold,
+          isSoldOut: isSold,
+          active: d.active !== false,
+          totalUnits: d.totalUnits || 10
+        };
+      }
+    } else {
+      const current = getCachedFleet();
+      for (const d of current) {
+        const isSold = (d.soldOut !== undefined && d.soldOut !== null) ? Boolean(d.soldOut) : Boolean(d.isSoldOut);
+        statusMap[d.id] = {
+          id: d.id,
+          soldOut: isSold,
+          isSoldOut: isSold,
+          active: d.active !== false,
+          totalUnits: d.totalUnits || 10
+        };
+      }
+    }
+
+    res.json({
+      success: true,
+      version: lastFleetVersion,
+      statusMap
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 app.get('/api/fleet', async (req, res) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -3431,6 +3475,7 @@ app.post('/api/fleet/:id/sold-out', requireAdminAuth, async (req, res) => {
       current[idx] = { ...current[idx], soldOut: newSoldOut, isSoldOut: newSoldOut };
     }
     cachedFleet = current;
+    lastFleetVersion = Date.now();
 
     if (mongoose.connection.readyState === 1) {
       await Vehicle.updateOne(
@@ -3441,7 +3486,7 @@ app.post('/api/fleet/:id/sold-out', requireAdminAuth, async (req, res) => {
       console.log(`✅ [MongoDB Atlas] Vehicle ${id} soldOut persisted as ${newSoldOut}`);
     }
 
-    res.json({ success: true, id, soldOut: newSoldOut, isSoldOut: newSoldOut });
+    res.json({ success: true, id, soldOut: newSoldOut, isSoldOut: newSoldOut, version: lastFleetVersion });
   } catch (err) {
     console.error('Error updating vehicle soldOut in MongoDB:', err);
     res.status(500).json({ success: false, error: 'Failed to update sold out status' });
@@ -3465,13 +3510,14 @@ app.post('/api/fleet', requireAdminAuth, async (req, res) => {
       });
 
       cachedFleet = cleanedList;
+      lastFleetVersion = Date.now();
       if (mongoose.connection.readyState === 1) {
         const ops = cleanedList.map(v => ({
           updateOne: { filter: { id: v.id }, update: { $set: v }, upsert: true }
         }));
         await Vehicle.bulkWrite(ops);
       }
-      return res.json({ success: true, message: 'Fleet updated successfully' });
+      return res.json({ success: true, message: 'Fleet updated successfully', version: lastFleetVersion });
     }
 
     if (vData && vData.id) {
@@ -3490,6 +3536,7 @@ app.post('/api/fleet', requireAdminAuth, async (req, res) => {
         current.push(item);
       }
       cachedFleet = current;
+      lastFleetVersion = Date.now();
 
       if (mongoose.connection.readyState === 1) {
         const upserted = await Vehicle.findOneAndUpdate(

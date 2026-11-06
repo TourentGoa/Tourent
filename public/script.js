@@ -416,9 +416,10 @@
     }
 
     // =========================================================
-    // ⚡ ULTRA-FAST SUB-SECOND LIVE FLEET SYNCHRONIZATION ENGINE
+    // ⚡ ULTRA-FAST SUB-SECOND LIVE FLEET & PRICING SYNCHRONIZATION ENGINE
     // =========================================================
     let lastKnownFleetVersion = null;
+    let lastKnownPricingVersion = null;
     let isCheckingFleetSync = false;
 
     async function checkFleetLiveSync() {
@@ -427,65 +428,118 @@
       try {
         const res = await fetch(`${API_BASE}/api/fleet/live-status?_t=${Date.now()}`, { cache: 'no-store' });
         const data = await res.json();
-        if (data.success && data.statusMap) {
+        if (data.success) {
           let hasStatusChange = false;
+          let hasPricingChange = false;
 
-          VEHICLES.forEach(v => {
-            const remote = data.statusMap[v.id];
-            if (remote) {
-              if (v.soldOut !== remote.soldOut || v.isSoldOut !== remote.soldOut || v.active !== remote.active) {
-                v.soldOut = remote.soldOut;
-                v.isSoldOut = remote.soldOut;
-                v.active = remote.active;
-                hasStatusChange = true;
-              }
+          // 1. Instant Cross-Device Sync for Seasonal Tariffs, Festival Calendar & Master Surge
+          if (data.pricingRules) {
+            if (lastKnownPricingVersion !== null && data.pricingVersion && data.pricingVersion !== lastKnownPricingVersion) {
+              hasPricingChange = true;
             }
-          });
+            if (data.pricingVersion) {
+              lastKnownPricingVersion = data.pricingVersion;
+            }
+            if (hasPricingChange || !LIVE_PRICING_RULES) {
+              LIVE_PRICING_RULES = data.pricingRules;
+              try {
+                localStorage.setItem(PRICING_STORAGE_KEY, JSON.stringify(data.pricingRules));
+              } catch (_) {}
+            }
+          }
 
-          const versionChanged = lastKnownFleetVersion !== null && data.version !== lastKnownFleetVersion;
-          lastKnownFleetVersion = data.version;
-
-          if (hasStatusChange || versionChanged) {
-            // Update local storage so data is persistent across reloads
-            try {
-              const raw = localStorage.getItem(FLEET_STORAGE_KEY);
-              if (raw) {
-                const stored = JSON.parse(raw);
-                if (Array.isArray(stored)) {
-                  stored.forEach(sv => {
-                    if (data.statusMap[sv.id]) {
-                      sv.soldOut = data.statusMap[sv.id].soldOut;
-                      sv.isSoldOut = data.statusMap[sv.id].soldOut;
-                      sv.active = data.statusMap[sv.id].active;
-                    }
-                  });
-                  localStorage.setItem(FLEET_STORAGE_KEY, JSON.stringify(stored));
+          // 2. Instant Cross-Device Sync for Vehicle Rates, Sold-Out status, and Availability
+          if (data.statusMap) {
+            VEHICLES.forEach(v => {
+              const remote = data.statusMap[v.id];
+              if (remote) {
+                if (v.soldOut !== remote.soldOut || v.isSoldOut !== remote.soldOut || v.active !== remote.active) {
+                  v.soldOut = remote.soldOut;
+                  v.isSoldOut = remote.soldOut;
+                  v.active = remote.active;
+                  hasStatusChange = true;
+                }
+                if (remote.priceManual && v.priceManual !== remote.priceManual) {
+                  v.priceManual = remote.priceManual;
+                  hasStatusChange = true;
+                }
+                if (remote.priceAuto && v.priceAuto !== remote.priceAuto) {
+                  v.priceAuto = remote.priceAuto;
+                  hasStatusChange = true;
+                }
+                if (remote.price && v.price !== remote.price) {
+                  v.price = remote.price;
+                  v.basePrice = remote.price;
+                  hasStatusChange = true;
+                }
+                if (remote.deposit && v.deposit !== remote.deposit) {
+                  v.deposit = remote.deposit;
+                  hasStatusChange = true;
                 }
               }
-            } catch (_) {}
+            });
 
-            // Update in-memory availability cache directly
-            if (LIVE_AVAILABILITY) {
-              Object.keys(data.statusMap).forEach(vId => {
-                if (LIVE_AVAILABILITY[vId]) {
-                  const rem = data.statusMap[vId];
-                  LIVE_AVAILABILITY[vId].soldOut = rem.soldOut;
-                  LIVE_AVAILABILITY[vId].isSoldOut = rem.soldOut;
-                  if (rem.soldOut) {
-                    LIVE_AVAILABILITY[vId].status = 'Sold Out';
-                    LIVE_AVAILABILITY[vId].availableUnits = 0;
-                  } else {
-                    LIVE_AVAILABILITY[vId].availableUnits = rem.totalUnits;
-                    LIVE_AVAILABILITY[vId].status = 'Available';
+            const versionChanged = lastKnownFleetVersion !== null && data.version !== lastKnownFleetVersion;
+            lastKnownFleetVersion = data.version;
+
+            // Check if vehicles were added or deleted
+            const remoteIds = Object.keys(data.statusMap);
+            const localIds = VEHICLES.map(v => v.id);
+            const structureChanged = remoteIds.length !== localIds.length || remoteIds.some(id => !localIds.includes(id));
+            if (structureChanged && versionChanged) {
+              syncFleetFromServer();
+            }
+
+            if (hasStatusChange || hasPricingChange || versionChanged) {
+              // Update local storage so data is persistent across reloads
+              try {
+                const raw = localStorage.getItem(FLEET_STORAGE_KEY);
+                if (raw) {
+                  const stored = JSON.parse(raw);
+                  if (Array.isArray(stored)) {
+                    stored.forEach(sv => {
+                      const rem = data.statusMap[sv.id];
+                      if (rem) {
+                        sv.soldOut = rem.soldOut;
+                        sv.isSoldOut = rem.soldOut;
+                        sv.active = rem.active;
+                        if (rem.priceManual) sv.priceManual = rem.priceManual;
+                        if (rem.priceAuto) sv.priceAuto = rem.priceAuto;
+                        if (rem.price) sv.price = rem.price;
+                        if (rem.deposit) sv.deposit = rem.deposit;
+                      }
+                    });
+                    localStorage.setItem(FLEET_STORAGE_KEY, JSON.stringify(stored));
                   }
                 }
-              });
-            }
+              } catch (_) {}
 
-            // Immediately re-render with zero delay!
-            refreshLiveFleet();
-            if (typeof fetchFleetAvailability === 'function') {
-              fetchFleetAvailability();
+              // Update in-memory availability cache directly
+              if (LIVE_AVAILABILITY) {
+                Object.keys(data.statusMap).forEach(vId => {
+                  if (LIVE_AVAILABILITY[vId]) {
+                    const rem = data.statusMap[vId];
+                    LIVE_AVAILABILITY[vId].soldOut = rem.soldOut;
+                    LIVE_AVAILABILITY[vId].isSoldOut = rem.soldOut;
+                    if (rem.soldOut) {
+                      LIVE_AVAILABILITY[vId].status = 'Sold Out';
+                      LIVE_AVAILABILITY[vId].availableUnits = 0;
+                    } else {
+                      LIVE_AVAILABILITY[vId].availableUnits = rem.totalUnits;
+                      LIVE_AVAILABILITY[vId].status = 'Available';
+                    }
+                  }
+                });
+              }
+
+              // Immediately re-render with zero delay!
+              refreshLiveFleet();
+              if (typeof renderBookingVehiclesList === 'function' && document.getElementById('bookingModal')?.classList.contains('open')) {
+                renderBookingVehiclesList();
+              }
+              if (typeof fetchFleetAvailability === 'function') {
+                fetchFleetAvailability();
+              }
             }
           }
         }

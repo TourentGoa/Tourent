@@ -8984,9 +8984,10 @@ function doGet(e) {
     }, 4000);
 
     // =========================================================
-    // ⚡ ULTRA-FAST SUB-SECOND LIVE FLEET SYNCHRONIZATION ENGINE
+    // ⚡ ULTRA-FAST SUB-SECOND LIVE FLEET & PRICING SYNCHRONIZATION ENGINE
     // =========================================================
     let lastAdminFleetVersion = null;
+    let lastAdminPricingVersion = null;
     let isCheckingAdminFleetSync = false;
 
     async function checkAdminFleetLiveSync() {
@@ -8995,29 +8996,82 @@ function doGet(e) {
       try {
         const res = await fetch(`${API_BASE}/api/fleet/live-status?_t=${Date.now()}`, { cache: 'no-store' });
         const data = await res.json();
-        if (data.success && data.statusMap) {
-          const fleet = loadFleet();
-          let hasStatusChange = false;
-
-          fleet.forEach(v => {
-            const remote = data.statusMap[v.id];
-            if (remote) {
-              if (v.soldOut !== remote.soldOut || v.isSoldOut !== remote.soldOut || v.active !== remote.active) {
-                v.soldOut = remote.soldOut;
-                v.isSoldOut = remote.soldOut;
-                v.active = remote.active;
-                hasStatusChange = true;
+        if (data.success) {
+          // 1. Instant Cross-Device Sync for Seasonal Tariffs, Festival Calendar & Master Surge
+          if (data.pricingRules) {
+            const pricingChanged = lastAdminPricingVersion !== null && data.pricingVersion && data.pricingVersion !== lastAdminPricingVersion;
+            if (data.pricingVersion) {
+              lastAdminPricingVersion = data.pricingVersion;
+            }
+            if (pricingChanged) {
+              localStorage.setItem(PRICING_STORAGE_KEY, JSON.stringify(data.pricingRules));
+              const isEditingPricing = document.activeElement && (
+                document.activeElement.id === 'inputCustomSurgeMult' ||
+                document.activeElement.id === 'seasonName' ||
+                document.activeElement.id === 'seasonMultiplier'
+              );
+              if (!isEditingPricing) {
+                renderPricingSurgeControls();
+                renderSeasonRulesTable();
               }
             }
-          });
+          }
 
-          const versionChanged = lastAdminFleetVersion !== null && data.version !== lastAdminFleetVersion;
-          lastAdminFleetVersion = data.version;
+          // 2. Instant Cross-Device Sync for Vehicle Rates, Sold-Out status, and Availability
+          if (data.statusMap) {
+            const fleet = loadFleet();
+            let hasFleetChange = false;
 
-          if (hasStatusChange || versionChanged) {
-            localStorage.setItem(FLEET_STORAGE_KEY, JSON.stringify(fleet));
-            renderAdminFleet();
-            renderRatesManager();
+            fleet.forEach(v => {
+              const remote = data.statusMap[v.id];
+              if (remote) {
+                if (v.soldOut !== remote.soldOut || v.isSoldOut !== remote.soldOut || v.active !== remote.active) {
+                  v.soldOut = remote.soldOut;
+                  v.isSoldOut = remote.soldOut;
+                  v.active = remote.active;
+                  hasFleetChange = true;
+                }
+                if (remote.priceManual && v.priceManual !== remote.priceManual) {
+                  v.priceManual = remote.priceManual;
+                  hasFleetChange = true;
+                }
+                if (remote.priceAuto && v.priceAuto !== remote.priceAuto) {
+                  v.priceAuto = remote.priceAuto;
+                  hasFleetChange = true;
+                }
+                if (remote.price && v.price !== remote.price) {
+                  v.price = remote.price;
+                  hasFleetChange = true;
+                }
+                if (remote.deposit && v.deposit !== remote.deposit) {
+                  v.deposit = remote.deposit;
+                  hasFleetChange = true;
+                }
+              }
+            });
+
+            const versionChanged = lastAdminFleetVersion !== null && data.version !== lastAdminFleetVersion;
+            lastAdminFleetVersion = data.version;
+
+            // Check if vehicles were added or deleted
+            const remoteIds = Object.keys(data.statusMap);
+            const localIds = fleet.map(v => v.id);
+            const structureChanged = remoteIds.length !== localIds.length || remoteIds.some(id => !localIds.includes(id));
+
+            if (structureChanged && versionChanged) {
+              fetchFleetFromServer();
+            }
+
+            if (hasFleetChange || versionChanged) {
+              localStorage.setItem(FLEET_STORAGE_KEY, JSON.stringify(fleet));
+              renderAdminFleet();
+
+              // Only re-render rates manager if the admin is not actively typing in a rate input
+              const isTypingRate = document.activeElement && document.activeElement.classList.contains('rate-row-input');
+              if (!isTypingRate) {
+                renderRatesManager();
+              }
+            }
           }
         }
       } catch (_) {}
@@ -9032,11 +9086,21 @@ function doGet(e) {
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         checkAdminFleetLiveSync();
+        if (isStaffAuthenticated()) {
+          fetchBookingsFromServer();
+          fetchPricingRulesFromServer();
+          fetchFleetFromServer();
+        }
       }
     });
 
     window.addEventListener('focus', () => {
       checkAdminFleetLiveSync();
+      if (isStaffAuthenticated()) {
+        fetchBookingsFromServer();
+        fetchPricingRulesFromServer();
+        fetchFleetFromServer();
+      }
     });
 
     // Cross-Tab Instant Synchronization (Reacts immediately when a customer books or cancels in index.html)

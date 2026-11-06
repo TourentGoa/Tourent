@@ -525,6 +525,7 @@ function saveAppSettings(settings) {
 // ⚡ DYNAMIC & SEASONAL PRICING ENGINE
 // ==========================================
 const PRICING_RULES_FILE = path.join(__dirname, 'data', 'pricing_rules.json');
+let lastPricingVersion = Date.now();
 
 const DEFAULT_PRICING_RULES = {
   globalOverride: {
@@ -641,6 +642,7 @@ async function savePricingRules(rules) {
     globalSurge: rules.globalSurge || rules.globalOverride || DEFAULT_PRICING_RULES.globalOverride,
     seasons: Array.isArray(rules.seasons) ? rules.seasons : DEFAULT_PRICING_RULES.seasons
   };
+  lastPricingVersion = Date.now();
 
   if (mongoose.connection.readyState === 1) {
     try {
@@ -671,8 +673,9 @@ function calculateAuthoritativeVehicleRate(vItem, pickupDate) {
   const vName = (vItem.name || vItem.vehicle || '').trim().toLowerCase();
   const vId = (vItem.id || '').trim().toLowerCase();
 
-  // Match against authoritative catalog
-  const catalogVehicle = INITIAL_FLEET.find(f => 
+  // Match against authoritative live fleet
+  const liveFleet = typeof getCachedFleet === 'function' ? getCachedFleet() : INITIAL_FLEET;
+  const catalogVehicle = liveFleet.find(f => 
     (f.id && f.id.toLowerCase() === vId) || 
     (f.name && f.name.toLowerCase() === vName) ||
     (vName && f.name && vName.includes(f.name.toLowerCase()))
@@ -3348,11 +3351,17 @@ app.get('/api/fleet/live-status', async (req, res) => {
     const statusMap = {};
 
     if (mongoose.connection.readyState === 1) {
-      const docs = await Vehicle.find({}, 'id soldOut isSoldOut totalUnits active updatedAt').lean();
+      const docs = await Vehicle.find({}, 'id name cat price priceManual priceAuto deposit soldOut isSoldOut totalUnits active updatedAt').lean();
       for (const d of docs) {
         const isSold = (d.soldOut !== undefined && d.soldOut !== null) ? Boolean(d.soldOut) : Boolean(d.isSoldOut);
         statusMap[d.id] = {
           id: d.id,
+          name: d.name,
+          cat: d.cat,
+          price: Number(d.price) || 0,
+          priceManual: Number(d.priceManual || d.price) || 0,
+          priceAuto: Number(d.priceAuto || d.price) || 0,
+          deposit: Number(d.deposit) || 0,
           soldOut: isSold,
           isSoldOut: isSold,
           active: d.active !== false,
@@ -3365,6 +3374,12 @@ app.get('/api/fleet/live-status', async (req, res) => {
         const isSold = (d.soldOut !== undefined && d.soldOut !== null) ? Boolean(d.soldOut) : Boolean(d.isSoldOut);
         statusMap[d.id] = {
           id: d.id,
+          name: d.name,
+          cat: d.cat,
+          price: Number(d.price) || 0,
+          priceManual: Number(d.priceManual || d.price) || 0,
+          priceAuto: Number(d.priceAuto || d.price) || 0,
+          deposit: Number(d.deposit) || 0,
           soldOut: isSold,
           isSoldOut: isSold,
           active: d.active !== false,
@@ -3373,9 +3388,13 @@ app.get('/api/fleet/live-status', async (req, res) => {
       }
     }
 
+    const currentPricingRules = await getPricingRules();
+
     res.json({
       success: true,
       version: lastFleetVersion,
+      pricingVersion: lastPricingVersion,
+      pricingRules: currentPricingRules,
       statusMap
     });
   } catch (err) {
@@ -3560,10 +3579,11 @@ app.delete('/api/fleet/:id', requireOwnerAuth, async (req, res) => {
     if (cachedFleet) {
       cachedFleet = cachedFleet.filter(v => v.id !== req.params.id);
     }
+    lastFleetVersion = Date.now();
     if (mongoose.connection.readyState === 1) {
       await Vehicle.findOneAndDelete({ id: req.params.id });
     }
-    res.json({ success: true, message: 'Vehicle deleted from fleet' });
+    res.json({ success: true, message: 'Vehicle deleted from fleet', version: lastFleetVersion });
   } catch (err) {
     res.status(500).json({ success: false, error: 'Failed to delete vehicle' });
   }
@@ -3654,7 +3674,7 @@ app.post('/api/admin/pricing-rules', requireAdminAuth, async (req, res) => {
     };
     await savePricingRules(updated);
     console.log(`⚡ [Pricing Engine] Rules updated by admin. Global Surge: ${updated.globalOverride.enabled ? `${updated.globalOverride.multiplier}x` : 'OFF'}, Seasons: ${updated.seasons.length}`);
-    res.json({ success: true, rules: updated, data: updated });
+    res.json({ success: true, rules: updated, data: updated, pricingVersion: lastPricingVersion });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

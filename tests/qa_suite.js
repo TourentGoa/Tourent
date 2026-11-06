@@ -414,6 +414,22 @@ async function runAll() {
       );
     }
 
+    // 15. REAL-TIME CROSS-DEVICE VEHICLE RATES & SEASONAL PRICING LIVE SYNC
+    {
+      const liveRes = await invoke('GET', '/api/fleet/live-status');
+      let liveJson = {};
+      try { liveJson = JSON.parse(liveRes.body); } catch (_) {}
+      const hasStatusMap = liveJson.success && liveJson.statusMap && typeof liveJson.version === 'number';
+      const hasPricingSync = liveJson.pricingRules && typeof liveJson.pricingVersion === 'number';
+      const sampleCar = liveJson.statusMap && (liveJson.statusMap['v_swift'] || Object.values(liveJson.statusMap)[0]);
+      const hasRates = sampleCar && typeof sampleCar.price === 'number' && typeof sampleCar.priceManual === 'number';
+
+      record('Real-Time Live Sync', 'GET /api/fleet/live-status exposes live rates, soldOut state, and pricing rules',
+        hasStatusMap && hasPricingSync && hasRates,
+        `HTTP ${liveRes.statusCode} (Version: ${liveJson.version}, PricingVersion: ${liveJson.pricingVersion}, Sample: ₹${sampleCar?.priceManual}/day manual, ₹${sampleCar?.priceAuto}/day auto)`
+      );
+    }
+
   } catch (err) {
     console.error('Fatal test runner error:', err);
   } finally {

@@ -149,11 +149,14 @@ const isServerless = Boolean(process.env.VERCEL || process.env.NOW_REGION || pro
 
 let cachedMongoPromise = global.mongoosePromise || null;
 
+let lastMongoError = null;
+
 async function connectMongoServerless() {
   if (mongoose.connection.readyState === 1) {
     return mongoose.connection;
   }
   if (!MONGODB_URI) {
+    lastMongoError = new Error('MONGODB_URI environment variable is missing');
     return null;
   }
   if (!cachedMongoPromise) {
@@ -161,6 +164,7 @@ async function connectMongoServerless() {
       serverSelectionTimeoutMS: 8000
     }).then(async (m) => {
       console.log('✅ [MongoDB Atlas] Connected to TourentCluster (Serverless)');
+      lastMongoError = null;
       try {
         await seedDatabaseIfEmpty();
       } catch (seedErr) {
@@ -169,6 +173,7 @@ async function connectMongoServerless() {
       return m;
     }).catch(err => {
       console.error('❌ [MongoDB Atlas] Serverless connection error:', err.message);
+      lastMongoError = err;
       cachedMongoPromise = null;
       return null;
     });
@@ -1290,7 +1295,12 @@ const handleHealthCheck = (req, res) => {
     status: 'ok',
     service: 'Tourent Goa Production API',
     database: states[dbState] || 'unknown',
-    emailConfigured: !!(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD)
+    readyState: dbState,
+    hasMongoUri: !!MONGODB_URI,
+    dbError: lastMongoError ? lastMongoError.message : null,
+    emailConfigured: !!(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD),
+    url: req.url,
+    matchedPath: req.headers['x-matched-path'] || req.headers['x-vercel-matched-path'] || null
   });
 };
 app.get('/api/health', handleHealthCheck);

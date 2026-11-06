@@ -1291,6 +1291,10 @@
 
     body.modal-open {
       overflow: hidden !important;
+      position: fixed !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
     }
 
     /* Message & Action Modals */
@@ -1304,11 +1308,11 @@
       display: none;
       align-items: flex-start;
       justify-content: center;
-      padding: 20px 14px 60px;
+      padding: 20px 14px calc(env(safe-area-inset-bottom, 20px) + 90px);
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       touch-action: pan-y;
-      overscroll-behavior: contain;
+      overscroll-behavior-y: contain;
     }
     .modal-backdrop.open {
       display: flex;
@@ -2336,21 +2340,26 @@
       /* Modals Responsive */
       .modal-backdrop,
       .urgent-popup-backdrop {
-        padding: 10px 8px 100px;
+        padding: 12px 10px calc(env(safe-area-inset-bottom, 20px) + 140px) !important;
         align-items: flex-start;
         touch-action: pan-y;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
       }
       .modal-box,
       .modal-box-large,
       .urgent-popup-box {
-        max-width: 100%;
-        width: 100%;
-        max-height: none;
-        margin: 10px auto 50px;
-        padding: 22px 16px 40px;
+        max-width: 100% !important;
+        width: 100% !important;
+        max-height: none !important;
+        margin: 10px auto 40px !important;
+        padding: 22px 16px 44px !important;
         box-sizing: border-box;
         touch-action: pan-y;
+      }
+      .modal-btn-row {
+        margin-top: 24px !important;
+        padding-bottom: 24px !important;
       }
     }
 
@@ -4403,10 +4412,13 @@
               const totalUnits = (v.totalUnits !== undefined && v.totalUnits !== null && !isNaN(Number(v.totalUnits)))
                 ? Number(v.totalUnits)
                 : (def?.totalUnits || (def?.id === 'v_baleno' ? 20 : 10));
+              const sOut = (v.soldOut !== undefined && v.soldOut !== null) ? Boolean(v.soldOut) : Boolean(v.isSoldOut);
               return {
                 ...def,
                 ...v,
                 totalUnits,
+                soldOut: sOut,
+                isSoldOut: sOut,
                 price: Number(v.price) || pManual || pAuto || 1800,
                 priceManual: pManual,
                 priceAuto: pAuto
@@ -4567,7 +4579,7 @@
 
       grid.innerHTML = filtered.map(v => {
         const isInactive = v.active === false;
-        const isSoldOut = Boolean(v.soldOut === true || v.isSoldOut === true);
+        const isSoldOut = (v.soldOut !== undefined && v.soldOut !== null) ? Boolean(v.soldOut) : Boolean(v.isSoldOut);
 
         return `
           <div class="fleet-admin-card ${isInactive ? 'is-inactive' : ''} ${isSoldOut ? 'is-soldout' : ''}" data-id="${v.id}">
@@ -4686,13 +4698,21 @@
       if (vaction === 'edit') {
         openEditVehicleModal(vehicle);
       } else if (vaction === 'toggle-soldout') {
-        const currentlySoldOut = vehicle.soldOut === true || vehicle.isSoldOut === true;
+        const currentlySoldOut = (vehicle.soldOut !== undefined && vehicle.soldOut !== null)
+          ? Boolean(vehicle.soldOut)
+          : Boolean(vehicle.isSoldOut);
         const newSoldOut = !currentlySoldOut;
         vehicle.soldOut = newSoldOut;
         vehicle.isSoldOut = newSoldOut;
-        saveFleet(fleet);
 
-        // Atomic direct sync to cloud database
+        // 1. Immediately persist locally and update UI in 0ms (no lag)
+        try {
+          localStorage.setItem(FLEET_STORAGE_KEY, JSON.stringify(fleet));
+        } catch (e) {}
+        renderAdminFleet();
+        renderRatesManager();
+
+        // 2. Atomic direct sync to cloud database
         const token = getAdminToken();
         if (token) {
           fetch(`${API_BASE}/api/fleet/${encodeURIComponent(vehicle.id)}/sold-out`, {
@@ -4723,11 +4743,11 @@
         if (window.BroadcastChannel) {
           try {
             const bc = new BroadcastChannel('tourent_fleet_channel');
-            bc.postMessage({ type: 'FLEET_UPDATED', id: vehicle.id, soldOut: vehicle.soldOut });
+            bc.postMessage({ type: 'FLEET_UPDATED', id: vehicle.id, soldOut: newSoldOut });
             bc.close();
           } catch (_) {}
         }
-        showToast(`⚡ ${vehicle.name} is now ${vehicle.soldOut ? 'MARKED SOLD OUT on website' : 'RESTOCKED & AVAILABLE on website'}!`);
+        showToast(`⚡ ${vehicle.name} is now ${newSoldOut ? 'MARKED SOLD OUT on website' : 'RESTOCKED & AVAILABLE on website'}!`);
       } else if (vaction === 'toggle') {
         vehicle.active = vehicle.active === false ? true : false;
         saveFleet(fleet);
@@ -4846,7 +4866,7 @@
       document.getElementById('vFormTrans').value = v.trans;
       document.getElementById('vFormTag').value = v.tag;
       document.getElementById('vFormUnits').value = v.totalUnits || (v.id === 'v_baleno' ? 20 : 10);
-      document.getElementById('vFormSoldOut').checked = Boolean(v.soldOut === true || v.isSoldOut === true);
+      document.getElementById('vFormSoldOut').checked = (v.soldOut !== undefined && v.soldOut !== null) ? Boolean(v.soldOut) : Boolean(v.isSoldOut);
 
       const img = v.image || "images/default-car.jpg";
       vFormFinalImage.value = img;
@@ -8980,9 +9000,20 @@ function doGet(e) {
     /* =========================================================
        MODAL SCROLL LOCK & MOBILE BACKDROP DISMISS CONTROLLER
        ========================================================= */
+    let savedScrollY = 0;
     function syncModalScrollLock() {
       const anyOpen = Boolean(document.querySelector('.modal-backdrop.open, .urgent-popup-backdrop.open'));
-      document.body.classList.toggle('modal-open', anyOpen);
+      if (anyOpen && !document.body.classList.contains('modal-open')) {
+        savedScrollY = window.scrollY || window.pageYOffset || 0;
+        document.body.style.top = `-${savedScrollY}px`;
+        document.body.classList.add('modal-open');
+      } else if (!anyOpen && document.body.classList.contains('modal-open')) {
+        const topVal = document.body.style.top;
+        document.body.classList.remove('modal-open');
+        document.body.style.top = '';
+        const scrollY = Math.abs(parseInt(topVal || '0', 10)) || savedScrollY;
+        window.scrollTo(0, scrollY);
+      }
     }
 
     // Auto-sync whenever any modal changes open state

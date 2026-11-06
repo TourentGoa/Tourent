@@ -362,7 +362,7 @@
       const list = active.length > 0 ? active : DEFAULT_VEHICLES;
       return list.map(v => {
         const price = Number(v.price) || 1000;
-        const isSoldOut = Boolean(v.soldOut === true || v.isSoldOut === true);
+        const isSoldOut = (v.soldOut !== undefined && v.soldOut !== null) ? Boolean(v.soldOut) : Boolean(v.isSoldOut);
         return {
           ...v,
           totalUnits: Number(v.totalUnits) || (v.id === 'v_baleno' ? 20 : 10),
@@ -415,7 +415,7 @@
       } catch (_) {}
     }
 
-    // Periodic gentle background poll (every 10s) when visible to keep all remote tabs in sync
+    // Periodic gentle background poll (every 5s) when visible to keep all remote tabs & devices in sync
     setInterval(() => {
       if (document.visibilityState === 'visible') {
         syncFleetFromServer();
@@ -423,7 +423,7 @@
           fetchFleetAvailability();
         }
       }
-    }, 10000);
+    }, 5000);
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
@@ -472,6 +472,9 @@
           const sorted = sortVehiclesInOriginalOrder(data.data);
           localStorage.setItem(FLEET_STORAGE_KEY, JSON.stringify(sorted));
           refreshLiveFleet();
+          if (typeof fetchFleetAvailability === 'function') {
+            fetchFleetAvailability();
+          }
         }
       } catch (err) {
         // Fallback to local cache / defaults
@@ -506,7 +509,7 @@
       if (!LIVE_AVAILABILITY) {
         LIVE_AVAILABILITY = {};
         VEHICLES.forEach(v => {
-          const isManuallySoldOut = Boolean(v.soldOut === true || v.isSoldOut === true);
+          const isManuallySoldOut = (v.soldOut !== undefined && v.soldOut !== null) ? Boolean(v.soldOut) : Boolean(v.isSoldOut);
           const total = Number(v.totalUnits) || (v.id === 'v_baleno' ? 20 : 10);
           LIVE_AVAILABILITY[v.id] = {
             id: v.id,
@@ -997,9 +1000,9 @@
 
         const availInfo = LIVE_AVAILABILITY ? LIVE_AVAILABILITY[v.id] : null;
         const totalUnits = Number(v.totalUnits) || (v.id === 'v_baleno' ? 20 : 10);
-        const isManuallySoldOut = Boolean(v.soldOut === true || v.isSoldOut === true || (availInfo && (availInfo.soldOut || availInfo.isSoldOut)));
+        const isManuallySoldOut = (v.soldOut !== undefined && v.soldOut !== null) ? Boolean(v.soldOut) : Boolean(v.isSoldOut);
         const remUnits = isManuallySoldOut ? 0 : (availInfo !== null && availInfo !== undefined ? availInfo.availableUnits : totalUnits);
-        const isSoldOut = Boolean(isManuallySoldOut || remUnits <= 0 || (availInfo && availInfo.status === 'Sold Out'));
+        const isSoldOut = Boolean(isManuallySoldOut || remUnits <= 0);
         const isLowStock = !isSoldOut && remUnits <= 3;
 
         let stockBadgeHTML = '';
@@ -1563,7 +1566,7 @@
 
           const availInfo = LIVE_AVAILABILITY ? LIVE_AVAILABILITY[veh.id] : null;
           const totalUnits = Number(veh.totalUnits) || (veh.id === 'v_baleno' ? 20 : 10);
-          const isManuallySoldOut = Boolean(veh.soldOut === true || veh.isSoldOut === true || (availInfo && (availInfo.soldOut || availInfo.isSoldOut)));
+          const isManuallySoldOut = (veh.soldOut !== undefined && veh.soldOut !== null) ? Boolean(veh.soldOut) : Boolean(veh.isSoldOut);
           const baseAvail = isManuallySoldOut ? 0 : (availInfo !== null && availInfo !== undefined ? availInfo.availableUnits : totalUnits);
           const otherCardsUsingThisVeh = otherCardsUsedCounts[veh.id] || 0;
           const isCurrentSelection = (vIdx === item.vehicleIndex);
@@ -1770,7 +1773,7 @@
         const availInfo = LIVE_AVAILABILITY ? LIVE_AVAILABILITY[vId] : null;
         const vObj = VEHICLES.find(v => v.id === vId);
         const total = Number(vObj?.totalUnits) || (vId === 'v_baleno' ? 20 : 10);
-        const isManuallySoldOut = Boolean(vObj?.soldOut === true || vObj?.isSoldOut === true || (availInfo && (availInfo.soldOut || availInfo.isSoldOut)));
+        const isManuallySoldOut = (vObj?.soldOut !== undefined && vObj?.soldOut !== null) ? Boolean(vObj?.soldOut) : Boolean(vObj?.isSoldOut);
         const avail = isManuallySoldOut ? 0 : (availInfo !== null && availInfo !== undefined ? availInfo.availableUnits : total);
         if (count > avail) {
           overbookedVehicle = { name: vObj?.name || vId, available: avail, requested: count };

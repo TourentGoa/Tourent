@@ -3280,7 +3280,7 @@ async function getFleetAvailability(pickupDateStr, returnDateStr) {
 
   const availability = {};
   for (const v of fleet) {
-    const isManuallySoldOut = Boolean(v.soldOut === true || v.isSoldOut === true);
+    const isManuallySoldOut = (v.soldOut !== undefined && v.soldOut !== null) ? Boolean(v.soldOut) : Boolean(v.isSoldOut);
     const totalUnits = Math.max(1, Number(v.totalUnits) || (v.id === 'v_baleno' ? 20 : 10));
     const bookedUnits = bookedCounts[v.id] || 0;
     const availableUnits = isManuallySoldOut ? 0 : Math.max(0, totalUnits - bookedUnits);
@@ -3371,8 +3371,9 @@ app.get('/api/fleet', async (req, res) => {
         const seedMatch = INITIAL_FLEET.find(s => s.id === obj.id || (s.name && obj.name && s.name.toLowerCase() === obj.name.toLowerCase()));
         obj.totalUnits = seedMatch?.totalUnits || (obj.id === 'v_baleno' ? 20 : 10);
       }
-      obj.soldOut = Boolean(obj.soldOut === true || obj.isSoldOut === true);
-      obj.isSoldOut = obj.soldOut;
+      const finalSoldOut = (obj.soldOut !== undefined && obj.soldOut !== null) ? Boolean(obj.soldOut) : Boolean(obj.isSoldOut);
+      obj.soldOut = finalSoldOut;
+      obj.isSoldOut = finalSoldOut;
       return obj;
     });
 
@@ -3422,7 +3423,9 @@ app.post('/api/fleet/:id/sold-out', requireAdminAuth, async (req, res) => {
 
     const current = getCachedFleet();
     const idx = current.findIndex(v => v.id === id);
-    const newSoldOut = (soldOut !== undefined) ? Boolean(soldOut) : (idx !== -1 ? !Boolean(current[idx].soldOut || current[idx].isSoldOut) : true);
+    const newSoldOut = (soldOut !== undefined && soldOut !== null)
+      ? Boolean(soldOut)
+      : (idx !== -1 ? !Boolean(current[idx].soldOut || current[idx].isSoldOut) : true);
 
     if (idx !== -1) {
       current[idx] = { ...current[idx], soldOut: newSoldOut, isSoldOut: newSoldOut };
@@ -3455,8 +3458,9 @@ app.post('/api/fleet', requireAdminAuth, async (req, res) => {
         const item = { ...v };
         delete item._id;
         delete item.__v;
-        item.soldOut = Boolean(item.soldOut === true || item.isSoldOut === true);
-        item.isSoldOut = item.soldOut;
+        const finalSoldOut = (item.soldOut !== undefined && item.soldOut !== null) ? Boolean(item.soldOut) : Boolean(item.isSoldOut);
+        item.soldOut = finalSoldOut;
+        item.isSoldOut = finalSoldOut;
         return item;
       });
 
@@ -3474,8 +3478,9 @@ app.post('/api/fleet', requireAdminAuth, async (req, res) => {
       const item = { ...vData };
       delete item._id;
       delete item.__v;
-      item.soldOut = Boolean(item.soldOut === true || item.isSoldOut === true);
-      item.isSoldOut = item.soldOut;
+      const finalSoldOut = (item.soldOut !== undefined && item.soldOut !== null) ? Boolean(item.soldOut) : Boolean(item.isSoldOut);
+      item.soldOut = finalSoldOut;
+      item.isSoldOut = finalSoldOut;
 
       const current = getCachedFleet();
       const idx = current.findIndex(v => v.id === item.id);
